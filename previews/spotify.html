@@ -1,0 +1,807 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/spotify.com" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=spotify.com&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Spotify</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <h1>Design System Inspired by Spotify</h1>
+<br>
+<h2>1. Visual Theme &amp; Atmosphere</h2>
+<br>
+<p>Spotify's web interface is a dark, immersive music player that wraps listeners in a near-black cocoon (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code>) where album art and content become the primary source of color. The design philosophy is "content-first darkness" — the UI recedes into shadow so that music, podcasts, and playlists can glow. Every surface is a shade of charcoal, creating a theater-like environment where the only true color comes from the iconic Spotify Green (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1ed760;"></span>#1ed760</span></code>) and the album artwork itself.</p>
+<br>
+<p>The typography uses SpotifyMixUI and SpotifyMixUITitle — proprietary fonts from the CircularSp family (Circular by Lineto, customized for Spotify) with an extensive fallback stack that includes Arabic, Hebrew, Cyrillic, Greek, Devanagari, and CJK fonts, reflecting Spotify's global reach. The type system is compact and functional: 700 (bold) for emphasis and navigation, 600 (semibold) for secondary emphasis, and 400 (regular) for body. Buttons use uppercase with positive letter-spacing (1.4px–2px) for a systematic, label-like quality.</p>
+<br>
+<p>What distinguishes Spotify is its pill-and-circle geometry. Primary buttons use 500px–9999px radius (full pill), circular play buttons use 50% radius, and search inputs are 500px pills. Combined with heavy shadows (<code>rgba(0,0,0,0.5) 0px 8px 24px</code>) on elevated elements and a unique inset border-shadow combo (<code>rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset</code>), the result is an interface that feels like a premium audio device — tactile, rounded, and built for touch.</p>
+<br>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+  <li>Near-black immersive dark theme (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span></code>–<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code>) — UI disappears behind content</li>
+  <li>Spotify Green (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1ed760;"></span>#1ed760</span></code>) as singular brand accent — never decorative, always functional</li>
+  <li>SpotifyMixUI/CircularSp font family with global script support</li>
+  <li>Pill buttons (500px–9999px) and circular controls (50%) — rounded, touch-optimized</li>
+  <li>Uppercase button labels with wide letter-spacing (1.4px–2px)</li>
+  <li>Heavy shadows on elevated elements (<code>rgba(0,0,0,0.5) 0px 8px 24px</code>)</li>
+  <li>Semantic colors: negative red (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f3727f;"></span>#f3727f</span></code>), warning orange (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffa42b;"></span>#ffa42b</span></code>), announcement blue (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #539df5;"></span>#539df5</span></code>)</li>
+  <li>Album art as the primary color source — the UI is achromatic by design</li>
+</ul>
+<br>
+<h2>2. Color Palette &amp; Roles</h2>
+<br>
+<h3>Primary Brand</h3>
+<ul>
+  <li><strong>Spotify Green</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1ed760;"></span>#1ed760</span></code>): Primary brand accent — play buttons, active states, CTAs</li>
+  <li><strong>Near Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span></code>): Deepest background surface</li>
+  <li><strong>Dark Surface</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span></code>): Cards, containers, elevated surfaces</li>
+  <li><strong>Mid Dark</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code>): Button backgrounds, interactive surfaces</li>
+</ul>
+<br>
+<h3>Text</h3>
+<ul>
+  <li><strong>White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>): <code>--text-base</code>, primary text</li>
+  <li><strong>Silver</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #b3b3b3;"></span>#b3b3b3</span></code>): Secondary text, muted labels, inactive nav</li>
+  <li><strong>Near White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #cbcbcb;"></span>#cbcbcb</span></code>): Slightly brighter secondary text</li>
+  <li><strong>Light</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #fdfdfd;"></span>#fdfdfd</span></code>): Near-pure white for maximum emphasis</li>
+</ul>
+<br>
+<h3>Semantic</h3>
+<ul>
+  <li><strong>Negative Red</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f3727f;"></span>#f3727f</span></code>): <code>--text-negative</code>, error states</li>
+  <li><strong>Warning Orange</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffa42b;"></span>#ffa42b</span></code>): <code>--text-warning</code>, warning states</li>
+  <li><strong>Announcement Blue</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #539df5;"></span>#539df5</span></code>): <code>--text-announcement</code>, info states</li>
+</ul>
+<br>
+<h3>Surface &amp; Border</h3>
+<ul>
+  <li><strong>Dark Card</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #252525;"></span>#252525</span></code>): Elevated card surface</li>
+  <li><strong>Mid Card</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #272727;"></span>#272727</span></code>): Alternate card surface</li>
+  <li><strong>Border Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #4d4d4d;"></span>#4d4d4d</span></code>): Button borders on dark</li>
+  <li><strong>Light Border</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7c7c7c;"></span>#7c7c7c</span></code>): Outlined button borders, muted links</li>
+  <li><strong>Separator</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #b3b3b3;"></span>#b3b3b3</span></code>): Divider lines</li>
+  <li><strong>Light Surface</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eeeeee;"></span>#eeeeee</span></code>): Light-mode buttons (rare)</li>
+  <li><strong>Spotify Green Border</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1db954;"></span>#1db954</span></code>): Green accent border variant</li>
+</ul>
+<br>
+<h3>Shadows</h3>
+<ul>
+  <li><strong>Heavy</strong> (<code>rgba(0,0,0,0.5) 0px 8px 24px</code>): Dialogs, menus, elevated panels</li>
+  <li><strong>Medium</strong> (<code>rgba(0,0,0,0.3) 0px 8px 8px</code>): Cards, dropdowns</li>
+  <li><strong>Inset Border</strong> (<code>rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset</code>): Input border-shadow combo</li>
+</ul>
+<br>
+<h2>3. Typography Rules</h2>
+<br>
+<h3>Font Families</h3>
+<ul>
+  <li><strong>Title</strong>: <code>SpotifyMixUITitle</code>, fallbacks: <code>CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, Helvetica Neue, helvetica, arial, Hiragino Sans, Hiragino Kaku Gothic ProN, Meiryo, MS Gothic</code></li>
+  <li><strong>UI / Body</strong>: <code>SpotifyMixUI</code>, same fallback stack</li>
+</ul>
+<br>
+<h3>Hierarchy</h3>
+<br>
+<table>
+  <tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr>
+  <tr><td>Section Title</td><td>SpotifyMixUITitle</td><td>24px (1.50rem)</td><td>700</td><td>normal</td><td>normal</td><td>Bold title weight</td></tr>
+  <tr><td>Feature Heading</td><td>SpotifyMixUI</td><td>18px (1.13rem)</td><td>600</td><td>1.30 (tight)</td><td>normal</td><td>Semibold section heads</td></tr>
+  <tr><td>Body Bold</td><td>SpotifyMixUI</td><td>16px (1.00rem)</td><td>700</td><td>normal</td><td>normal</td><td>Emphasized text</td></tr>
+  <tr><td>Body</td><td>SpotifyMixUI</td><td>16px (1.00rem)</td><td>400</td><td>normal</td><td>normal</td><td>Standard body</td></tr>
+  <tr><td>Button Uppercase</td><td>SpotifyMixUI</td><td>14px (0.88rem)</td><td>600–700</td><td>1.00 (tight)</td><td>1.4px–2px</td><td><code>text-transform: uppercase</code></td></tr>
+  <tr><td>Button</td><td>SpotifyMixUI</td><td>14px (0.88rem)</td><td>700</td><td>normal</td><td>0.14px</td><td>Standard button</td></tr>
+  <tr><td>Nav Link Bold</td><td>SpotifyMixUI</td><td>14px (0.88rem)</td><td>700</td><td>normal</td><td>normal</td><td>Navigation</td></tr>
+  <tr><td>Nav Link</td><td>SpotifyMixUI</td><td>14px (0.88rem)</td><td>400</td><td>normal</td><td>normal</td><td>Inactive nav</td></tr>
+  <tr><td>Caption Bold</td><td>SpotifyMixUI</td><td>14px (0.88rem)</td><td>700</td><td>1.50–1.54</td><td>normal</td><td>Bold metadata</td></tr>
+  <tr><td>Caption</td><td>SpotifyMixUI</td><td>14px (0.88rem)</td><td>400</td><td>normal</td><td>normal</td><td>Metadata</td></tr>
+  <tr><td>Small Bold</td><td>SpotifyMixUI</td><td>12px (0.75rem)</td><td>700</td><td>1.50</td><td>normal</td><td>Tags, counts</td></tr>
+  <tr><td>Small</td><td>SpotifyMixUI</td><td>12px (0.75rem)</td><td>400</td><td>normal</td><td>normal</td><td>Fine print</td></tr>
+  <tr><td>Badge</td><td>SpotifyMixUI</td><td>10.5px (0.66rem)</td><td>600</td><td>1.33</td><td>normal</td><td><code>text-transform: capitalize</code></td></tr>
+  <tr><td>Micro</td><td>SpotifyMixUI</td><td>10px (0.63rem)</td><td>400</td><td>normal</td><td>normal</td><td>Smallest text</td></tr>
+</table>
+<br>
+<h3>Principles</h3>
+<ul>
+  <li><strong>Bold/regular binary</strong>: Most text is either 700 (bold) or 400 (regular), with 600 used sparingly. This creates a clear visual hierarchy through weight contrast rather than size variation.</li>
+  <li><strong>Uppercase buttons as system</strong>: Button labels use uppercase + wide letter-spacing (1.4px–2px), creating a systematic "label" voice distinct from content text.</li>
+  <li><strong>Compact sizing</strong>: The range is 10px–24px — narrower than most systems. Spotify's type is compact and functional, designed for scanning playlists, not reading articles.</li>
+  <li><strong>Global script support</strong>: The extensive fallback stack (Arabic, Hebrew, Cyrillic, Greek, Devanagari, CJK) reflects Spotify's 180+ market reach.</li>
+</ul>
+<br>
+<h2>4. Component Stylings</h2>
+<br>
+<h3>Buttons</h3>
+<br>
+<p><strong>Dark Pill</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #b3b3b3;"></span>#b3b3b3</span></code></li>
+  <li>Padding: 8px 16px</li>
+  <li>Radius: 9999px (full pill)</li>
+  <li>Use: Navigation pills, secondary actions</li>
+</ul>
+<br>
+<p><strong>Dark Large Pill</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code></li>
+  <li>Padding: 0px 43px</li>
+  <li>Radius: 500px</li>
+  <li>Use: Primary app navigation buttons</li>
+</ul>
+<br>
+<p><strong>Light Pill</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eeeeee;"></span>#eeeeee</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span></code></li>
+  <li>Radius: 500px</li>
+  <li>Use: Light-mode CTAs (cookie consent, marketing)</li>
+</ul>
+<br>
+<p><strong>Outlined Pill</strong></p>
+<ul>
+  <li>Background: transparent</li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code></li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7c7c7c;"></span>#7c7c7c</span></code></li>
+  <li>Padding: 4px 16px 4px 36px (asymmetric for icon)</li>
+  <li>Radius: 9999px</li>
+  <li>Use: Follow buttons, secondary actions</li>
+</ul>
+<br>
+<p><strong>Circular Play</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code></li>
+  <li>Padding: 12px</li>
+  <li>Radius: 50% (circle)</li>
+  <li>Use: Play/pause controls</li>
+</ul>
+<br>
+<h3>Cards &amp; Containers</h3>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code></li>
+  <li>Radius: 6px–8px</li>
+  <li>No visible borders on most cards</li>
+  <li>Hover: slight background lightening</li>
+  <li>Shadow: <code>rgba(0,0,0,0.3) 0px 8px 8px</code> on elevated</li>
+</ul>
+<br>
+<h3>Inputs</h3>
+<ul>
+  <li>Search input: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code> background, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> text</li>
+  <li>Radius: 500px (pill)</li>
+  <li>Padding: 12px 96px 12px 48px (icon-aware)</li>
+  <li>Focus: border becomes <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span></code>, outline <code>1px solid</code></li>
+</ul>
+<br>
+<h3>Navigation</h3>
+<ul>
+  <li>Dark sidebar with SpotifyMixUI 14px weight 700 for active, 400 for inactive</li>
+  <li><code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #b3b3b3;"></span>#b3b3b3</span></code> muted color for inactive items, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> for active</li>
+  <li>Circular icon buttons (50% radius)</li>
+  <li>Spotify logo top-left in green</li>
+</ul>
+<br>
+<h2>5. Layout Principles</h2>
+<br>
+<h3>Spacing System</h3>
+<ul>
+  <li>Base unit: 8px</li>
+  <li>Scale: 1px, 2px, 3px, 4px, 5px, 6px, 8px, 10px, 12px, 14px, 15px, 16px, 20px</li>
+</ul>
+<br>
+<h3>Grid &amp; Container</h3>
+<ul>
+  <li>Sidebar (fixed) + main content area</li>
+  <li>Grid-based album/playlist cards</li>
+  <li>Full-width now-playing bar at bottom</li>
+  <li>Responsive content area fills remaining space</li>
+</ul>
+<br>
+<h3>Whitespace Philosophy</h3>
+<ul>
+  <li><strong>Dark compression</strong>: Spotify packs content densely — playlist grids, track lists, and navigation are all tightly spaced. The dark background provides visual rest between elements without needing large gaps.</li>
+  <li><strong>Content density over breathing room</strong>: This is an app, not a marketing site. Every pixel serves the listening experience.</li>
+</ul>
+<br>
+<h3>Border Radius Scale</h3>
+<ul>
+  <li>Minimal (2px): Badges, explicit tags</li>
+  <li>Subtle (4px): Inputs, small elements</li>
+  <li>Standard (6px): Album art containers, cards</li>
+  <li>Comfortable (8px): Sections, dialogs</li>
+  <li>Medium (10px–20px): Panels, overlay elements</li>
+  <li>Large (100px): Large pill buttons</li>
+  <li>Pill (500px): Primary buttons, search input</li>
+  <li>Full Pill (9999px): Navigation pills, search</li>
+  <li>Circle (50%): Play buttons, avatars, icons</li>
+</ul>
+<br>
+<h2>6. Depth &amp; Elevation</h2>
+<br>
+<table>
+  <tr><th>Level</th><th>Treatment</th><th>Use</th></tr>
+  <tr><td>Base (Level 0)</td><td><code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span></code> background</td><td>Deepest layer, page background</td></tr>
+  <tr><td>Surface (Level 1)</td><td><code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code></td><td>Cards, sidebar, containers</td></tr>
+  <tr><td>Elevated (Level 2)</td><td><code>rgba(0,0,0,0.3) 0px 8px 8px</code></td><td>Dropdown menus, hover cards</td></tr>
+  <tr><td>Dialog (Level 3)</td><td><code>rgba(0,0,0,0.5) 0px 8px 24px</code></td><td>Modals, overlays, menus</td></tr>
+  <tr><td>Inset (Border)</td><td><code>rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset</code></td><td>Input borders</td></tr>
+</table>
+<br>
+<p><strong>Shadow Philosophy</strong>: Spotify uses notably heavy shadows for a dark-themed app. The 0.5 opacity shadow at 24px blur creates a dramatic "floating in darkness" effect for dialogs and menus, while the 0.3 opacity at 8px blur provides a more subtle card lift. The unique inset border-shadow combination on inputs creates a recessed, tactile quality.</p>
+<br>
+<h2>7. Do's and Don'ts</h2>
+<br>
+<h3>Do</h3>
+<ul>
+  <li>Use near-black backgrounds (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span></code>–<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span></code>) — depth through shade variation</li>
+  <li>Apply Spotify Green (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1ed760;"></span>#1ed760</span></code>) only for play controls, active states, and primary CTAs</li>
+  <li>Use pill shape (500px–9999px) for all buttons — circular (50%) for play controls</li>
+  <li>Apply uppercase + wide letter-spacing (1.4px–2px) on button labels</li>
+  <li>Keep typography compact (10px–24px range) — this is an app, not a magazine</li>
+  <li>Use heavy shadows (<code>0.3–0.5 opacity</code>) for elevated elements on dark backgrounds</li>
+  <li>Let album art provide color — the UI itself is achromatic</li>
+</ul>
+<br>
+<h3>Don't</h3>
+<ul>
+  <li>Don't use Spotify Green decoratively or on backgrounds — it's functional only</li>
+  <li>Don't use light backgrounds for primary surfaces — the dark immersion is core</li>
+  <li>Don't skip the pill/circle geometry on buttons — square buttons break the identity</li>
+  <li>Don't use thin/subtle shadows — on dark backgrounds, shadows need to be heavy to be visible</li>
+  <li>Don't add additional brand colors — green + achromatic grays is the complete palette</li>
+  <li>Don't use relaxed line-heights — Spotify's typography is compact and dense</li>
+  <li>Don't expose raw gray borders — use shadow-based or inset borders instead</li>
+</ul>
+<br>
+<h2>8. Responsive Behavior</h2>
+<br>
+<h3>Breakpoints</h3>
+<table>
+  <tr><th>Name</th><th>Width</th><th>Key Changes</th></tr>
+  <tr><td>Mobile Small</td><td>&lt;425px</td><td>Compact mobile layout</td></tr>
+  <tr><td>Mobile</td><td>425–576px</td><td>Standard mobile</td></tr>
+  <tr><td>Tablet</td><td>576–768px</td><td>2-column grid</td></tr>
+  <tr><td>Tablet Large</td><td>768–896px</td><td>Expanded layout</td></tr>
+  <tr><td>Desktop Small</td><td>896–1024px</td><td>Sidebar visible</td></tr>
+  <tr><td>Desktop</td><td>1024–1280px</td><td>Full desktop layout</td></tr>
+  <tr><td>Large Desktop</td><td>&gt;1280px</td><td>Expanded grid</td></tr>
+</table>
+<br>
+<h3>Collapsing Strategy</h3>
+<ul>
+  <li>Sidebar: full → collapsed → hidden</li>
+  <li>Album grid: 5 columns → 3 → 2 → 1</li>
+  <li>Now-playing bar: maintained at all sizes</li>
+  <li>Search: pill input maintained, width adjusts</li>
+  <li>Navigation: sidebar → bottom bar on mobile</li>
+</ul>
+<br>
+<h2>9. Agent Prompt Guide</h2>
+<br>
+<h3>Quick Color Reference</h3>
+<ul>
+  <li>Background: Near Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span></code>)</li>
+  <li>Surface: Dark Card (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span></code>)</li>
+  <li>Text: White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>)</li>
+  <li>Secondary text: Silver (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #b3b3b3;"></span>#b3b3b3</span></code>)</li>
+  <li>Accent: Spotify Green (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1ed760;"></span>#1ed760</span></code>)</li>
+  <li>Border: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #4d4d4d;"></span>#4d4d4d</span></code></li>
+  <li>Error: Negative Red (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f3727f;"></span>#f3727f</span></code>)</li>
+</ul>
+<br>
+<h3>Example Component Prompts</h3>
+<ul>
+  <li>"Create a dark card: <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #181818;"></span>#181818</span> background, 8px radius. Title at 16px SpotifyMixUI weight 700, white text. Subtitle at 14px weight 400, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #b3b3b3;"></span>#b3b3b3</span>. Shadow rgba(0,0,0,0.3) 0px 8px 8px on hover."</li>
+  <li>"Design a pill button: <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span> background, white text, 9999px radius, 8px 16px padding. 14px SpotifyMixUI weight 700, uppercase, letter-spacing 1.4px."</li>
+  <li>"Build a circular play button: Spotify Green (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1ed760;"></span>#1ed760</span>) background, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span> icon, 50% radius, 12px padding."</li>
+  <li>"Create search input: <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1f1f1f;"></span>#1f1f1f</span> background, white text, 500px radius, 12px 48px padding. Inset border: rgb(124,124,124) 0px 0px 0px 1px inset."</li>
+  <li>"Design navigation sidebar: <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span> background. Active items: 14px weight 700, white. Inactive: 14px weight 400, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #b3b3b3;"></span>#b3b3b3</span>."</li>
+</ul>
+<br>
+<h3>Iteration Guide</h3>
+<ol>
+  <li>Start with <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #121212;"></span>#121212</span> — everything lives in near-black darkness</li>
+  <li>Spotify Green for functional highlights only (play, active, CTA)</li>
+  <li>Pill everything — 500px for large, 9999px for small, 50% for circular</li>
+  <li>Uppercase + wide tracking on buttons — the systematic label voice</li>
+  <li>Heavy shadows (0.3–0.5 opacity) for elevation — light shadows are invisible on dark</li>
+  <li>Album art provides all the color — the UI stays achromatic</li>
+</ol>
+<br>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

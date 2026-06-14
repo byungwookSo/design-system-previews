@@ -1,0 +1,873 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lovable — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/lovable.dev" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=lovable.dev&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Lovable</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <h1>Design System Inspired by Lovable</h1>
+<br>
+<h2>1. Visual Theme &amp; Atmosphere</h2>
+<br>
+<p>Lovable's website radiates warmth through restraint. The entire page sits on a creamy, parchment-toned background (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code>) that immediately separates it from the cold-white conventions of most developer tool sites. This isn't minimalism for minimalism's sake — it's a deliberate choice to feel approachable, almost analog, like a well-crafted notebook. The near-black text (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code>) against this warm cream creates a contrast ratio that's easy on the eyes while maintaining sharp readability.</p>
+<br>
+<p>The custom Camera Plain Variable typeface is the system's secret weapon. Unlike geometric sans-serifs that signal "tech company," Camera Plain has a humanist warmth — slightly rounded terminals, organic curves, and a comfortable reading rhythm. At display sizes (48px–60px), weight 600 with aggressive negative letter-spacing (-0.9px to -1.5px) compresses headlines into confident, editorial statements. The font uses <code>ui-sans-serif, system-ui</code> as fallbacks, acknowledging that the custom typeface carries the brand personality.</p>
+<br>
+<p>What makes Lovable's visual system distinctive is its opacity-driven depth model. Rather than using a traditional gray scale, the system modulates <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code> at varying opacities (0.03, 0.04, 0.4, 0.82–0.83) to create a unified tonal range. Every shade of gray on the page is technically the same hue — just more or less transparent. This creates a visual coherence that's nearly impossible to achieve with arbitrary hex values. The border system follows suit: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> for light divisions and <code>1px solid rgba(28, 28, 28, 0.4)</code> for stronger interactive boundaries.</p>
+<br>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+  <li>Warm parchment background (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code>) — not white, not beige, a deliberate cream that feels hand-selected</li>
+  <li>Camera Plain Variable typeface with humanist warmth and editorial letter-spacing at display sizes</li>
+  <li>Opacity-driven color system: all grays derived from <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code> at varying transparency levels</li>
+  <li>Inset shadow technique on buttons: <code>rgba(255,255,255,0.2) 0px 0.5px 0px 0px inset, rgba(0,0,0,0.2) 0px 0px 0px 0.5px inset</code></li>
+  <li>Warm neutral border palette: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> for subtle, <code>rgba(28,28,28,0.4)</code> for interactive elements</li>
+  <li>Full-pill radius (<code>9999px</code>) used extensively for action buttons and icon containers</li>
+  <li>Focus state uses <code>rgba(0,0,0,0.1) 0px 4px 12px</code> shadow for soft, warm emphasis</li>
+  <li>shadcn/ui + Radix UI component primitives with Tailwind CSS utility styling</li>
+</ul>
+<br>
+<h2>2. Color Palette &amp; Roles</h2>
+<br>
+<h3>Primary</h3>
+<ul>
+  <li><strong>Cream</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code>): Page background, card surfaces, button surfaces. The foundation — warm, paper-like, human.</li>
+  <li><strong>Charcoal</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code>): Primary text, headings, dark button backgrounds. Not pure black — organic warmth.</li>
+  <li><strong>Off-White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #fcfbf8;"></span>#fcfbf8</span></code>): Button text on dark backgrounds, subtle highlight. Barely distinguishable from pure white.</li>
+</ul>
+<br>
+<h3>Neutral Scale (Opacity-Based)</h3>
+<ul>
+  <li><strong>Charcoal 100%</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code>): Primary text, headings, dark surfaces.</li>
+  <li><strong>Charcoal 83%</strong> (<code>rgba(28,28,28,0.83)</code>): Strong secondary text.</li>
+  <li><strong>Charcoal 82%</strong> (<code>rgba(28,28,28,0.82)</code>): Body copy.</li>
+  <li><strong>Muted Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5f5f5d;"></span>#5f5f5d</span></code>): Secondary text, descriptions, captions.</li>
+  <li><strong>Charcoal 40%</strong> (<code>rgba(28,28,28,0.4)</code>): Interactive borders, button outlines.</li>
+  <li><strong>Charcoal 4%</strong> (<code>rgba(28,28,28,0.04)</code>): Subtle hover backgrounds, micro-tints.</li>
+  <li><strong>Charcoal 3%</strong> (<code>rgba(28,28,28,0.03)</code>): Barely-visible overlays, background depth.</li>
+</ul>
+<br>
+<h3>Surface &amp; Border</h3>
+<ul>
+  <li><strong>Light Cream</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code>): Card borders, dividers, image outlines. The warm divider line.</li>
+  <li><strong>Cream Surface</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code>): Card backgrounds, section fills — same as page background for seamless integration.</li>
+</ul>
+<br>
+<h3>Interactive</h3>
+<ul>
+  <li><strong>Ring Blue</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3b82f6;"></span>#3b82f6</span></code> at 50% opacity): <code>--tw-ring-color</code>, Tailwind focus ring.</li>
+  <li><strong>Focus Shadow</strong> (<code>rgba(0,0,0,0.1) 0px 4px 12px</code>): Focus and active state shadow — soft, warm, diffused.</li>
+</ul>
+<br>
+<h3>Inset Shadows</h3>
+<ul>
+  <li><strong>Button Inset</strong> (<code>rgba(255,255,255,0.2) 0px 0.5px 0px 0px inset, rgba(0,0,0,0.2) 0px 0px 0px 0.5px inset, rgba(0,0,0,0.05) 0px 1px 2px 0px</code>): The signature multi-layer inset shadow on dark buttons.</li>
+</ul>
+<br>
+<h2>3. Typography Rules</h2>
+<br>
+<h3>Font Family</h3>
+<ul>
+  <li><strong>Primary</strong>: <code>Camera Plain Variable</code>, with fallbacks: <code>ui-sans-serif, system-ui</code></li>
+  <li><strong>Weight range</strong>: 400 (body/reading), 480 (special display), 600 (headings/emphasis)</li>
+  <li><strong>Feature</strong>: Variable font with continuous weight axis — allows fine-tuned intermediary weights like 480.</li>
+</ul>
+<br>
+<h3>Hierarchy</h3>
+<br>
+<table>
+  <tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr>
+  <tr><td>Display Hero</td><td>Camera Plain Variable</td><td>60px (3.75rem)</td><td>600</td><td>1.00–1.10 (tight)</td><td>-1.5px</td><td>Maximum impact, editorial</td></tr>
+  <tr><td>Display Alt</td><td>Camera Plain Variable</td><td>60px (3.75rem)</td><td>480</td><td>1.00 (tight)</td><td>normal</td><td>Lighter hero variant</td></tr>
+  <tr><td>Section Heading</td><td>Camera Plain Variable</td><td>48px (3.00rem)</td><td>600</td><td>1.00 (tight)</td><td>-1.2px</td><td>Feature section titles</td></tr>
+  <tr><td>Sub-heading</td><td>Camera Plain Variable</td><td>36px (2.25rem)</td><td>600</td><td>1.10 (tight)</td><td>-0.9px</td><td>Sub-sections</td></tr>
+  <tr><td>Card Title</td><td>Camera Plain Variable</td><td>20px (1.25rem)</td><td>400</td><td>1.25 (tight)</td><td>normal</td><td>Card headings</td></tr>
+  <tr><td>Body Large</td><td>Camera Plain Variable</td><td>18px (1.13rem)</td><td>400</td><td>1.38</td><td>normal</td><td>Introductions</td></tr>
+  <tr><td>Body</td><td>Camera Plain Variable</td><td>16px (1.00rem)</td><td>400</td><td>1.50</td><td>normal</td><td>Standard reading text</td></tr>
+  <tr><td>Button</td><td>Camera Plain Variable</td><td>16px (1.00rem)</td><td>400</td><td>1.50</td><td>normal</td><td>Button labels</td></tr>
+  <tr><td>Button Small</td><td>Camera Plain Variable</td><td>14px (0.88rem)</td><td>400</td><td>1.50</td><td>normal</td><td>Compact buttons</td></tr>
+  <tr><td>Link</td><td>Camera Plain Variable</td><td>16px (1.00rem)</td><td>400</td><td>1.50</td><td>normal</td><td>Underline decoration</td></tr>
+  <tr><td>Link Small</td><td>Camera Plain Variable</td><td>14px (0.88rem)</td><td>400</td><td>1.50</td><td>normal</td><td>Footer links</td></tr>
+  <tr><td>Caption</td><td>Camera Plain Variable</td><td>14px (0.88rem)</td><td>400</td><td>1.50</td><td>normal</td><td>Metadata, small text</td></tr>
+</table>
+<br>
+<h3>Principles</h3>
+<ul>
+  <li><strong>Warm humanist voice</strong>: Camera Plain Variable gives Lovable its approachable personality. The slightly rounded terminals and organic curves contrast with the sharp geometric sans-serifs used by most developer tools.</li>
+  <li><strong>Variable weight as design tool</strong>: The font supports continuous weight values (e.g., 480), enabling nuanced hierarchy beyond standard weight stops. Weight 480 at 60px creates a display style that feels lighter than semibold but stronger than regular.</li>
+  <li><strong>Compression at scale</strong>: Headlines use negative letter-spacing (-0.9px to -1.5px) for editorial impact. Body text stays at normal tracking for comfortable reading.</li>
+  <li><strong>Two weights, clear roles</strong>: 400 (body/UI/links/buttons) and 600 (headings/emphasis). The narrow weight range creates hierarchy through size and spacing, not weight variation.</li>
+</ul>
+<br>
+<h2>4. Component Stylings</h2>
+<br>
+<h3>Buttons</h3>
+<br>
+<p><strong>Primary Dark (Inset Shadow)</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #fcfbf8;"></span>#fcfbf8</span></code></li>
+  <li>Padding: 8px 16px</li>
+  <li>Radius: 6px</li>
+  <li>Shadow: <code>rgba(0,0,0,0) 0px 0px 0px 0px, rgba(0,0,0,0) 0px 0px 0px 0px, rgba(255,255,255,0.2) 0px 0.5px 0px 0px inset, rgba(0,0,0,0.2) 0px 0px 0px 0.5px inset, rgba(0,0,0,0.05) 0px 1px 2px 0px</code></li>
+  <li>Active: opacity 0.8</li>
+  <li>Focus: <code>rgba(0,0,0,0.1) 0px 4px 12px</code> shadow</li>
+  <li>Use: Primary CTA ("Start Building", "Get Started")</li>
+</ul>
+<br>
+<p><strong>Ghost / Outline</strong></p>
+<ul>
+  <li>Background: transparent</li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code></li>
+  <li>Padding: 8px 16px</li>
+  <li>Radius: 6px</li>
+  <li>Border: <code>1px solid rgba(28,28,28,0.4)</code></li>
+  <li>Active: opacity 0.8</li>
+  <li>Focus: <code>rgba(0,0,0,0.1) 0px 4px 12px</code> shadow</li>
+  <li>Use: Secondary actions ("Log In", "Documentation")</li>
+</ul>
+<br>
+<p><strong>Cream Surface</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code></li>
+  <li>Padding: 8px 16px</li>
+  <li>Radius: 6px</li>
+  <li>No border</li>
+  <li>Active: opacity 0.8</li>
+  <li>Use: Tertiary actions, toolbar buttons</li>
+</ul>
+<br>
+<p><strong>Pill / Icon Button</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code></li>
+  <li>Radius: 9999px (full pill)</li>
+  <li>Shadow: same inset pattern as primary dark</li>
+  <li>Opacity: 0.5 (default), 0.8 (active)</li>
+  <li>Use: Additional actions, plan mode toggle, voice recording</li>
+</ul>
+<br>
+<h3>Cards &amp; Containers</h3>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code> (matches page)</li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code></li>
+  <li>Radius: 12px (standard), 16px (featured), 8px (compact)</li>
+  <li>No box-shadow by default — borders define boundaries</li>
+  <li>Image cards: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> with 12px radius</li>
+</ul>
+<br>
+<h3>Inputs &amp; Forms</h3>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code></li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code></li>
+  <li>Radius: 6px</li>
+  <li>Focus: ring blue (<code>rgba(59,130,246,0.5)</code>) outline</li>
+  <li>Placeholder: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5f5f5d;"></span>#5f5f5d</span></code></li>
+</ul>
+<br>
+<h3>Navigation</h3>
+<ul>
+  <li>Clean horizontal nav on cream background, fixed</li>
+  <li>Logo/wordmark left-aligned (128.75 x 22px)</li>
+  <li>Links: Camera Plain 14–16px weight 400, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code> text</li>
+  <li>CTA: dark button with inset shadow, 6px radius</li>
+  <li>Mobile: hamburger menu with 6px radius button</li>
+  <li>Subtle border or no border on scroll</li>
+</ul>
+<br>
+<h3>Links</h3>
+<ul>
+  <li>Color: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code></li>
+  <li>Decoration: underline (default)</li>
+  <li>Hover: primary accent (via CSS variable <code>hsl(var(--primary))</code>)</li>
+  <li>No color change on hover — decoration carries the interactive signal</li>
+</ul>
+<br>
+<h3>Image Treatment</h3>
+<ul>
+  <li>Showcase/portfolio images with <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> border</li>
+  <li>Consistent 12px border radius on all image containers</li>
+  <li>Soft gradient backgrounds behind hero content (warm multi-color wash)</li>
+  <li>Gallery-style presentation for template/project showcases</li>
+</ul>
+<br>
+<h3>Distinctive Components</h3>
+<br>
+<p><strong>AI Chat Input</strong></p>
+<ul>
+  <li>Large prompt input area with soft borders</li>
+  <li>Suggestion pills with <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> borders</li>
+  <li>Voice recording / plan mode toggle buttons as pill shapes (9999px)</li>
+  <li>Warm, inviting input area — not clinical</li>
+</ul>
+<br>
+<p><strong>Template Gallery</strong></p>
+<ul>
+  <li>Card grid showing project templates</li>
+  <li>Each card: image + title, <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> border, 12px radius</li>
+  <li>Hover: subtle shadow or border darkening</li>
+  <li>Category labels as text links</li>
+</ul>
+<br>
+<p><strong>Stats Bar</strong></p>
+<ul>
+  <li>Large metrics: "0M+" pattern in 48px+ weight 600</li>
+  <li>Descriptive text below in muted gray</li>
+  <li>Horizontal layout with generous spacing</li>
+</ul>
+<br>
+<h2>5. Layout Principles</h2>
+<br>
+<h3>Spacing System</h3>
+<ul>
+  <li>Base unit: 8px</li>
+  <li>Scale: 8px, 10px, 12px, 16px, 24px, 32px, 40px, 56px, 80px, 96px, 128px, 176px, 192px, 208px</li>
+  <li>The scale expands generously at the top end — sections use 80px–208px vertical spacing for editorial breathing room</li>
+</ul>
+<br>
+<h3>Grid &amp; Container</h3>
+<ul>
+  <li>Max content width: approximately 1200px (centered)</li>
+  <li>Hero: centered single-column with massive vertical padding (96px+)</li>
+  <li>Feature sections: 2–3 column grids</li>
+  <li>Full-width footer with multi-column link layout</li>
+  <li>Showcase sections with centered card grids</li>
+</ul>
+<br>
+<h3>Whitespace Philosophy</h3>
+<ul>
+  <li><strong>Editorial generosity</strong>: Lovable's spacing is lavish at section boundaries (80px–208px). The warm cream background makes these expanses feel cozy rather than empty.</li>
+  <li><strong>Content-driven rhythm</strong>: Tight internal spacing within cards (12–24px) contrasts with wide section gaps, creating a reading rhythm that alternates between focused content and visual rest.</li>
+  <li><strong>Section separation</strong>: Footer uses <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> border and 16px radius container. Sections defined by generous spacing rather than border lines.</li>
+</ul>
+<br>
+<h3>Border Radius Scale</h3>
+<ul>
+  <li>Micro (4px): Small buttons, interactive elements</li>
+  <li>Standard (6px): Buttons, inputs, navigation menu</li>
+  <li>Comfortable (8px): Compact cards, divs</li>
+  <li>Card (12px): Standard cards, image containers, templates</li>
+  <li>Container (16px): Large containers, footer sections</li>
+  <li>Full Pill (9999px): Action pills, icon buttons, toggles</li>
+</ul>
+<br>
+<h2>6. Depth &amp; Elevation</h2>
+<br>
+<table>
+  <tr><th>Level</th><th>Treatment</th><th>Use</th></tr>
+  <tr><td>Flat (Level 0)</td><td>No shadow, cream background</td><td>Page surface, most content</td></tr>
+  <tr><td>Bordered (Level 1)</td><td><code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code></td><td>Cards, images, dividers</td></tr>
+  <tr><td>Inset (Level 2)</td><td><code>rgba(255,255,255,0.2) 0px 0.5px 0px inset, rgba(0,0,0,0.2) 0px 0px 0px 0.5px inset, rgba(0,0,0,0.05) 0px 1px 2px</code></td><td>Dark buttons, primary actions</td></tr>
+  <tr><td>Focus (Level 3)</td><td><code>rgba(0,0,0,0.1) 0px 4px 12px</code></td><td>Active/focus states</td></tr>
+  <tr><td>Ring (Accessibility)</td><td><code>rgba(59,130,246,0.5)</code> 2px ring</td><td>Keyboard focus on inputs</td></tr>
+</table>
+<br>
+<p><strong>Shadow Philosophy</strong>: Lovable's depth system is intentionally shallow. Instead of floating cards with dramatic drop-shadows, the system relies on warm borders (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code>) against the cream surface to create gentle containment. The only notable shadow pattern is the inset shadow on dark buttons — a subtle multi-layer technique where a white highlight line sits at the top edge while a dark ring and soft drop handle the bottom. This creates a tactile, pressed-into-surface feeling rather than a hovering-above-surface feeling. The warm focus shadow (<code>rgba(0,0,0,0.1) 0px 4px 12px</code>) is deliberately diffused and large, creating a soft glow rather than a sharp outline.</p>
+<br>
+<h3>Decorative Depth</h3>
+<ul>
+  <li>Hero: soft, warm multi-color gradient wash (pinks, oranges, blues) behind hero — atmospheric, barely visible</li>
+  <li>Footer: gradient background with warm tones transitioning to the bottom</li>
+  <li>No harsh section dividers — spacing and background warmth handle transitions</li>
+</ul>
+<br>
+<h2>7. Do's and Don'ts</h2>
+<br>
+<h3>Do</h3>
+<ul>
+  <li>Use the warm cream background (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code>) as the page foundation — it's the brand's signature warmth</li>
+  <li>Use Camera Plain Variable at display sizes with negative letter-spacing (-0.9px to -1.5px)</li>
+  <li>Derive all grays from <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code> at varying opacity levels for tonal unity</li>
+  <li>Use the inset shadow technique on dark buttons for tactile depth</li>
+  <li>Use <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> borders instead of shadows for card containment</li>
+  <li>Keep the weight system narrow: 400 for body/UI, 600 for headings</li>
+  <li>Use full-pill radius (9999px) only for action pills and icon buttons</li>
+  <li>Apply opacity 0.8 on active states for responsive tactile feedback</li>
+</ul>
+<br>
+<h3>Don't</h3>
+<ul>
+  <li>Don't use pure white (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>) as a page background — the cream is intentional</li>
+  <li>Don't use heavy box-shadows for cards — borders are the containment mechanism</li>
+  <li>Don't introduce saturated accent colors — the palette is intentionally warm-neutral</li>
+  <li>Don't use weight 700 (bold) — 600 is the maximum weight in the system</li>
+  <li>Don't apply 9999px radius on rectangular buttons — pills are for icon/action toggles</li>
+  <li>Don't use sharp focus outlines — the system uses soft shadow-based focus indicators</li>
+  <li>Don't mix border styles — <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> for passive, <code>rgba(28,28,28,0.4)</code> for interactive</li>
+  <li>Don't increase letter-spacing on headings — Camera Plain is designed to run tight at scale</li>
+</ul>
+<br>
+<h2>8. Responsive Behavior</h2>
+<br>
+<h3>Breakpoints</h3>
+<table>
+  <tr><th>Name</th><th>Width</th><th>Key Changes</th></tr>
+  <tr><td>Mobile Small</td><td>&lt;600px</td><td>Tight single column, reduced padding</td></tr>
+  <tr><td>Mobile</td><td>600–640px</td><td>Standard mobile layout</td></tr>
+  <tr><td>Tablet Small</td><td>640–700px</td><td>2-column grids begin</td></tr>
+  <tr><td>Tablet</td><td>700–768px</td><td>Card grids expand</td></tr>
+  <tr><td>Desktop Small</td><td>768–1024px</td><td>Multi-column layouts</td></tr>
+  <tr><td>Desktop</td><td>1024–1280px</td><td>Full feature layout</td></tr>
+  <tr><td>Large Desktop</td><td>1280–1536px</td><td>Maximum content width, generous margins</td></tr>
+</table>
+<br>
+<h3>Touch Targets</h3>
+<ul>
+  <li>Buttons: 8px 16px padding (comfortable touch)</li>
+  <li>Navigation: adequate spacing between items</li>
+  <li>Pill buttons: 9999px radius creates large tap-friendly targets</li>
+  <li>Menu toggle: 6px radius button with adequate sizing</li>
+</ul>
+<br>
+<h3>Collapsing Strategy</h3>
+<ul>
+  <li>Hero: 60px → 48px → 36px headline scaling with proportional letter-spacing</li>
+  <li>Navigation: horizontal links → hamburger menu at 768px</li>
+  <li>Feature cards: 3-column → 2-column → single column stacked</li>
+  <li>Template gallery: grid → stacked vertical cards</li>
+  <li>Stats bar: horizontal → stacked vertical</li>
+  <li>Footer: multi-column → stacked single column</li>
+  <li>Section spacing: 128px+ → 64px on mobile</li>
+</ul>
+<br>
+<h3>Image Behavior</h3>
+<ul>
+  <li>Template screenshots maintain <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> border at all sizes</li>
+  <li>12px border radius preserved across breakpoints</li>
+  <li>Gallery images responsive with consistent aspect ratios</li>
+  <li>Hero gradient softens/simplifies on mobile</li>
+</ul>
+<br>
+<h2>9. Agent Prompt Guide</h2>
+<br>
+<h3>Quick Color Reference</h3>
+<ul>
+  <li>Primary CTA: Charcoal (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code>)</li>
+  <li>Background: Cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code>)</li>
+  <li>Heading text: Charcoal (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code>)</li>
+  <li>Body text: Muted Gray (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5f5f5d;"></span>#5f5f5d</span></code>)</li>
+  <li>Border: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> (passive), <code>rgba(28,28,28,0.4)</code> (interactive)</li>
+  <li>Focus: <code>rgba(0,0,0,0.1) 0px 4px 12px</code></li>
+  <li>Button text on dark: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #fcfbf8;"></span>#fcfbf8</span></code></li>
+</ul>
+<br>
+<h3>Example Component Prompts</h3>
+<ul>
+  <li>"Create a hero section on cream background (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span>). Headline at 60px Camera Plain Variable weight 600, line-height 1.10, letter-spacing -1.5px, color <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span>. Subtitle at 18px weight 400, line-height 1.38, color <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5f5f5d;"></span>#5f5f5d</span>. Dark CTA button (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span> bg, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #fcfbf8;"></span>#fcfbf8</span> text, 6px radius, 8px 16px padding, inset shadow) and ghost button (transparent bg, 1px solid rgba(28,28,28,0.4) border, 6px radius)."</li>
+  <li>"Design a card on cream (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span>) background. Border: 1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span>. Radius 12px. No box-shadow. Title at 20px Camera Plain Variable weight 400, line-height 1.25, color <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span>. Body at 14px weight 400, color <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5f5f5d;"></span>#5f5f5d</span>."</li>
+  <li>"Build a template gallery: grid of cards with 12px radius, 1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span> border, cream backgrounds. Each card: image with 12px top radius, title below. Hover: subtle border darkening."</li>
+  <li>"Create navigation: sticky on cream (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span>). Camera Plain 16px weight 400 for links, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span> text. Dark CTA button right-aligned with inset shadow. Mobile: hamburger menu with 6px radius."</li>
+  <li>"Design a stats section: large numbers at 48px Camera Plain weight 600, letter-spacing -1.2px, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span>. Labels below at 16px weight 400, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5f5f5d;"></span>#5f5f5d</span>. Horizontal layout with 32px gap."</li>
+</ul>
+<br>
+<h3>Iteration Guide</h3>
+<ol>
+  <li>Always use cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #f7f4ed;"></span>#f7f4ed</span></code>) as the base — never pure white</li>
+  <li>Derive grays from <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1c1c1c;"></span>#1c1c1c</span></code> at opacity levels rather than using distinct hex values</li>
+  <li>Use <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #eceae4;"></span>#eceae4</span></code> borders for containment, not shadows</li>
+  <li>Letter-spacing scales with size: -1.5px at 60px, -1.2px at 48px, -0.9px at 36px, normal at 16px</li>
+  <li>Two weights: 400 (everything except headings) and 600 (headings)</li>
+  <li>The inset shadow on dark buttons is the signature detail — don't skip it</li>
+  <li>Camera Plain Variable at weight 480 is for special display moments only</li>
+</ol>
+<br>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

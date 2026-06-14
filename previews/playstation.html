@@ -1,0 +1,1241 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playstation — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/playstation.com" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=playstation.com&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Playstation</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <div class='yaml-container'>
+<h1 class='yaml-title'>PlayStation-design-analysis</h1>
+<div class='yaml-version-badge'>Version: alpha</div>
+<div class='yaml-card yaml-description-card'>
+  <h2>시스템 설명 (System Description)</h2>
+  <p>|</p>
+</div>
+<div class='yaml-section-title'>Color Palette</div>
+<div class='yaml-color-grid'>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #0070d1;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>primary</span>
+      <span class='yaml-color-hex'>#0070d1</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #0064b7;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>primary-pressed</span>
+      <span class='yaml-color-hex'>#0064b7</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #004d8d;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>primary-active</span>
+      <span class='yaml-color-hex'>#004d8d</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #ffffff;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>on-primary</span>
+      <span class='yaml-color-hex'>#ffffff</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #0064b7;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>link-light</span>
+      <span class='yaml-color-hex'>#0064b7</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #53b1ff;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>link-dark</span>
+      <span class='yaml-color-hex'>#53b1ff</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #d53b00;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>commerce</span>
+      <span class='yaml-color-hex'>#d53b00</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #aa2f00;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>commerce-pressed</span>
+      <span class='yaml-color-hex'>#aa2f00</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #d63d00;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>commerce-link-base</span>
+      <span class='yaml-color-hex'>#d63d00</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #ffffff;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>on-commerce</span>
+      <span class='yaml-color-hex'>#ffffff</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #000000;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ink</span>
+      <span class='yaml-color-hex'>#000000</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #121314;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ink-deep</span>
+      <span class='yaml-color-hex'>#121314</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #181818;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ink-elevated</span>
+      <span class='yaml-color-hex'>#181818</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #1f2024;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>charcoal</span>
+      <span class='yaml-color-hex'>#1f2024</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: rgba(0,0,0,0.6);'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>body-light</span>
+      <span class='yaml-color-hex'>rgba(0,0,0,0.6)</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #6b6b6b;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>mute-light</span>
+      <span class='yaml-color-hex'>#6b6b6b</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #cccccc;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ash-light</span>
+      <span class='yaml-color-hex'>#cccccc</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: rgba(255,255,255,0.7);'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>body-dark</span>
+      <span class='yaml-color-hex'>rgba(255,255,255,0.7)</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: rgba(229,229,229,0.55);'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>mute-dark</span>
+      <span class='yaml-color-hex'>rgba(229,229,229,0.55)</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: rgba(229,229,229,0.2);'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ash-dark</span>
+      <span class='yaml-color-hex'>rgba(229,229,229,0.2)</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #ffffff;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>canvas-light</span>
+      <span class='yaml-color-hex'>#ffffff</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #f3f3f3;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>surface-soft</span>
+      <span class='yaml-color-hex'>#f3f3f3</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #f5f7fa;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>surface-card</span>
+      <span class='yaml-color-hex'>#f5f7fa</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: rgba(245,247,250,0.3);'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>surface-filter</span>
+      <span class='yaml-color-hex'>rgba(245,247,250,0.3)</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #000000;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>canvas-dark</span>
+      <span class='yaml-color-hex'>#000000</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #121314;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>surface-dark-elevated</span>
+      <span class='yaml-color-hex'>#121314</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #181818;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>surface-dark-card</span>
+      <span class='yaml-color-hex'>#181818</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #f3f3f3;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>hairline-light</span>
+      <span class='yaml-color-hex'>#f3f3f3</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: rgba(229,229,229,0.2);'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>hairline-dark</span>
+      <span class='yaml-color-hex'>rgba(229,229,229,0.2)</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #ffffff;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>on-dark</span>
+      <span class='yaml-color-hex'>#ffffff</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #cccccc;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>on-dark-mute</span>
+      <span class='yaml-color-hex'>#cccccc</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #c81b3a;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>warning</span>
+      <span class='yaml-color-hex'>#c81b3a</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #ffce21;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ps-plus-gold-start</span>
+      <span class='yaml-color-hex'>#ffce21</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #f5a623;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ps-plus-gold-mid</span>
+      <span class='yaml-color-hex'>#f5a623</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #ee8e00;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>ps-plus-gold-end</span>
+      <span class='yaml-color-hex'>#ee8e00</span>
+    </div>
+  </div>
+  <div class='yaml-color-card'>
+    <div class='yaml-color-visual' style='background-color: #deff20;'></div>
+    <div class='yaml-color-info'>
+      <span class='yaml-color-name'>marathon-yellow</span>
+      <span class='yaml-color-hex'>#deff20</span>
+    </div>
+  </div>
+</div>
+<div class='yaml-section-title'>Typography Specs</div>
+<div class='yaml-text-grid'>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>display-xl</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 54px; font-weight: 300; line-height: 1.25; letter-spacing: -0.1px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>54px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>300</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>-0.1px</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>display-lg</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 44px; font-weight: 300; line-height: 1.25; letter-spacing: 0.1px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>44px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>300</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0.1px</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>display-md</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 35px; font-weight: 300; line-height: 1.25; letter-spacing: 0; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>35px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>300</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>heading-xl</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 28px; font-weight: 300; line-height: 1.25; letter-spacing: 0.1px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>28px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>300</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0.1px</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>heading-lg</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 22px; font-weight: 300; line-height: 1.25; letter-spacing: 0.1px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>22px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>300</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0.1px</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>heading-md</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 18px; font-weight: 600; line-height: 1; letter-spacing: 0; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>18px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>600</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>body-md</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 18px; font-weight: 400; line-height: 1.5; letter-spacing: 0.1px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>18px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>400</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.5</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0.1px</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>body-strong</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 18px; font-weight: 500; line-height: 1.25; letter-spacing: 0.4px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>18px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>500</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0.4px</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>body-sm</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: 0; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>16px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>400</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.5</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>caption-md</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 14px; font-weight: 400; line-height: 1.5; letter-spacing: 0; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>14px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>400</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.5</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>caption-sm</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 12px; font-weight: 500; line-height: 1.5; letter-spacing: 0; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>12px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>500</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.5</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>link-md</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 18px; font-weight: 400; line-height: 1.5; letter-spacing: 0; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>18px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>400</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.5</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>button-lg</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 18px; font-weight: 700; line-height: 1.25; letter-spacing: 0.45px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>18px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>700</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0.45px</span></div>
+    </div>
+  </div>
+  <div class='yaml-text-card'>
+    <div class='yaml-text-header'>button-md</div>
+    <div class='yaml-text-preview' style='font-family: PlayStation SST; font-size: 14px; font-weight: 700; line-height: 1.25; letter-spacing: 0.324px; text-transform: none;'>AaBbCc 123 가나다</div>
+    <div class='yaml-text-details'>
+      <div class='yaml-text-detail-row'><span class='label'>Font</span><span class='val'>PlayStation SST</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Size</span><span class='val'>14px</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Weight</span><span class='val'>700</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Line Height</span><span class='val'>1.25</span></div>
+      <div class='yaml-text-detail-row'><span class='label'>Letter Spacing</span><span class='val'>0.324px</span></div>
+    </div>
+  </div>
+</div>
+<div class='yaml-section-title'>Layout & Spacing Tokens</div>
+<div class='yaml-layout-row'>
+  <div class='yaml-card yaml-layout-card'>
+    <h3>Border Radius (모서리 둥글기)</h3>
+    <table>
+      <thead><tr><th>Token Name</th><th>Radius Value</th><th>Visual Preview</th></tr></thead>
+      <tbody>
+        <tr><td><code>none</code></td><td>0px</td><td><div class='radius-preview-block' style='border-radius: 0px;'></div></td></tr>
+        <tr><td><code>sm</code></td><td>4px</td><td><div class='radius-preview-block' style='border-radius: 4px;'></div></td></tr>
+        <tr><td><code>md</code></td><td>8px</td><td><div class='radius-preview-block' style='border-radius: 8px;'></div></td></tr>
+        <tr><td><code>lg</code></td><td>16px</td><td><div class='radius-preview-block' style='border-radius: 16px;'></div></td></tr>
+        <tr><td><code>full</code></td><td>9999px</td><td><div class='radius-preview-block' style='border-radius: 20px; width: 60px;'></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class='yaml-card yaml-layout-card'>
+    <h3>Spacing & Gaps (여백 규격)</h3>
+    <table>
+      <thead><tr><th>Token Name</th><th>Spacing Value</th></tr></thead>
+      <tbody>
+        <tr><td><code>xxs</code></td><td>4px</td></tr>
+        <tr><td><code>xs</code></td><td>8px</td></tr>
+        <tr><td><code>sm</code></td><td>12px</td></tr>
+        <tr><td><code>md</code></td><td>16px</td></tr>
+        <tr><td><code>lg</code></td><td>24px</td></tr>
+        <tr><td><code>xl</code></td><td>32px</td></tr>
+        <tr><td><code>xxl</code></td><td>48px</td></tr>
+        <tr><td><code>section</code></td><td>96px</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class='yaml-section-title'>Component Specifications</div>
+<div class='yaml-component-list'>
+  <div class='yaml-card yaml-component-card'>
+    <h4>button-primary</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>48px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-lg}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-primary}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>12px 28px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.primary}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>button-primary-pressed</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-lg}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.primary-pressed}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-primary}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>button-commerce</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>48px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-lg}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-commerce}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>12px 28px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.commerce}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>button-commerce-pressed</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-lg}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.commerce-pressed}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-commerce}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>button-secondary-light</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>48px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-lg}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>12px 28px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>transparent</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>button-secondary-dark</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>48px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-lg}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>12px 28px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>transparent</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>button-disabled</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.surface-soft}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ash-light}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>text-input</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>48px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.sm}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>12px 16px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-light}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>text-input-focused</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.sm}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-light}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>filter-pill</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.surface-filter}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>8px 16px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>filter-pill-active</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.button-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-light}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>product-card</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.surface-card}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>24px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>product-card-dark</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.surface-dark-card}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>24px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>game-tile</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-sm}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.surface-dark-elevated}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>0px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>feature-card</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-light}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>32px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>hero-band-blue</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.display-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.primary}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.none}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-primary}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>96px 48px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>hero-band-dark</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.display-xl}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.none}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>96px 48px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>hero-band-light</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.display-xl}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-light}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.none}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>96px 48px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>ps-plus-banner</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.heading-xl}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.surface-dark-elevated}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>48px 32px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>carousel-paddle</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>size</span><span class='c-val'>48px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>rgba(255,255,255,0.16)</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>pagination-dot</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.ash-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>size</span><span class='c-val'>8px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>pagination-dot-active</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.on-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>size</span><span class='c-val'>8px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>badge-info</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.caption-sm}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.primary}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-primary}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>4px 10px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>primary-nav</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-strong}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>48px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.none}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>sub-nav</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.caption-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>40px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-dark}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.none}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-dark}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>footer-section</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.caption-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.primary}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.none}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.on-primary}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>48px 32px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>support-search-bar</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>height</span><span class='c-val'>56px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.full}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>12px 24px</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-light}</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>support-row</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.body-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>backgroundColor</span><span class='c-val'>{colors.canvas-light}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>rounded</span><span class='c-val'>{rounded.none}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.ink}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>padding</span><span class='c-val'>16px 0px</span></div>
+    </div>
+  </div>
+  <div class='yaml-card yaml-component-card'>
+    <h4>link-inline</h4>
+    <div class='component-specs-grid'>
+      <div class='comp-spec-row'><span class='c-label'>typography</span><span class='c-val'>{typography.link-md}</span></div>
+      <div class='comp-spec-row'><span class='c-label'>textColor</span><span class='c-val'>{colors.link-light}</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

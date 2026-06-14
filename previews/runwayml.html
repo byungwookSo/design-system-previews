@@ -1,0 +1,807 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runwayml — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/runwayml.com" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=runwayml.com&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Runwayml</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <h1>Design System Inspired by Runway</h1>
+<br>
+<h2>1. Visual Theme &amp; Atmosphere</h2>
+<br>
+<p>Runway's interface is a cinematic reel brought to life as a website — a dark, editorial, film-production-grade design where full-bleed photography and video ARE the primary UI elements. This is not a typical tech product page; it's a visual manifesto for AI-powered creativity. Every section feels like a frame from a film: dramatic lighting, sweeping landscapes, and intimate human moments captured in high-quality imagery that dominates the viewport.</p>
+<br>
+<p>The design language is built on a single typeface — abcNormal — a clean, geometric sans-serif that handles everything from 48px display headlines to 11px uppercase labels. This single-font commitment creates an extreme typographic uniformity that lets the visual content speak louder than the text. Headlines use tight line-heights (1.0) with negative letter-spacing (-0.9px to -1.2px), creating compressed text blocks that feel like film titles rather than marketing copy.</p>
+<br>
+<p>What makes Runway distinctive is its complete commitment to visual content as design. Rather than illustrating features with icons or diagrams, Runway shows actual AI-generated and AI-enhanced imagery — cars driving through cinematic landscapes, artistic portraits, architectural renders. The interface itself retreats into near-invisibility: minimal borders, zero shadows, subtle cool-gray text, and a dark palette that puts maximum focus on the photography.</p>
+<br>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+  <li>Cinematic full-bleed photography and video as primary UI elements</li>
+  <li>Single typeface system: abcNormal for everything from display to micro labels</li>
+  <li>Dark-dominant palette with cool-toned neutrals (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #767d88;"></span>#767d88</span>, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7d848e;"></span>#7d848e</span>)</li>
+  <li>Zero shadows, minimal borders — the interface is intentionally invisible</li>
+  <li>Tight display typography (line-height 1.0) with negative tracking (-0.9px to -1.2px)</li>
+  <li>Uppercase labels with positive letter-spacing for navigational structure</li>
+  <li>Weight 450 (unusual intermediate) for small uppercase text — precision craft</li>
+  <li>Editorial magazine layout with mixed-size image grids</li>
+</ul>
+<br>
+<h2>2. Color Palette &amp; Roles</h2>
+<br>
+<h3>Primary</h3>
+<ul>
+  <li><strong>Runway Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span></code>): The primary page background and maximum-emphasis text.</li>
+  <li><strong>Deep Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #030303;"></span>#030303</span></code>): A near-imperceptible variant for layered dark surfaces.</li>
+  <li><strong>Dark Surface</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1a1a1a;"></span>#1a1a1a</span></code>): Card backgrounds and elevated dark containers.</li>
+  <li><strong>Pure White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>): Primary text on dark surfaces and light-section backgrounds.</li>
+</ul>
+<br>
+<h3>Surface &amp; Background</h3>
+<ul>
+  <li><strong>Near White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #fefefe;"></span>#fefefe</span></code>): The lightest surface — barely distinguishable from pure white.</li>
+  <li><strong>Cool Cloud</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #e9ecf2;"></span>#e9ecf2</span></code>): Light section backgrounds with a cool blue-gray tint.</li>
+  <li><strong>Border Dark</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #27272a;"></span>#27272a</span></code>): The single dark-mode border color — barely visible containment.</li>
+</ul>
+<br>
+<h3>Neutrals &amp; Text</h3>
+<ul>
+  <li><strong>Charcoal</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #404040;"></span>#404040</span></code>): Primary body text on light surfaces and secondary text.</li>
+  <li><strong>Near Charcoal</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3f3f3f;"></span>#3f3f3f</span></code>): Slightly lighter variant for dark-section secondary text.</li>
+  <li><strong>Cool Slate</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #767d88;"></span>#767d88</span></code>): Secondary body text — a distinctly blue-gray cool neutral.</li>
+  <li><strong>Mid Slate</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7d848e;"></span>#7d848e</span></code>): Tertiary text, metadata descriptions.</li>
+  <li><strong>Muted Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #a7a7a7;"></span>#a7a7a7</span></code>): De-emphasized content, timestamps.</li>
+  <li><strong>Cool Silver</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #c9ccd1;"></span>#c9ccd1</span></code>): Light borders and dividers.</li>
+  <li><strong>Light Silver</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #d0d4d4;"></span>#d0d4d4</span></code>): The lightest border/divider variant.</li>
+  <li><strong>Tailwind Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #6b7280;"></span>#6b7280</span></code>): Standard Tailwind neutral for supplementary text.</li>
+  <li><strong>Dark Link</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #0c0c0c;"></span>#0c0c0c</span></code>): Darkest link text — nearly black.</li>
+  <li><strong>Footer Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #999999;"></span>#999999</span></code>): Footer links and deeply muted content.</li>
+</ul>
+<br>
+<h3>Gradient System</h3>
+<ul>
+  <li><strong>None in the interface.</strong> Visual richness comes entirely from photographic content — AI-generated and enhanced imagery provides all the color and gradient the design needs. The interface itself is intentionally colorless.</li>
+</ul>
+<br>
+<h2>3. Typography Rules</h2>
+<br>
+<h3>Font Family</h3>
+<ul>
+  <li><strong>Universal</strong>: <code>abcNormal</code>, with fallback: <code>abcNormal Fallback</code></li>
+</ul>
+<br>
+<p><em>Note: abcNormal is a custom geometric sans-serif. For external implementations, Inter or DM Sans serve as close substitutes.</em></p>
+<br>
+<h3>Hierarchy</h3>
+<br>
+<table>
+  <tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr>
+  <tr><td>Display / Hero</td><td>abcNormal</td><td>48px (3rem)</td><td>400</td><td>1.00 (tight)</td><td>-1.2px</td><td>Maximum size, film-title presence</td></tr>
+  <tr><td>Section Heading</td><td>abcNormal</td><td>40px (2.5rem)</td><td>400</td><td>1.00–1.10</td><td>-1px to 0px</td><td>Feature section titles</td></tr>
+  <tr><td>Sub-heading</td><td>abcNormal</td><td>36px (2.25rem)</td><td>400</td><td>1.00 (tight)</td><td>-0.9px</td><td>Secondary section markers</td></tr>
+  <tr><td>Card Title</td><td>abcNormal</td><td>24px (1.5rem)</td><td>400</td><td>1.00 (tight)</td><td>normal</td><td>Article and card headings</td></tr>
+  <tr><td>Feature Title</td><td>abcNormal</td><td>20px (1.25rem)</td><td>400</td><td>1.00 (tight)</td><td>normal</td><td>Small headings</td></tr>
+  <tr><td>Body / Button</td><td>abcNormal</td><td>16px (1rem)</td><td>400–600</td><td>1.30–1.50</td><td>-0.16px to normal</td><td>Standard body, nav links</td></tr>
+  <tr><td>Caption / Label</td><td>abcNormal</td><td>14px (0.88rem)</td><td>500–600</td><td>1.25–1.43</td><td>0.35px (uppercase)</td><td>Metadata, section labels</td></tr>
+  <tr><td>Small</td><td>abcNormal</td><td>13px (0.81rem)</td><td>400</td><td>1.30 (tight)</td><td>-0.16px to -0.26px</td><td>Compact descriptions</td></tr>
+  <tr><td>Micro / Tag</td><td>abcNormal</td><td>11px (0.69rem)</td><td>450</td><td>1.30 (tight)</td><td>normal</td><td>Uppercase tags, tiny labels</td></tr>
+</table>
+<br>
+<h3>Principles</h3>
+<ul>
+  <li><strong>One typeface, complete expression</strong>: abcNormal handles every text role. The design achieves variety through size, weight, case, and letter-spacing rather than font-family switching.</li>
+  <li><strong>Tight everywhere</strong>: Nearly every size uses line-height 1.0–1.30 — even body text is relatively compressed. This creates a dense, editorial feel.</li>
+  <li><strong>Weight 450 — the precision detail</strong>: Some small uppercase labels use weight 450, an uncommon intermediate between regular (400) and medium (500). This micro-craft signals typographic sophistication.</li>
+  <li><strong>Negative tracking as default</strong>: Even body text uses -0.16px to -0.26px letter-spacing, keeping everything slightly tighter than default.</li>
+  <li><strong>Uppercase as structure</strong>: Labels at 14px and 11px use <code>text-transform: uppercase</code> with positive letter-spacing (0.35px) to create navigational signposts that contrast with the tight lowercase text.</li>
+</ul>
+<br>
+<h2>4. Component Stylings</h2>
+<br>
+<h3>Buttons</h3>
+<ul>
+  <li>Text: weight 600 at 14px abcNormal</li>
+  <li>Background: likely transparent or dark, with minimal border</li>
+  <li>Radius: small (4px) for button-like links</li>
+  <li>The button design is extremely restrained — no heavy fills or borders detected</li>
+  <li>Interactive elements blend into the editorial flow</li>
+</ul>
+<br>
+<h3>Cards &amp; Containers</h3>
+<ul>
+  <li>Background: transparent or Dark Surface (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1a1a1a;"></span>#1a1a1a</span></code>)</li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #27272a;"></span>#27272a</span></code> (dark mode) — barely visible containment</li>
+  <li>Radius: small (4–8px) for functional elements; 16px for alert-style containers</li>
+  <li>Shadow: zero — no shadows on any element</li>
+  <li>Cards are primarily photographic — the image IS the card</li>
+</ul>
+<br>
+<h3>Navigation</h3>
+<ul>
+  <li>Minimal horizontal nav — transparent over hero content</li>
+  <li>Logo: Runway wordmark in white/black</li>
+  <li>Links: abcNormal at 16px, weight 400–600</li>
+  <li>Hover: text shifts to white or higher opacity</li>
+  <li>Extremely subtle — designed to not compete with visual content</li>
+</ul>
+<br>
+<h3>Image Treatment</h3>
+<ul>
+  <li>Full-bleed cinematic photography and video dominate</li>
+  <li>AI-generated content shown at large scale as primary visual elements</li>
+  <li>Mixed-size image grids creating editorial magazine layouts</li>
+  <li>Dark overlays on hero images for text readability</li>
+  <li>Product screenshots with subtle rounded corners (8px)</li>
+</ul>
+<br>
+<h3>Distinctive Components</h3>
+<br>
+<p><strong>Cinematic Hero</strong></p>
+<ul>
+  <li>Full-viewport image or video with text overlay</li>
+  <li>Headline in 48px abcNormal, white on dark imagery</li>
+  <li>The image is always cinematic quality — film-grade composition</li>
+</ul>
+<br>
+<p><strong>Research Article Cards</strong></p>
+<ul>
+  <li>Photographic thumbnails with article titles</li>
+  <li>Mixed-size grid layout (large feature + smaller supporting)</li>
+  <li>Clean text overlay or below-image caption style</li>
+</ul>
+<br>
+<p><strong>Trust Bar</strong></p>
+<ul>
+  <li>Company logos (leading organizations across industries)</li>
+  <li>Clean, monochrome treatment</li>
+  <li>Horizontal layout with generous spacing</li>
+</ul>
+<br>
+<p><strong>Mission Statement</strong></p>
+<ul>
+  <li>"We are building AI to simulate the world through imagination, art and aesthetics"</li>
+  <li>On a dark background with white text</li>
+  <li>The emotional close — artistic and philosophical</li>
+</ul>
+<br>
+<h2>5. Layout Principles</h2>
+<br>
+<h3>Spacing System</h3>
+<ul>
+  <li>Base unit: 8px</li>
+  <li>Scale: 4px, 6px, 8px, 12px, 16px, 20px, 24px, 28px, 32px, 48px, 64px, 78px</li>
+  <li>Section vertical spacing: generous (48–78px)</li>
+  <li>Component gaps: 16–24px</li>
+</ul>
+<br>
+<h3>Grid &amp; Container</h3>
+<ul>
+  <li>Max container width: up to 1600px (cinema-wide)</li>
+  <li>Hero: full-viewport, edge-to-edge</li>
+  <li>Content sections: centered with generous margins</li>
+  <li>Image grids: asymmetric, magazine-style mixed sizes</li>
+  <li>Footer: full-width dark section</li>
+</ul>
+<br>
+<h3>Whitespace Philosophy</h3>
+<ul>
+  <li><strong>Cinema-grade breathing</strong>: Large vertical gaps between sections create a scrolling experience that feels like watching scenes change.</li>
+  <li><strong>Images replace whitespace</strong>: Where other sites use empty space, Runway fills it with photography. The visual content IS the breathing room.</li>
+  <li><strong>Editorial grid asymmetry</strong>: The image grid uses intentionally varied sizes — large hero images paired with smaller supporting images, creating visual rhythm.</li>
+</ul>
+<br>
+<h3>Border Radius Scale</h3>
+<ul>
+  <li>Sharp (4px): Buttons, small interactive elements</li>
+  <li>Subtle (6px): Links, small containers</li>
+  <li>Comfortable (8px): Standard containers, image cards</li>
+  <li>Generous (16px): Alert-style containers, featured elements</li>
+</ul>
+<br>
+<h2>6. Depth &amp; Elevation</h2>
+<br>
+<table>
+  <tr><th>Level</th><th>Treatment</th><th>Use</th></tr>
+  <tr><td>Flat (Level 0)</td><td>No shadow, no border</td><td>Everything — the dominant state</td></tr>
+  <tr><td>Bordered (Level 1)</td><td><code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #27272a;"></span>#27272a</span></code></td><td>Alert containers only</td></tr>
+  <tr><td>Dark Section (Level 2)</td><td>Dark bg (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span> / <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1a1a1a;"></span>#1a1a1a</span>) with light text</td><td>Hero, features, footer</td></tr>
+  <tr><td>Light Section (Level 3)</td><td>White/Cool Cloud bg with dark text</td><td>Content sections, research</td></tr>
+</table>
+<br>
+<p><strong>Shadow Philosophy</strong>: Runway uses <strong>zero shadows</strong>. This is a film-production design decision — in cinema, depth comes from lighting, focus, and composition, not drop shadows. The interface mirrors this philosophy: depth is communicated through dark/light section alternation, photographic depth-of-field, and overlay transparency — never through CSS box-shadow.</p>
+<br>
+<h2>7. Do's and Don'ts</h2>
+<br>
+<h3>Do</h3>
+<ul>
+  <li>Use full-bleed cinematic photography as the primary visual element</li>
+  <li>Use abcNormal for all text — maintain the single-typeface commitment</li>
+  <li>Keep display line-heights at 1.0 with negative letter-spacing for film-title density</li>
+  <li>Use the cool-gray neutral palette (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #767d88;"></span>#767d88</span>, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7d848e;"></span>#7d848e</span>) for secondary text</li>
+  <li>Maintain zero shadows — depth comes from photography and section backgrounds</li>
+  <li>Use uppercase with letter-spacing for navigational labels (14px, 0.35px spacing)</li>
+  <li>Apply small border-radius (4–8px) — the design is NOT pill-shaped</li>
+  <li>Let visual content (photos, videos) dominate — the UI should be invisible</li>
+  <li>Use weight 450 for micro labels — the precision matters</li>
+</ul>
+<br>
+<h3>Don't</h3>
+<ul>
+  <li>Don't add decorative colors to the interface — the only color comes from photography</li>
+  <li>Don't use heavy borders or shadows — the interface must be nearly invisible</li>
+  <li>Don't use pill-shaped radius — Runway's geometry is subtly rounded, not circular</li>
+  <li>Don't use bold (700+) weight — 400–600 is the full range, with 450 as a precision tool</li>
+  <li>Don't compete with the visual content — text overlays should be minimal and restrained</li>
+  <li>Don't use gradient backgrounds in the interface — gradients exist only in photography</li>
+  <li>Don't use more than one typeface — abcNormal handles everything</li>
+  <li>Don't use body line-height above 1.50 — the tight, editorial feel is core</li>
+  <li>Don't reduce image quality — cinematic photography IS the design</li>
+</ul>
+<br>
+<h2>8. Responsive Behavior</h2>
+<br>
+<h3>Breakpoints</h3>
+<table>
+  <tr><th>Name</th><th>Width</th><th>Key Changes</th></tr>
+  <tr><td>Mobile</td><td>&lt;640px</td><td>Single column, stacked images, reduced hero text</td></tr>
+  <tr><td>Tablet</td><td>640–768px</td><td>2-column image grids begin</td></tr>
+  <tr><td>Small Desktop</td><td>768–1024px</td><td>Standard layout</td></tr>
+  <tr><td>Desktop</td><td>1024–1280px</td><td>Full layout, expanded hero</td></tr>
+  <tr><td>Large Desktop</td><td>1280–1600px</td><td>Maximum cinema-width container</td></tr>
+</table>
+<br>
+<h3>Touch Targets</h3>
+<ul>
+  <li>Navigation links at comfortable 16px</li>
+  <li>Article cards serve as large touch targets</li>
+  <li>Buttons at 14px weight 600 with adequate padding</li>
+</ul>
+<br>
+<h3>Collapsing Strategy</h3>
+<ul>
+  <li><strong>Navigation</strong>: Collapses to hamburger on mobile</li>
+  <li><strong>Hero</strong>: Full-bleed maintained, text scales down</li>
+  <li><strong>Image grids</strong>: Multi-column → 2-column → single column</li>
+  <li><strong>Research articles</strong>: Feature-size cards → stacked full-width</li>
+  <li><strong>Trust logos</strong>: Horizontal scroll or reduced grid</li>
+</ul>
+<br>
+<h3>Image Behavior</h3>
+<ul>
+  <li>Cinematic images scale proportionally</li>
+  <li>Full-bleed hero maintained across all sizes</li>
+  <li>Image grids reflow to fewer columns</li>
+  <li>Video content maintains aspect ratio</li>
+</ul>
+<br>
+<h2>9. Agent Prompt Guide</h2>
+<br>
+<h3>Quick Color Reference</h3>
+<ul>
+  <li>Background Dark: "Runway Black (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span>)"</li>
+  <li>Background Light: "Pure White (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span>)"</li>
+  <li>Primary Text Dark: "Charcoal (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #404040;"></span>#404040</span>)"</li>
+  <li>Secondary Text: "Cool Slate (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #767d88;"></span>#767d88</span>)"</li>
+  <li>Muted Text: "Muted Gray (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #a7a7a7;"></span>#a7a7a7</span>)"</li>
+  <li>Light Border: "Cool Silver (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #c9ccd1;"></span>#c9ccd1</span>)"</li>
+  <li>Dark Border: "Border Dark (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #27272a;"></span>#27272a</span>)"</li>
+  <li>Card Surface: "Dark Surface (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1a1a1a;"></span>#1a1a1a</span>)"</li>
+</ul>
+<br>
+<h3>Example Component Prompts</h3>
+<ul>
+  <li>"Create a cinematic hero section: full-bleed dark background with a cinematic image overlay. Headline at 48px abcNormal weight 400, line-height 1.0, letter-spacing -1.2px in white. Minimal text below in Cool Slate (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #767d88;"></span>#767d88</span>) at 16px."</li>
+  <li>"Design a research article grid: one large card (50% width) with a cinematic image and 24px title, next to two smaller cards stacked. All images with 8px border-radius. Titles in white (dark bg) or Charcoal (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #404040;"></span>#404040</span>, light bg)."</li>
+  <li>"Build a section label: 14px abcNormal weight 500, uppercase, letter-spacing 0.35px in Cool Slate (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #767d88;"></span>#767d88</span>). No border, no background."</li>
+  <li>"Create a trust bar: company logos in monochrome, horizontal layout with generous spacing. On dark background with white/gray logo treatments."</li>
+  <li>"Design a mission statement section: Runway Black background, white text at 36px abcNormal, line-height 1.0, letter-spacing -0.9px. Centered, with generous vertical padding."</li>
+</ul>
+<br>
+<h3>Iteration Guide</h3>
+<ol>
+  <li>Visual content first — always include cinematic photography</li>
+  <li>Use abcNormal for everything — specify size and weight, never change the font</li>
+  <li>Keep the interface invisible — no heavy borders, no shadows, no bright colors</li>
+  <li>Use the cool slate grays (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #767d88;"></span>#767d88</span>, <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7d848e;"></span>#7d848e</span>) for secondary text — not warm grays</li>
+  <li>Uppercase labels need letter-spacing (0.35px) — never tight uppercase</li>
+  <li>Dark sections should be truly dark (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span> or <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1a1a1a;"></span>#1a1a1a</span>) — no medium grays as surfaces</li>
+</ol>
+<br>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

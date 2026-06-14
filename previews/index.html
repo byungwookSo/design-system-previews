@@ -1,0 +1,748 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome Design Systems Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f7f6f3;
+            --card-color: #ffffff;
+            --text-primary: rgba(0, 0, 0, 0.85);
+            --text-secondary: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.06);
+            --accent-color: #0075ff;
+            --accent-hover: #0056c6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            padding: 80px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .portal-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .portal-header {
+            text-align: center;
+            margin-bottom: 64px;
+            position: relative;
+        }
+
+        /* 구글 번역기 상단 고정 */
+        .top-translate-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        .portal-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .portal-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 36px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 16px;
+            max-width: 600px;
+            margin: 0 auto 48px auto;
+        }
+
+        .search-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-color);
+            font-size: 15px;
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 117, 255, 0.12);
+        }
+
+        .btn-shuffle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 24px;
+            border-radius: 8px;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 8px rgba(0, 117, 255, 0.2);
+        }
+
+        .btn-shuffle:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-shuffle:active {
+            transform: scale(0.97);
+        }
+
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .company-card {
+            background-color: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .company-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 24px rgba(0, 117, 255, 0.08);
+        }
+
+        .logo-container {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .company-logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            object-fit: contain;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            transition: transform 0.2s;
+        }
+
+        .company-card:hover .company-logo-img {
+            transform: scale(1.05);
+            border-color: var(--accent-color);
+        }
+
+        .company-logo-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            border: 1px dashed var(--border-color);
+            transition: background-color 0.2s;
+        }
+
+        .company-card:hover .company-logo-badge {
+            background-color: rgba(0, 117, 255, 0.05);
+            border-style: solid;
+        }
+
+        .company-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: capitalize;
+            letter-spacing: -0.3px;
+        }
+
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 64px 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+            display: none;
+        }
+
+        .no-results i {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 40px 16px; }
+            .portal-header { margin-bottom: 40px; }
+            .top-translate-bar { justify-content: center; }
+            .toolbar { flex-direction: column; width: 100%; }
+            .btn-shuffle { padding: 14px; width: 100%; }
+            .company-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        }
+    </style>
+    <script type="text/javascript">
+        function handleLogoError(img, letter, domain) {
+            if (img.src.indexOf('logo.clearbit.com') !== -1) {
+                img.src = 'https://www.google.com/s2/favicons?domain=' + domain + '&sz=128&default=404';
+            } else {
+                const container = img.parentNode;
+                container.innerHTML = `<div class="company-logo-badge">${letter}</div>`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="portal-container">
+        <!-- 번역 툴바 -->
+        <div class="top-translate-bar">
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <header class="portal-header">
+            <h1 class="portal-title">Awesome Design Systems</h1>
+            <p class="portal-desc">글로벌 IT 리테일 기업들의 마크다운 디자인 문서 일괄 변환 미리보기 포털</p>
+        </header>
+
+        <main class="company-grid" id="grid">
+                        <a href="airbnb.html" class="company-card" data-name="airbnb">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/airbnb.com" alt="Airbnb logo" onerror="handleLogoError(this, 'A', 'airbnb.com')">
+                </div>
+                <div class="company-name">Airbnb</div>
+            </a>
+            <a href="airtable.html" class="company-card" data-name="airtable">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/airtable.com" alt="Airtable logo" onerror="handleLogoError(this, 'A', 'airtable.com')">
+                </div>
+                <div class="company-name">Airtable</div>
+            </a>
+            <a href="apple.html" class="company-card" data-name="apple">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/apple.com" alt="Apple logo" onerror="handleLogoError(this, 'A', 'apple.com')">
+                </div>
+                <div class="company-name">Apple</div>
+            </a>
+            <a href="binance.html" class="company-card" data-name="binance">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/binance.com" alt="Binance logo" onerror="handleLogoError(this, 'B', 'binance.com')">
+                </div>
+                <div class="company-name">Binance</div>
+            </a>
+            <a href="bmw.html" class="company-card" data-name="bmw">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/bmw.de" alt="Bmw logo" onerror="handleLogoError(this, 'B', 'bmw.de')">
+                </div>
+                <div class="company-name">Bmw</div>
+            </a>
+            <a href="bmw-m.html" class="company-card" data-name="bmw-m">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/bmw.de" alt="Bmw M logo" onerror="handleLogoError(this, 'B', 'bmw.de')">
+                </div>
+                <div class="company-name">Bmw M</div>
+            </a>
+            <a href="bugatti.html" class="company-card" data-name="bugatti">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/bugatti.com" alt="Bugatti logo" onerror="handleLogoError(this, 'B', 'bugatti.com')">
+                </div>
+                <div class="company-name">Bugatti</div>
+            </a>
+            <a href="cal.html" class="company-card" data-name="cal">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/cal.com" alt="Cal logo" onerror="handleLogoError(this, 'C', 'cal.com')">
+                </div>
+                <div class="company-name">Cal</div>
+            </a>
+            <a href="claude.html" class="company-card" data-name="claude">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/anthropic.com" alt="Claude logo" onerror="handleLogoError(this, 'C', 'anthropic.com')">
+                </div>
+                <div class="company-name">Claude</div>
+            </a>
+            <a href="clay.html" class="company-card" data-name="clay">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/clay.earth" alt="Clay logo" onerror="handleLogoError(this, 'C', 'clay.earth')">
+                </div>
+                <div class="company-name">Clay</div>
+            </a>
+            <a href="clickhouse.html" class="company-card" data-name="clickhouse">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/clickhouse.com" alt="Clickhouse logo" onerror="handleLogoError(this, 'C', 'clickhouse.com')">
+                </div>
+                <div class="company-name">Clickhouse</div>
+            </a>
+            <a href="cohere.html" class="company-card" data-name="cohere">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/cohere.com" alt="Cohere logo" onerror="handleLogoError(this, 'C', 'cohere.com')">
+                </div>
+                <div class="company-name">Cohere</div>
+            </a>
+            <a href="coinbase.html" class="company-card" data-name="coinbase">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/coinbase.com" alt="Coinbase logo" onerror="handleLogoError(this, 'C', 'coinbase.com')">
+                </div>
+                <div class="company-name">Coinbase</div>
+            </a>
+            <a href="composio.html" class="company-card" data-name="composio">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/composio.dev" alt="Composio logo" onerror="handleLogoError(this, 'C', 'composio.dev')">
+                </div>
+                <div class="company-name">Composio</div>
+            </a>
+            <a href="cursor.html" class="company-card" data-name="cursor">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/cursor.sh" alt="Cursor logo" onerror="handleLogoError(this, 'C', 'cursor.sh')">
+                </div>
+                <div class="company-name">Cursor</div>
+            </a>
+            <a href="dell-1996.html" class="company-card" data-name="dell-1996">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/dell.com" alt="Dell 1996 logo" onerror="handleLogoError(this, 'D', 'dell.com')">
+                </div>
+                <div class="company-name">Dell 1996</div>
+            </a>
+            <a href="elevenlabs.html" class="company-card" data-name="elevenlabs">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/elevenlabs.io" alt="Elevenlabs logo" onerror="handleLogoError(this, 'E', 'elevenlabs.io')">
+                </div>
+                <div class="company-name">Elevenlabs</div>
+            </a>
+            <a href="expo.html" class="company-card" data-name="expo">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/expo.dev" alt="Expo logo" onerror="handleLogoError(this, 'E', 'expo.dev')">
+                </div>
+                <div class="company-name">Expo</div>
+            </a>
+            <a href="ferrari.html" class="company-card" data-name="ferrari">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/ferrari.com" alt="Ferrari logo" onerror="handleLogoError(this, 'F', 'ferrari.com')">
+                </div>
+                <div class="company-name">Ferrari</div>
+            </a>
+            <a href="figma.html" class="company-card" data-name="figma">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/figma.com" alt="Figma logo" onerror="handleLogoError(this, 'F', 'figma.com')">
+                </div>
+                <div class="company-name">Figma</div>
+            </a>
+            <a href="framer.html" class="company-card" data-name="framer">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/framer.com" alt="Framer logo" onerror="handleLogoError(this, 'F', 'framer.com')">
+                </div>
+                <div class="company-name">Framer</div>
+            </a>
+            <a href="hashicorp.html" class="company-card" data-name="hashicorp">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/hashicorp.com" alt="Hashicorp logo" onerror="handleLogoError(this, 'H', 'hashicorp.com')">
+                </div>
+                <div class="company-name">Hashicorp</div>
+            </a>
+            <a href="hp.html" class="company-card" data-name="hp">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/hp.com" alt="Hp logo" onerror="handleLogoError(this, 'H', 'hp.com')">
+                </div>
+                <div class="company-name">Hp</div>
+            </a>
+            <a href="ibm.html" class="company-card" data-name="ibm">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/ibm.com" alt="Ibm logo" onerror="handleLogoError(this, 'I', 'ibm.com')">
+                </div>
+                <div class="company-name">Ibm</div>
+            </a>
+            <a href="intercom.html" class="company-card" data-name="intercom">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/intercom.com" alt="Intercom logo" onerror="handleLogoError(this, 'I', 'intercom.com')">
+                </div>
+                <div class="company-name">Intercom</div>
+            </a>
+            <a href="kraken.html" class="company-card" data-name="kraken">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/kraken.com" alt="Kraken logo" onerror="handleLogoError(this, 'K', 'kraken.com')">
+                </div>
+                <div class="company-name">Kraken</div>
+            </a>
+            <a href="lamborghini.html" class="company-card" data-name="lamborghini">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/lamborghini.com" alt="Lamborghini logo" onerror="handleLogoError(this, 'L', 'lamborghini.com')">
+                </div>
+                <div class="company-name">Lamborghini</div>
+            </a>
+            <a href="linear.app.html" class="company-card" data-name="linear.app">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/linear.app" alt="Linear App logo" onerror="handleLogoError(this, 'L', 'linear.app')">
+                </div>
+                <div class="company-name">Linear App</div>
+            </a>
+            <a href="lovable.html" class="company-card" data-name="lovable">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/lovable.dev" alt="Lovable logo" onerror="handleLogoError(this, 'L', 'lovable.dev')">
+                </div>
+                <div class="company-name">Lovable</div>
+            </a>
+            <a href="mastercard.html" class="company-card" data-name="mastercard">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/mastercard.com" alt="Mastercard logo" onerror="handleLogoError(this, 'M', 'mastercard.com')">
+                </div>
+                <div class="company-name">Mastercard</div>
+            </a>
+            <a href="meta.html" class="company-card" data-name="meta">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/meta.com" alt="Meta logo" onerror="handleLogoError(this, 'M', 'meta.com')">
+                </div>
+                <div class="company-name">Meta</div>
+            </a>
+            <a href="minimax.html" class="company-card" data-name="minimax">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/minimax.ai" alt="Minimax logo" onerror="handleLogoError(this, 'M', 'minimax.ai')">
+                </div>
+                <div class="company-name">Minimax</div>
+            </a>
+            <a href="mintlify.html" class="company-card" data-name="mintlify">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/mintlify.com" alt="Mintlify logo" onerror="handleLogoError(this, 'M', 'mintlify.com')">
+                </div>
+                <div class="company-name">Mintlify</div>
+            </a>
+            <a href="miro.html" class="company-card" data-name="miro">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/miro.com" alt="Miro logo" onerror="handleLogoError(this, 'M', 'miro.com')">
+                </div>
+                <div class="company-name">Miro</div>
+            </a>
+            <a href="mistral.ai.html" class="company-card" data-name="mistral.ai">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/mistral.ai" alt="Mistral Ai logo" onerror="handleLogoError(this, 'M', 'mistral.ai')">
+                </div>
+                <div class="company-name">Mistral Ai</div>
+            </a>
+            <a href="mongodb.html" class="company-card" data-name="mongodb">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/mongodb.com" alt="Mongodb logo" onerror="handleLogoError(this, 'M', 'mongodb.com')">
+                </div>
+                <div class="company-name">Mongodb</div>
+            </a>
+            <a href="nike.html" class="company-card" data-name="nike">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/nike.com" alt="Nike logo" onerror="handleLogoError(this, 'N', 'nike.com')">
+                </div>
+                <div class="company-name">Nike</div>
+            </a>
+            <a href="nintendo-2001.html" class="company-card" data-name="nintendo-2001">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/nintendo.com" alt="Nintendo 2001 logo" onerror="handleLogoError(this, 'N', 'nintendo.com')">
+                </div>
+                <div class="company-name">Nintendo 2001</div>
+            </a>
+            <a href="notion.html" class="company-card" data-name="notion">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/notion.so" alt="Notion logo" onerror="handleLogoError(this, 'N', 'notion.so')">
+                </div>
+                <div class="company-name">Notion</div>
+            </a>
+            <a href="nvidia.html" class="company-card" data-name="nvidia">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/nvidia.com" alt="Nvidia logo" onerror="handleLogoError(this, 'N', 'nvidia.com')">
+                </div>
+                <div class="company-name">Nvidia</div>
+            </a>
+            <a href="ollama.html" class="company-card" data-name="ollama">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/ollama.com" alt="Ollama logo" onerror="handleLogoError(this, 'O', 'ollama.com')">
+                </div>
+                <div class="company-name">Ollama</div>
+            </a>
+            <a href="opencode.ai.html" class="company-card" data-name="opencode.ai">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/opencode.ai" alt="Opencode Ai logo" onerror="handleLogoError(this, 'O', 'opencode.ai')">
+                </div>
+                <div class="company-name">Opencode Ai</div>
+            </a>
+            <a href="pinterest.html" class="company-card" data-name="pinterest">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/pinterest.com" alt="Pinterest logo" onerror="handleLogoError(this, 'P', 'pinterest.com')">
+                </div>
+                <div class="company-name">Pinterest</div>
+            </a>
+            <a href="playstation.html" class="company-card" data-name="playstation">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/playstation.com" alt="Playstation logo" onerror="handleLogoError(this, 'P', 'playstation.com')">
+                </div>
+                <div class="company-name">Playstation</div>
+            </a>
+            <a href="posthog.html" class="company-card" data-name="posthog">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/posthog.com" alt="Posthog logo" onerror="handleLogoError(this, 'P', 'posthog.com')">
+                </div>
+                <div class="company-name">Posthog</div>
+            </a>
+            <a href="raycast.html" class="company-card" data-name="raycast">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/raycast.com" alt="Raycast logo" onerror="handleLogoError(this, 'R', 'raycast.com')">
+                </div>
+                <div class="company-name">Raycast</div>
+            </a>
+            <a href="renault.html" class="company-card" data-name="renault">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/renault.com" alt="Renault logo" onerror="handleLogoError(this, 'R', 'renault.com')">
+                </div>
+                <div class="company-name">Renault</div>
+            </a>
+            <a href="replicate.html" class="company-card" data-name="replicate">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/replicate.com" alt="Replicate logo" onerror="handleLogoError(this, 'R', 'replicate.com')">
+                </div>
+                <div class="company-name">Replicate</div>
+            </a>
+            <a href="resend.html" class="company-card" data-name="resend">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/resend.com" alt="Resend logo" onerror="handleLogoError(this, 'R', 'resend.com')">
+                </div>
+                <div class="company-name">Resend</div>
+            </a>
+            <a href="revolut.html" class="company-card" data-name="revolut">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/revolut.com" alt="Revolut logo" onerror="handleLogoError(this, 'R', 'revolut.com')">
+                </div>
+                <div class="company-name">Revolut</div>
+            </a>
+            <a href="runwayml.html" class="company-card" data-name="runwayml">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/runwayml.com" alt="Runwayml logo" onerror="handleLogoError(this, 'R', 'runwayml.com')">
+                </div>
+                <div class="company-name">Runwayml</div>
+            </a>
+            <a href="sanity.html" class="company-card" data-name="sanity">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/sanity.io" alt="Sanity logo" onerror="handleLogoError(this, 'S', 'sanity.io')">
+                </div>
+                <div class="company-name">Sanity</div>
+            </a>
+            <a href="sentry.html" class="company-card" data-name="sentry">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/sentry.io" alt="Sentry logo" onerror="handleLogoError(this, 'S', 'sentry.io')">
+                </div>
+                <div class="company-name">Sentry</div>
+            </a>
+            <a href="shopify.html" class="company-card" data-name="shopify">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/shopify.com" alt="Shopify logo" onerror="handleLogoError(this, 'S', 'shopify.com')">
+                </div>
+                <div class="company-name">Shopify</div>
+            </a>
+            <a href="slack.html" class="company-card" data-name="slack">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/slack.com" alt="Slack logo" onerror="handleLogoError(this, 'S', 'slack.com')">
+                </div>
+                <div class="company-name">Slack</div>
+            </a>
+            <a href="spacex.html" class="company-card" data-name="spacex">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/spacex.com" alt="Spacex logo" onerror="handleLogoError(this, 'S', 'spacex.com')">
+                </div>
+                <div class="company-name">Spacex</div>
+            </a>
+            <a href="spotify.html" class="company-card" data-name="spotify">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/spotify.com" alt="Spotify logo" onerror="handleLogoError(this, 'S', 'spotify.com')">
+                </div>
+                <div class="company-name">Spotify</div>
+            </a>
+            <a href="starbucks.html" class="company-card" data-name="starbucks">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/starbucks.com" alt="Starbucks logo" onerror="handleLogoError(this, 'S', 'starbucks.com')">
+                </div>
+                <div class="company-name">Starbucks</div>
+            </a>
+            <a href="stripe.html" class="company-card" data-name="stripe">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/stripe.com" alt="Stripe logo" onerror="handleLogoError(this, 'S', 'stripe.com')">
+                </div>
+                <div class="company-name">Stripe</div>
+            </a>
+            <a href="supabase.html" class="company-card" data-name="supabase">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/supabase.com" alt="Supabase logo" onerror="handleLogoError(this, 'S', 'supabase.com')">
+                </div>
+                <div class="company-name">Supabase</div>
+            </a>
+            <a href="superhuman.html" class="company-card" data-name="superhuman">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/superhuman.com" alt="Superhuman logo" onerror="handleLogoError(this, 'S', 'superhuman.com')">
+                </div>
+                <div class="company-name">Superhuman</div>
+            </a>
+            <a href="tesla.html" class="company-card" data-name="tesla">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/tesla.com" alt="Tesla logo" onerror="handleLogoError(this, 'T', 'tesla.com')">
+                </div>
+                <div class="company-name">Tesla</div>
+            </a>
+            <a href="theverge.html" class="company-card" data-name="theverge">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/theverge.com" alt="Theverge logo" onerror="handleLogoError(this, 'T', 'theverge.com')">
+                </div>
+                <div class="company-name">Theverge</div>
+            </a>
+            <a href="together.ai.html" class="company-card" data-name="together.ai">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/together.ai" alt="Together Ai logo" onerror="handleLogoError(this, 'T', 'together.ai')">
+                </div>
+                <div class="company-name">Together Ai</div>
+            </a>
+            <a href="uber.html" class="company-card" data-name="uber">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/uber.com" alt="Uber logo" onerror="handleLogoError(this, 'U', 'uber.com')">
+                </div>
+                <div class="company-name">Uber</div>
+            </a>
+            <a href="vercel.html" class="company-card" data-name="vercel">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/vercel.com" alt="Vercel logo" onerror="handleLogoError(this, 'V', 'vercel.com')">
+                </div>
+                <div class="company-name">Vercel</div>
+            </a>
+            <a href="vodafone.html" class="company-card" data-name="vodafone">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/vodafone.com" alt="Vodafone logo" onerror="handleLogoError(this, 'V', 'vodafone.com')">
+                </div>
+                <div class="company-name">Vodafone</div>
+            </a>
+            <a href="voltagent.html" class="company-card" data-name="voltagent">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/voltagent.ai" alt="Voltagent logo" onerror="handleLogoError(this, 'V', 'voltagent.ai')">
+                </div>
+                <div class="company-name">Voltagent</div>
+            </a>
+            <a href="warp.html" class="company-card" data-name="warp">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/warp.dev" alt="Warp logo" onerror="handleLogoError(this, 'W', 'warp.dev')">
+                </div>
+                <div class="company-name">Warp</div>
+            </a>
+            <a href="webflow.html" class="company-card" data-name="webflow">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/webflow.com" alt="Webflow logo" onerror="handleLogoError(this, 'W', 'webflow.com')">
+                </div>
+                <div class="company-name">Webflow</div>
+            </a>
+            <a href="wired.html" class="company-card" data-name="wired">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/wired.com" alt="Wired logo" onerror="handleLogoError(this, 'W', 'wired.com')">
+                </div>
+                <div class="company-name">Wired</div>
+            </a>
+            <a href="wise.html" class="company-card" data-name="wise">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/wise.com" alt="Wise logo" onerror="handleLogoError(this, 'W', 'wise.com')">
+                </div>
+                <div class="company-name">Wise</div>
+            </a>
+            <a href="x.ai.html" class="company-card" data-name="x.ai">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/x.ai" alt="X Ai logo" onerror="handleLogoError(this, 'X', 'x.ai')">
+                </div>
+                <div class="company-name">X Ai</div>
+            </a>
+            <a href="zapier.html" class="company-card" data-name="zapier">
+                <div class="logo-container">
+                    <img class="company-logo-img" src="https://logo.clearbit.com/zapier.com" alt="Zapier logo" onerror="handleLogoError(this, 'Z', 'zapier.com')">
+                </div>
+                <div class="company-name">Zapier</div>
+            </a>
+
+        </main>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

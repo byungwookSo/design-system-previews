@@ -1,0 +1,858 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesla — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/tesla.com" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=tesla.com&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Tesla</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <h1>Design System Inspired by Tesla</h1>
+<br>
+<h2>1. Visual Theme &amp; Atmosphere</h2>
+<br>
+<p>Tesla's website is an exercise in radical subtraction — a digital showroom where the product is everything and the interface is almost nothing. The page opens with a full-viewport hero that fills the entire screen with cinematic car photography: three vehicles arranged on polished concrete against a hazy cityscape sky, with a single model name floating above in translucent white type. There are no decorative borders, no gradients, no patterns, no shadows. The UI exists only to provide just enough navigational structure to get out of the way. Every pixel that isn't product imagery is white space, and that restraint is the design system's most powerful statement.</p>
+<br>
+<p>The color philosophy is almost ascetic: a single blue (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span></code>) for primary calls to action, three shades of dark gray for text hierarchy, and white for everything else. The entire emotional weight is carried by photography — sprawling landscape shots, studio-lit vehicle profiles, and atmospheric environmental compositions that stretch edge-to-edge across each viewport-height section. The UI chrome dissolves into the imagery. The navigation bar floats above the hero with no visible background, border, or shadow — the TESLA wordmark and five navigation labels simply exist in the space, trusting the content beneath them to provide sufficient contrast.</p>
+<br>
+<p>Typography recently transitioned from Gotham to Universal Sans — a custom family split into "Display" for headlines and "Text" for body/UI elements — unifying the website, mobile app, and in-car software into a single typographic voice. The Display variant renders hero titles at 40px weight 500, while the Text variant handles everything from navigation (14px/500) to body copy (14px/400). The font carries a geometric precision with slightly humanist terminals that feels engineered rather than designed — exactly matching Tesla's brand identity of technology that doesn't need to announce itself. There are no text shadows, no text gradients, no decorative type treatments. Every letterform earns its place through clarity alone.</p>
+<br>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+  <li>Full-viewport hero sections (100vh) dominated by cinematic car photography with minimal overlay UI</li>
+  <li>Near-zero UI decoration: no shadows, no gradients, no borders, no patterns anywhere on the page</li>
+  <li>Single accent color — Electric Blue (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span></code>) — used exclusively for primary CTA buttons</li>
+  <li>Universal Sans font family (Display + Text) unifying web, app, and in-car interfaces</li>
+  <li>Photography-first presentation where product imagery carries all emotional weight</li>
+  <li>Frosted-glass navigation concept with transparent/white nav that floats over hero content</li>
+  <li>0.33s cubic-bezier transitions as the universal timing for all interactive state changes</li>
+  <li>Carousel-driven hero with dot indicators and edge arrow navigation for multiple vehicle showcases</li>
+  <li>"Ask a Question" persistent chatbot bar anchored to the viewport bottom</li>
+</ul>
+<br>
+<h2>2. Color Palette &amp; Roles</h2>
+<br>
+<h3>Primary</h3>
+<ul>
+  <li><strong>Electric Blue</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span></code>): Primary CTA button background — a confident, mid-saturation blue (rgb 62, 106, 225) that stands alone as the only chromatic color in the entire interface. Used exclusively for "Order Now" and other primary action buttons</li>
+  <li><strong>Pure White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>): Dominant background color for all surfaces, panels, navigation, and secondary button fills — the canvas that lets photography breathe</li>
+</ul>
+<br>
+<h3>Secondary &amp; Accent</h3>
+<ul>
+  <li><strong>Promo Blue</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span></code>): Blue also serves for promotional text ("0% APR Available") displayed over hero imagery in the same hue as the CTA — creating a visual link between incentive messaging and action</li>
+  <li>No secondary accent colors exist. Tesla deliberately avoids color variety to maintain extreme visual discipline</li>
+</ul>
+<br>
+<h3>Surface &amp; Background</h3>
+<ul>
+  <li><strong>White Canvas</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>): Page background, navigation panel, dropdown menus, and all surface containers</li>
+  <li><strong>Light Ash</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F4F4F4;"></span>#F4F4F4</span></code>): Subtle alternate surface for section differentiation — barely perceptible shift from pure white (rgb 244, 244, 244)</li>
+  <li><strong>Carbon Dark</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #171A20;"></span>#171A20</span></code>): Dark surface color for hero text overlays and potential dark-mode contexts (rgb 23, 26, 32) — a warm near-black with a blue undertone</li>
+  <li><strong>Frosted Glass</strong> (<code>rgba(255, 255, 255, 0.75)</code>): Semi-transparent white for navigation backdrop-filter effects on scroll</li>
+</ul>
+<br>
+<h3>Neutrals &amp; Text</h3>
+<ul>
+  <li><strong>Carbon Dark</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #171A20;"></span>#171A20</span></code>): Primary heading and navigation text — the darkest text value (rgb 23, 26, 32), used for model names, nav labels, and hero titles on light backgrounds</li>
+  <li><strong>Graphite</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #393C41;"></span>#393C41</span></code>): Body text and secondary content (rgb 57, 60, 65) — the default paragraph color, slightly warmer than pure gray</li>
+  <li><strong>Pewter</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5C5E62;"></span>#5C5E62</span></code>): Tertiary text for sub-links, secondary navigation links like "Learn" and "Order" (rgb 92, 94, 98)</li>
+  <li><strong>Silver Fog</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #8E8E8E;"></span>#8E8E8E</span></code>): Placeholder text in input fields and disabled states (rgb 142, 142, 142)</li>
+  <li><strong>Cloud Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #EEEEEE;"></span>#EEEEEE</span></code>): Light borders and divider lines (rgb 238, 238, 238)</li>
+  <li><strong>Pale Silver</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #D0D1D2;"></span>#D0D1D2</span></code>): Subtle UI borders and delineation (rgb 208, 209, 210)</li>
+</ul>
+<br>
+<h3>Semantic &amp; Accent</h3>
+<ul>
+  <li>Tesla's marketing site avoids semantic color coding (no green/red/yellow status indicators). Error, success, and warning states follow standard browser defaults in form contexts</li>
+  <li>The blue CTA (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span></code>) serves as the sole interactive color signal</li>
+</ul>
+<br>
+<h3>Gradient System</h3>
+<ul>
+  <li>No gradients are used anywhere in the interface</li>
+  <li>Depth is achieved entirely through photography, whitespace, and the binary contrast between full-bleed imagery and clean white surfaces</li>
+  <li>The navigation achieves layering through opacity (frosted glass effect) rather than gradient or shadow</li>
+</ul>
+<br>
+<h2>3. Typography Rules</h2>
+<br>
+<h3>Font Family</h3>
+<ul>
+  <li><strong>Display</strong>: <code>Universal Sans Display</code>, -apple-system, Arial, sans-serif — used for hero titles and large model names. A geometric sans-serif with precisely engineered proportions, recently replacing Gotham to unify Tesla's digital ecosystem (website, mobile app, vehicle interface)</li>
+  <li><strong>Text/UI</strong>: <code>Universal Sans Text</code>, -apple-system, Arial, sans-serif — used for navigation, body copy, buttons, and all UI text. Optimized for legibility at smaller sizes with slightly wider proportions than the Display variant</li>
+  <li><strong>No OpenType features</strong> detected — typography is completely unembellished</li>
+  <li><strong>No italic variants</strong> observed on the marketing site</li>
+</ul>
+<br>
+<h3>Hierarchy</h3>
+<br>
+<table>
+  <tr><th>Role</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr>
+  <tr><td>Hero Title</td><td>40px (2.50rem)</td><td>500</td><td>48px (1.20)</td><td>normal</td><td>Universal Sans Display, white on dark hero imagery</td></tr>
+  <tr><td>Product Name</td><td>17px (1.06rem)</td><td>500</td><td>20px (1.18)</td><td>normal</td><td>Universal Sans Text, model names in nav panel and cards</td></tr>
+  <tr><td>Nav Item</td><td>14px (0.88rem)</td><td>500</td><td>16.8px (1.20)</td><td>normal</td><td>Universal Sans Text, primary navigation labels</td></tr>
+  <tr><td>Body Text</td><td>14px (0.88rem)</td><td>400</td><td>20px (1.43)</td><td>normal</td><td>Universal Sans Text, paragraph and descriptive content</td></tr>
+  <tr><td>Button Label</td><td>14px (0.88rem)</td><td>500</td><td>16.8px (1.20)</td><td>normal</td><td>Universal Sans Text, CTA button text</td></tr>
+  <tr><td>Sub-link</td><td>14px (0.88rem)</td><td>400</td><td>20px (1.43)</td><td>normal</td><td>Tertiary links (Learn, Order, Experience)</td></tr>
+  <tr><td>Promo Text</td><td>22px (1.38rem)</td><td>400</td><td>20px (0.91)</td><td>normal</td><td>White promotional text on hero ("0% APR Available")</td></tr>
+  <tr><td>Category Label</td><td>16px (est.)</td><td>500</td><td>—</td><td>normal</td><td>White text labels on category cards ("Sport Sedan")</td></tr>
+</table>
+<br>
+<h3>Principles</h3>
+<ul>
+  <li><strong>"Normal" letter-spacing everywhere</strong>: Unlike most modern tech brands that use negative tracking for headlines, Tesla uses default letter-spacing at every level. This reflects a philosophy that the typeface should speak for itself without manipulation</li>
+  <li><strong>Weight restraint</strong>: Only two weights appear — 500 (medium) for headings/UI and 400 (regular) for body. No bold (700), no light (300). The system avoids typographic drama</li>
+  <li><strong>Unified font sizing</strong>: Most UI text clusters at 14px with only hero titles (40px) and promo text (22px) breaking away. This extreme uniformity creates a sense of engineered consistency</li>
+  <li><strong>Display vs Text split</strong>: The two-variant system (Display for hero, Text for UI) creates subtle optical correction without visible stylistic difference — they appear as the same typeface at different sizes</li>
+  <li><strong>No text transforms</strong>: No uppercase text appears in the main navigation or CTAs — the lowercase approach reinforces Tesla's understated confidence</li>
+</ul>
+<br>
+<h2>4. Component Stylings</h2>
+<br>
+<h3>Buttons</h3>
+<p>All buttons use barely-rounded rectangles (4px border-radius) — creating a sharp, technical aesthetic that mirrors the precision of the vehicles.</p>
+<br>
+<p><strong>Primary CTA</strong> — The main action button:</p>
+<ul>
+  <li>Default: bg <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span></code> (Electric Blue), text <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>, fontSize 14px, fontWeight 500, padding 4px with inner content centering, borderRadius 4px, minHeight 40px, width 200px</li>
+  <li>Border: 3px solid transparent (reserves space for focus/active border animation)</li>
+  <li>Box Shadow: <code>rgba(0,0,0,0) 0px 0px 0px 2px inset</code> (invisible at rest, animates to visible on focus)</li>
+  <li>Transition: <code>border-color 0.33s, background-color 0.33s, color 0.33s, box-shadow 0.25s</code></li>
+  <li>Hover: subtle darkening of blue background</li>
+  <li>Used for: "Order Now" calls to action</li>
+</ul>
+<br>
+<p><strong>Secondary CTA</strong> — The alternative action button:</p>
+<ul>
+  <li>Default: bg <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>, text <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #393C41;"></span>#393C41</span></code> (Graphite), same dimensions and border pattern as primary</li>
+  <li>Transition: identical timing to primary (0.33s)</li>
+  <li>Used for: "View Inventory" alongside primary CTA</li>
+</ul>
+<br>
+<p><strong>Nav Button</strong> — Top navigation items:</p>
+<ul>
+  <li>Default: bg transparent, text <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #171A20;"></span>#171A20</span></code> (Carbon Dark), fontSize 14px, fontWeight 500, borderRadius 4px, padding 4px 16px, minHeight 32px</li>
+  <li>Transition: <code>color 0.33s, background-color 0.33s</code></li>
+  <li>Active/expanded: subtle background highlight</li>
+  <li>Used for: "Vehicles", "Energy", "Charging", "Discover", "Shop"</li>
+</ul>
+<br>
+<p><strong>Text Link</strong> — In-content actions:</p>
+<ul>
+  <li>Default: text <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5C5E62;"></span>#5C5E62</span></code> (Pewter), fontSize 14px, fontWeight 400, no background, no border</li>
+  <li>Hover: underline decoration with box-shadow transition</li>
+  <li>Transition: <code>box-shadow 0.33s cubic-bezier(0.5, 0, 0, 0.75), color 0.33s</code></li>
+  <li>Used for: "Learn", "Order", "Experience", "New", "Pre-Owned" links in dropdown panel</li>
+</ul>
+<br>
+<h3>Cards &amp; Containers</h3>
+<br>
+<p><strong>Vehicle Card</strong> (Navigation panel):</p>
+<ul>
+  <li>Background: transparent (inherits panel white)</li>
+  <li>Border: none</li>
+  <li>Shadow: none</li>
+  <li>Content: vehicle image (transparent PNG) + model name centered below + two text links</li>
+  <li>Layout: 3-column grid within the dropdown panel</li>
+  <li>No hover animation on the card itself — interaction is via the text links beneath</li>
+</ul>
+<br>
+<p><strong>Category Card</strong> (Homepage lower section):</p>
+<ul>
+  <li>Background: full-bleed landscape photography</li>
+  <li>Border radius: approximately 12px (subtly rounded)</li>
+  <li>Overflow: hidden (clips image to rounded corners)</li>
+  <li>Text: white label in top-left corner ("Sport Sedan", "Midsize SUV")</li>
+  <li>Size: large format, approximately 2:1 aspect ratio</li>
+  <li>No shadow, no border, no overlay gradient — text relies on image darkness for contrast</li>
+</ul>
+<br>
+<h3>Inputs &amp; Forms</h3>
+<ul>
+  <li>Background: transparent</li>
+  <li>Text color: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #171A20;"></span>#171A20</span></code> (Carbon Dark)</li>
+  <li>Placeholder color: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #8E8E8E;"></span>#8E8E8E</span></code> (Silver Fog)</li>
+  <li>Border: minimal, inherits from browser defaults</li>
+  <li>Font: Universal Sans Text, 14px</li>
+  <li>The "Ask a Question" chatbot input bar sits at the viewport bottom with a clean white background and subtle border</li>
+</ul>
+<br>
+<h3>Navigation</h3>
+<ul>
+  <li><strong>Desktop</strong>: Centered horizontal nav with TESLA wordmark (spaced uppercase letters) on the left, five category buttons center-aligned, and three icon buttons (help, globe/language, account) on the right</li>
+  <li><strong>Background</strong>: White (transitions from transparent over dark hero to opaque white on scroll via class toggle <code>tds-site-header--white-background</code>)</li>
+  <li><strong>Dropdown panel</strong>: Full-width white panel with 3-column vehicle grid + right sidebar text links, no shadow, no border — appears seamlessly below the nav</li>
+  <li><strong>Sticky behavior</strong>: <code>sticky-without-slide</code> class — stays at top without slide-in animation</li>
+  <li><strong>Mobile</strong>: Hamburger collapse pattern</li>
+  <li><strong>No visible separator</strong> between nav and content — the nav blends with the hero</li>
+</ul>
+<br>
+<h3>Image Treatment</h3>
+<ul>
+  <li><strong>Hero</strong>: Full-viewport (100vh) sections with cinematic photography — edge-to-edge, no padding, no margin</li>
+  <li><strong>Vehicle images</strong>: Transparent PNG renders on white background in dropdown panel, studio-quality 3/4 angle shots</li>
+  <li><strong>Category cards</strong>: Landscape photography with approximately 2:1 ratio, rounded corners (12px)</li>
+  <li><strong>Carousel</strong>: Auto-advancing with dot indicators (3 dots) and left/right arrow navigation on edges</li>
+  <li><strong>Lazy loading</strong>: Below-fold sections use lazy loading, rendering as blank white until scrolled into view</li>
+</ul>
+<br>
+<h3>Persistent Chat Bar</h3>
+<ul>
+  <li>Anchored to viewport bottom, visible across all sections</li>
+  <li>White background with subtle border</li>
+  <li>Contains: chat icon + "Ask a Question" label + placeholder text ("What's Dog Mode?") + send icon + "Schedule a Drive Today" secondary CTA</li>
+  <li>Schedule CTA has a teal/blue icon accent</li>
+</ul>
+<br>
+<h2>5. Layout Principles</h2>
+<br>
+<h3>Spacing System</h3>
+<ul>
+  <li><strong>Base unit</strong>: 8px</li>
+  <li><strong>Common values</strong>: 8px (0.5rem), 16px (1rem), 21.44px (1.34rem)</li>
+  <li><strong>Button padding</strong>: 4px (minimal outer) with content centering via flexbox, 4px 16px for nav items</li>
+  <li><strong>Section padding</strong>: Full-viewport sections with content centered vertically</li>
+  <li><strong>Card gap</strong>: approximately 16px between category cards</li>
+</ul>
+<br>
+<h3>Grid &amp; Container</h3>
+<ul>
+  <li><strong>Max width</strong>: approximately 1383px (full viewport width used for most content)</li>
+  <li><strong>Hero</strong>: Full-bleed, edge-to-edge, 100vh sections</li>
+  <li><strong>Navigation panel</strong>: 3-column grid for vehicle cards with right-aligned text sidebar (~70/30 split)</li>
+  <li><strong>Category cards</strong>: 2-up horizontal layout (large left card + smaller right card)</li>
+</ul>
+<br>
+<h3>Whitespace Philosophy</h3>
+<p>Tesla uses whitespace as a luxury signal. The generous vertical spacing between sections (each section is a full viewport height) means you can only see one "message" at a time — one car, one model name, one CTA pair. This creates a gallery-like browsing experience where each scroll is a deliberate transition, not a continuous feed. White space is not empty — it's the frame that elevates each vehicle to the status of art piece.</p>
+<br>
+<h3>Border Radius Scale</h3>
+<table>
+  <tr><th>Value</th><th>Context</th></tr>
+  <tr><td>0px</td><td>Most elements — sharp edges are the default</td></tr>
+  <tr><td>4px</td><td>Buttons (primary, secondary, nav items) — barely perceptible rounding</td></tr>
+  <tr><td>~12px</td><td>Category cards — noticeable but restrained rounding on larger surfaces</td></tr>
+  <tr><td>50%</td><td>Carousel dot indicators — perfect circles</td></tr>
+</table>
+<br>
+<h2>6. Depth &amp; Elevation</h2>
+<br>
+<table>
+  <tr><th>Level</th><th>Treatment</th><th>Use</th></tr>
+  <tr><td>Level 0 (Flat)</td><td>No shadow, no border</td><td>Default state for all elements — cards, panels, buttons at rest</td></tr>
+  <tr><td>Level 1 (Frost)</td><td><code>rgba(255,255,255,0.75)</code> backdrop</td><td>Navigation bar on scroll — frosted glass transparency</td></tr>
+  <tr><td>Level 2 (Overlay)</td><td><code>rgba(128,128,128,0.65)</code></td><td>Modal overlays and region/cookie popups</td></tr>
+  <tr><td>Level 3 (Subtle)</td><td><code>rgba(0,0,0,0.05)</code></td><td>Minimal shadow hints on rare hover states</td></tr>
+</table>
+<br>
+<h3>Shadow Philosophy</h3>
+<p>Tesla's approach to elevation is essentially "none." The site avoids box-shadows entirely in its primary interface. Depth is communicated through three alternative strategies:</p>
+<ol>
+  <li><strong>Z-index layering</strong>: The sticky navigation sits above hero content through positioning, not shadow</li>
+  <li><strong>Opacity-based transparency</strong>: The frosted glass nav and overlay modals use background-color opacity rather than shadow to indicate layering</li>
+  <li><strong>Photography-as-depth</strong>: The full-bleed images create their own visual depth through perspective, lighting, and composition — making UI shadows redundant</li>
+</ol>
+<br>
+<h3>Decorative Depth</h3>
+<ul>
+  <li>No gradients, glows, or atmospheric effects on UI elements</li>
+  <li>The hero imagery itself provides all visual richness — sunset skies, reflected light on car surfaces, ground shadows from studio lighting</li>
+  <li>The carousel arrow buttons use a semi-transparent white background to float above the hero imagery without disrupting it</li>
+</ul>
+<br>
+<h2>7. Do's and Don'ts</h2>
+<br>
+<h3>Do</h3>
+<ul>
+  <li>Let photography dominate every screen — the product IS the design</li>
+  <li>Use Electric Blue (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span></code>) exclusively for primary CTAs — never for decorative purposes</li>
+  <li>Maintain viewport-height sections for major content blocks — one message per screen</li>
+  <li>Keep typography at weight 400-500 only — no bold, no light, no extremes</li>
+  <li>Use 4px border-radius for all interactive elements — precision over playfulness</li>
+  <li>Trust whitespace as a luxury signal — never fill available space just because it's empty</li>
+  <li>Keep all transitions at 0.33s — consistency in motion is as important as consistency in color</li>
+  <li>Use transparent PNG vehicle imagery on white backgrounds for product showcases</li>
+  <li>Center CTAs horizontally below model names — the vertical rhythm is model → subtitle → buttons</li>
+  <li>Maintain the Display/Text font split — Display for hero-scale text only, Text for everything else</li>
+</ul>
+<br>
+<h3>Don't</h3>
+<ul>
+  <li>Add shadows to any element — elevation through shadow contradicts the flat, gallery aesthetic</li>
+  <li>Use more than one chromatic color besides the blue CTA — the palette is intentionally monochrome-plus-one</li>
+  <li>Apply gradients, patterns, or decorative backgrounds to surfaces — white and photography are the only backgrounds</li>
+  <li>Use text larger than 40px on the web — the typography is deliberately restrained even at hero scale</li>
+  <li>Add borders to cards or containers — separation is achieved through spacing, not lines</li>
+  <li>Use uppercase text transforms — Tesla's confidence is expressed through lowercase calm</li>
+  <li>Introduce rounded-pill buttons or large border-radii — the 4px radius is deliberate and precise</li>
+  <li>Override the Universal Sans family with other typefaces — cross-platform consistency is a core brand value</li>
+  <li>Add hover animations with scale/translate transforms — Tesla's interactions are color-only (background and border transitions)</li>
+  <li>Clutter the viewport with multiple CTAs — every screen should have at most two action buttons</li>
+</ul>
+<br>
+<h2>8. Responsive Behavior</h2>
+<br>
+<h3>Breakpoints</h3>
+<table>
+  <tr><th>Name</th><th>Width</th><th>Key Changes</th></tr>
+  <tr><td>Mobile</td><td>&lt;768px</td><td>Single-column layout, hamburger nav replaces horizontal labels, hero text scales to ~28px, CTA buttons stack vertically, category cards become full-width</td></tr>
+  <tr><td>Tablet</td><td>768-1024px</td><td>2-column nav panel, hero maintains full-viewport height, CTAs remain side-by-side, reduced horizontal padding</td></tr>
+  <tr><td>Desktop</td><td>1024-1440px</td><td>Full horizontal nav, 3-column vehicle grid in dropdown, hero at 40px, side-by-side CTAs at 200px/160px width</td></tr>
+  <tr><td>Large Desktop</td><td>&gt;1440px</td><td>Content remains centered, hero photography scales to fill wider viewports, max-width container for nav panel content</td></tr>
+</table>
+<br>
+<h3>Touch Targets</h3>
+<ul>
+  <li>Primary CTA buttons: 200px × 40px minimum (well above 44×44px WCAG requirement)</li>
+  <li>Nav buttons: minimum 32px height with 4px 16px padding — adequate touch targets</li>
+  <li>Carousel arrows: ~44px square white semi-transparent buttons at viewport edges</li>
+  <li>Text links ("Learn", "Order"): 14px text with adequate line-height spacing for touch</li>
+</ul>
+<br>
+<h3>Collapsing Strategy</h3>
+<ul>
+  <li><strong>Navigation</strong>: Horizontal category buttons (Vehicles, Energy, Charging, Discover, Shop) collapse to a hamburger/drawer menu on mobile</li>
+  <li><strong>Hero CTA pair</strong>: Side-by-side buttons on desktop stack vertically on mobile</li>
+  <li><strong>Category cards</strong>: 2-up horizontal layout collapses to single-column full-width on mobile</li>
+  <li><strong>Vehicle grid</strong>: 3-column grid in desktop nav panel becomes 2-column on tablet, single-column on mobile</li>
+  <li><strong>Spacing</strong>: Section vertical padding remains generous (viewport-height sections) but horizontal padding reduces</li>
+</ul>
+<br>
+<h3>Image Behavior</h3>
+<ul>
+  <li>Hero images are fully responsive and fill the entire viewport at every breakpoint</li>
+  <li>Vehicle carousel images use <code>object-fit: cover</code> to maintain cinematic composition across widths</li>
+  <li>Transparent PNG vehicle images in the nav panel scale proportionally within their grid cells</li>
+  <li>Category card images maintain their landscape ratio and clip via <code>overflow: hidden</code> with border-radius</li>
+</ul>
+<br>
+<h2>9. Agent Prompt Guide</h2>
+<br>
+<h3>Quick Color Reference</h3>
+<ul>
+  <li>Primary CTA: "Electric Blue (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span>)"</li>
+  <li>Background: "Pure White (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span>)"</li>
+  <li>Heading text: "Carbon Dark (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #171A20;"></span>#171A20</span>)"</li>
+  <li>Body text: "Graphite (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #393C41;"></span>#393C41</span>)"</li>
+  <li>Tertiary text: "Pewter (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5C5E62;"></span>#5C5E62</span>)"</li>
+  <li>Placeholder: "Silver Fog (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #8E8E8E;"></span>#8E8E8E</span>)"</li>
+  <li>Alternate surface: "Light Ash (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F4F4F4;"></span>#F4F4F4</span>)"</li>
+  <li>Dark surface: "Carbon Dark (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #171A20;"></span>#171A20</span>)"</li>
+</ul>
+<br>
+<h3>Example Component Prompts</h3>
+<ul>
+  <li>"Create a hero section with a full-viewport background image, centered 'Model Y' title in Universal Sans Display at 40px weight 500 in white, a subtitle line below, and two buttons side by side: a primary Electric Blue (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3E6AE1;"></span>#3E6AE1</span>) 'Order Now' button and a secondary white 'View Inventory' button, both with 4px border-radius and 40px height"</li>
+  <li>"Design a navigation bar with a spaced-letter wordmark on the left, five text buttons (14px, weight 500, Carbon Dark <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #171A20;"></span>#171A20</span>) centered, and three icon buttons on the right, all on a white background with no shadow or border"</li>
+  <li>"Build a vehicle card grid with 3 columns, each card showing a transparent-background car image above a model name (17px, weight 500, Carbon Dark) and two text links (14px, weight 400, Pewter <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5C5E62;"></span>#5C5E62</span>) labeled 'Learn' and 'Order', on a pure white surface with no borders or shadows"</li>
+  <li>"Create a category card with full-bleed landscape photography, 12px border-radius, overflow hidden, and a white text label ('Sport Sedan') positioned in the top-left corner with no overlay gradient"</li>
+  <li>"Design a persistent bottom bar with a chat input ('Ask a Question' placeholder), a send icon, and a secondary CTA ('Schedule a Drive Today') with a teal icon, anchored to the viewport bottom on a white background"</li>
+</ul>
+<br>
+<h3>Iteration Guide</h3>
+<p>When refining existing screens generated with this design system:</p>
+<ol>
+  <li>Focus on ONE component at a time — Tesla's system is so minimal that each element must be pixel-perfect</li>
+  <li>Reference specific color names and hex codes from this document — there are only 6-7 colors in the entire system</li>
+  <li>Use natural language descriptions, not CSS values — "barely rounded corners" not "border-radius: 4px"</li>
+  <li>Describe the desired "feel" alongside specific measurements — "gallery-like silence between sections" communicates the whitespace philosophy better than "margin-bottom: 100vh"</li>
+  <li>Always verify that photography is doing the emotional heavy-lifting — if the UI itself feels "designed," it's too much</li>
+</ol>
+<br>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

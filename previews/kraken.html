@@ -1,0 +1,664 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kraken — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/kraken.com" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=kraken.com&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Kraken</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <h1>Design System Inspired by Kraken</h1>
+<br>
+<h2>1. Visual Theme &amp; Atmosphere</h2>
+<br>
+<p>Kraken's website is a clean, trustworthy crypto exchange that uses purple as its commanding brand color. The design operates on white backgrounds with Kraken Purple (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5741d8;"></span>#5741d8</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5b1ecf;"></span>#5b1ecf</span></code>) creating a distinctive, professional crypto identity. The proprietary Kraken-Brand font handles display headings with bold (700) weight and negative tracking, while Kraken-Product (with IBM Plex Sans fallback) serves as the UI workhorse.</p>
+<br>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+  <li>Kraken Purple (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span></code>) as primary brand with darker variants (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5741d8;"></span>#5741d8</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5b1ecf;"></span>#5b1ecf</span></code>)</li>
+  <li>Kraken-Brand (display) + Kraken-Product (UI) dual font system</li>
+  <li>Near-black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #101114;"></span>#101114</span></code>) text with cool blue-gray neutral scale</li>
+  <li>12px radius buttons (rounded but not pill)</li>
+  <li>Subtle shadows (<code>rgba(0,0,0,0.03) 0px 4px 24px</code>) — whisper-level</li>
+  <li>Green accent (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #149e61;"></span>#149e61</span></code>) for positive/success states</li>
+</ul>
+<br>
+<h2>2. Color Palette &amp; Roles</h2>
+<br>
+<h3>Primary</h3>
+<ul>
+  <li><strong>Kraken Purple</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span></code>): Primary CTA, brand accent, links</li>
+  <li><strong>Purple Dark</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5741d8;"></span>#5741d8</span></code>): Button borders, outlined variants</li>
+  <li><strong>Purple Deep</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5b1ecf;"></span>#5b1ecf</span></code>): Deepest purple</li>
+  <li><strong>Purple Subtle</strong> (<code>rgba(133,91,251,0.16)</code>): Purple at 16% — subtle button backgrounds</li>
+  <li><strong>Near Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #101114;"></span>#101114</span></code>): Primary text</li>
+</ul>
+<br>
+<h3>Neutral</h3>
+<ul>
+  <li><strong>Cool Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #686b82;"></span>#686b82</span></code>): Primary neutral, borders at 24% opacity</li>
+  <li><strong>Silver Blue</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #9497a9;"></span>#9497a9</span></code>): Secondary text, muted elements</li>
+  <li><strong>White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>): Primary surface</li>
+  <li><strong>Border Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #dedee5;"></span>#dedee5</span></code>): Divider borders</li>
+</ul>
+<br>
+<h3>Semantic</h3>
+<ul>
+  <li><strong>Green</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #149e61;"></span>#149e61</span></code>): Success/positive at 16% opacity for badges</li>
+  <li><strong>Green Dark</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #026b3f;"></span>#026b3f</span></code>): Badge text</li>
+</ul>
+<br>
+<h2>3. Typography Rules</h2>
+<br>
+<h3>Font Families</h3>
+<ul>
+  <li><strong>Display</strong>: <code>Kraken-Brand</code>, fallbacks: <code>IBM Plex Sans, Helvetica, Arial</code></li>
+  <li><strong>UI / Body</strong>: <code>Kraken-Product</code>, fallbacks: <code>Helvetica Neue, Helvetica, Arial</code></li>
+</ul>
+<br>
+<h3>Hierarchy</h3>
+<br>
+<table>
+  <tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th></tr>
+  <tr><td>Display Hero</td><td>Kraken-Brand</td><td>48px</td><td>700</td><td>1.17</td><td>-1px</td></tr>
+  <tr><td>Section Heading</td><td>Kraken-Brand</td><td>36px</td><td>700</td><td>1.22</td><td>-0.5px</td></tr>
+  <tr><td>Sub-heading</td><td>Kraken-Brand</td><td>28px</td><td>700</td><td>1.29</td><td>-0.5px</td></tr>
+  <tr><td>Feature Title</td><td>Kraken-Product</td><td>22px</td><td>600</td><td>1.20</td><td>normal</td></tr>
+  <tr><td>Body</td><td>Kraken-Product</td><td>16px</td><td>400</td><td>1.38</td><td>normal</td></tr>
+  <tr><td>Body Medium</td><td>Kraken-Product</td><td>16px</td><td>500</td><td>1.38</td><td>normal</td></tr>
+  <tr><td>Button</td><td>Kraken-Product</td><td>16px</td><td>500–600</td><td>1.38</td><td>normal</td></tr>
+  <tr><td>Caption</td><td>Kraken-Product</td><td>14px</td><td>400–700</td><td>1.43–1.71</td><td>normal</td></tr>
+  <tr><td>Small</td><td>Kraken-Product</td><td>12px</td><td>400–500</td><td>1.33</td><td>normal</td></tr>
+  <tr><td>Micro</td><td>Kraken-Product</td><td>7px</td><td>500</td><td>1.00</td><td>uppercase</td></tr>
+</table>
+<br>
+<h2>4. Component Stylings</h2>
+<br>
+<h3>Buttons</h3>
+<br>
+<p><strong>Primary Purple</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code></li>
+  <li>Padding: 13px 16px</li>
+  <li>Radius: 12px</li>
+</ul>
+<br>
+<p><strong>Purple Outlined</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5741d8;"></span>#5741d8</span></code></li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5741d8;"></span>#5741d8</span></code></li>
+  <li>Radius: 12px</li>
+</ul>
+<br>
+<p><strong>Purple Subtle</strong></p>
+<ul>
+  <li>Background: <code>rgba(133,91,251,0.16)</code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span></code></li>
+  <li>Padding: 8px</li>
+  <li>Radius: 12px</li>
+</ul>
+<br>
+<p><strong>White Button</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #101114;"></span>#101114</span></code></li>
+  <li>Radius: 10px</li>
+  <li>Shadow: <code>rgba(0,0,0,0.03) 0px 4px 24px</code></li>
+</ul>
+<br>
+<p><strong>Secondary Gray</strong></p>
+<ul>
+  <li>Background: <code>rgba(148,151,169,0.08)</code></li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #101114;"></span>#101114</span></code></li>
+  <li>Radius: 12px</li>
+</ul>
+<br>
+<h3>Badges</h3>
+<ul>
+  <li>Success: <code>rgba(20,158,97,0.16)</code> bg, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #026b3f;"></span>#026b3f</span></code> text, 6px radius</li>
+  <li>Neutral: <code>rgba(104,107,130,0.12)</code> bg, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #484b5e;"></span>#484b5e</span></code> text, 8px radius</li>
+</ul>
+<br>
+<h2>5. Layout Principles</h2>
+<br>
+<h3>Spacing: 1px, 2px, 3px, 4px, 5px, 6px, 8px, 10px, 12px, 13px, 15px, 16px, 20px, 24px, 25px</h3>
+<h3>Border Radius: 3px, 6px, 8px, 10px, 12px, 16px, 9999px, 50%</h3>
+<br>
+<h2>6. Depth &amp; Elevation</h2>
+<ul>
+  <li>Subtle: <code>rgba(0,0,0,0.03) 0px 4px 24px</code></li>
+  <li>Micro: <code>rgba(16,24,40,0.04) 0px 1px 4px</code></li>
+</ul>
+<br>
+<h2>7. Do's and Don'ts</h2>
+<br>
+<h3>Do</h3>
+<ul>
+  <li>Use Kraken Purple (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span>) for CTAs and links</li>
+  <li>Apply 12px radius on all buttons</li>
+  <li>Use Kraken-Brand for headings, Kraken-Product for body</li>
+</ul>
+<br>
+<h3>Don't</h3>
+<ul>
+  <li>Don't use pill buttons — 12px is the max radius for buttons</li>
+  <li>Don't use other purples outside the defined scale</li>
+</ul>
+<br>
+<h2>8. Responsive Behavior</h2>
+<p>Breakpoints: 375px, 425px, 640px, 768px, 1024px, 1280px, 1536px</p>
+<br>
+<h2>9. Agent Prompt Guide</h2>
+<br>
+<h3>Quick Color Reference</h3>
+<ul>
+  <li>Brand: Kraken Purple (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span></code>)</li>
+  <li>Dark variant: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5741d8;"></span>#5741d8</span></code></li>
+  <li>Text: Near Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #101114;"></span>#101114</span></code>)</li>
+  <li>Secondary text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #9497a9;"></span>#9497a9</span></code></li>
+  <li>Background: White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>)</li>
+</ul>
+<br>
+<h3>Example Component Prompts</h3>
+<ul>
+  <li>"Create hero: white background. Kraken-Brand 48px weight 700, letter-spacing -1px. Purple CTA (<span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #7132f5;"></span>#7132f5</span>, 12px radius, 13px 16px padding)."</li>
+</ul>
+<br>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

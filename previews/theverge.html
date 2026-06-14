@@ -1,0 +1,912 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theverge — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/theverge.com" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=theverge.com&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Theverge</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <h1>Design System Inspired by The Verge</h1>
+<br>
+<h2>1. Visual Theme &amp; Atmosphere</h2>
+<br>
+<p>The Verge's 2024 redesign feels like somebody wired a Condé Nast magazine to a chiptune soundboard. The canvas is almost-black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code>), the headlines are built from a brutally heavy display face (Manuka) that runs up to 107px, and the whole page is peppered with acid-mint <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code> and ultraviolet <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code> that behave less like brand colors and more like hazard tape. Story tiles are not quiet gray cards — they're saturated, full-bleed color blocks (yellow, pink, orange, blue, purple) that feel like pasted-up rave flyers arranged into a timeline. The mood is "developer console meets club night meets tech tabloid": serious enough to cover a congressional hearing, loud enough to review a synthesizer.</p>
+<br>
+<p>What makes this system unmistakable is the <strong>StoryStream</strong> timeline: a vertical feed where every post is a rounded rectangle — often 20–40px radius — filled edge-to-edge with color, framed by a thin border, and marked by a mono-uppercase timestamp on its left rail. Stories don't float on a grid; they stack on a dashed vertical rule like commits in a git log. Above that, a massive <strong>"The Verge" wordmark</strong> dominates the masthead in Manuka at hero scale, letting the reader know before any headline loads that this is editorial territory, not a template.</p>
+<br>
+<p>There is no "light mode" on the homepage — the dark canvas is the product, and the only time the palette inverts is when a single story tile takes a mint or yellow fill. The depth is almost entirely flat: <strong>hairline 1px borders</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>, or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code>) do the work that shadows would do on a Material-flavored site. Every container is either <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> with a 1px outline, a fully saturated accent block, or a slate-gray <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #2d2d2d;"></span>#2d2d2d</span></code> secondary surface.</p>
+<br>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+  <li>Near-black editorial canvas (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code>) as the default surface — no light mode on the homepage</li>
+  <li>Acid-mint <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code> + ultraviolet <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code> as hazard-tape accents, never quiet background wash</li>
+  <li>Massive Manuka display headlines up to 107px — the single loudest type move in mainstream tech media</li>
+  <li>Rounded pill-card everything: 20/24/30/40px corner radii, never square</li>
+  <li>Fully saturated color-block story tiles (mint, purple, yellow, pink, orange, electric blue) on a dark page</li>
+  <li>Timeline "StoryStream" feed with mono uppercase timestamps rather than a traditional magazine grid</li>
+  <li>Flat depth — 1px borders in white, mint, purple do the work that shadows would do elsewhere</li>
+</ul>
+<br>
+<h2>2. Color Palette &amp; Roles</h2>
+<br>
+<h3>Primary (Brand Hazards)</h3>
+<ul>
+  <li><strong>Jelly Mint</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>): The Verge's signature acid-mint accent. Used as CTA button fill, link underlines, active tab borders, and high-attention story-tile backgrounds. Treat it as the visual equivalent of neon safety paint — applied sparingly to the most important element on screen.</li>
+  <li><strong>Verge Ultraviolet</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code>): The complementary brand hazard. Used for secondary color-block tiles, promotional spans, and the occasional outlined button. Often applied at 0.9 alpha to soften its cathode intensity.</li>
+</ul>
+<br>
+<h3>Secondary &amp; Accent</h3>
+<ul>
+  <li><strong>Console Mint Border</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #309875;"></span>#309875</span></code>): A darker variant of the jelly mint used on card outlines and button borders where pure mint would over-saturate.</li>
+  <li><strong>Deep Link Blue</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860be;"></span>#3860be</span></code>): The link <em>hover</em> color — the one moment blue appears on the site. It replaces mint/white/black on hover across every link style.</li>
+  <li><strong>Focus Cyan</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1eaedb;"></span>#1eaedb</span></code>): Reserved for button focus rings. Never shown outside a keyboard-focus state.</li>
+  <li><strong>Purple Rule</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3d00bf;"></span>#3d00bf</span></code>): A darker ultraviolet variant used as the vertical border on StoryStream <code>&lt;li&gt;</code> items.</li>
+</ul>
+<br>
+<h3>Surface &amp; Background</h3>
+<ul>
+  <li><strong>Canvas Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code>): The default dark surface for the entire homepage. Almost-but-not-quite pure black — has just enough warmth to feel like a printed newsprint negative rather than an OLED void.</li>
+  <li><strong>Surface Slate</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #2d2d2d;"></span>#2d2d2d</span></code>): Secondary card background, used when a story tile doesn't need to be a saturated color block.</li>
+  <li><strong>Image Frame</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #313131;"></span>#313131</span></code>): The 1px border that wraps inline imagery.</li>
+  <li><strong>Hazard White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>): Used as story-tile fill, button border, and primary text. When white appears as a large block, it's an editorial decision — a "spotlight" on that tile.</li>
+  <li><strong>Absolute Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span></code>): Reserved for text on the mint/yellow/white tiles — the only place it appears.</li>
+</ul>
+<br>
+<h3>Neutrals &amp; Text</h3>
+<ul>
+  <li><strong>Primary Text</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>): Headlines and display text on the canvas.</li>
+  <li><strong>Secondary Text</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #949494;"></span>#949494</span></code>): Bylines, timestamps, photo credits. The mid-gray that anchors the metadata layer.</li>
+  <li><strong>Muted Text</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #e9e9e9;"></span>#e9e9e9</span></code>): Button text on dark slate buttons. Slightly off-white to reduce screen glare.</li>
+  <li><strong>Inverted Text</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code>): Used only on accent tiles (mint, yellow, white) to keep contrast legible.</li>
+</ul>
+<br>
+<h3>Semantic &amp; Accent</h3>
+<ul>
+  <li><strong>Focus Ring</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1eaedb;"></span>#1eaedb</span></code>): Keyboard focus only.</li>
+  <li><strong>Overlay Black</strong> (<code>rgba(0, 0, 0, 0.33)</code>): Subtle 1px ring used as the quiet shadow alternative on stacked cards.</li>
+  <li><strong>Dim Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #8c8c8c;"></span>#8c8c8c</span></code>): Active/pressed button background — the "pressed down" state.</li>
+</ul>
+<br>
+<h3>Gradient System</h3>
+<p>The Verge uses <strong>zero decorative gradients</strong>. The only gradient-like treatment is the transition from a saturated accent story tile (mint/purple/yellow) back to the <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> canvas between rows. Color is applied in solid blocks, not as washes. This is a deliberate choice — the site's hazard-tape visual identity would dissolve if anything faded.</p>
+<br>
+<h2>3. Typography Rules</h2>
+<br>
+<h3>Font Family</h3>
+<ul>
+  <li><strong>Manuka</strong> (Klim Type Foundry) — fallback: Impact, Helvetica. The signature display face for The Verge wordmark and feature headlines. A heavy-weight (900) industrial sans-serif with a condensed, almost-athletic stance. Runs at 60–107px on the homepage, never smaller.</li>
+  <li><strong>PolySans</strong> (PanGram Pangram / Nikolas Wrobel) — fallback: Helvetica, Arial. The UI and secondary headline workhorse. Covers weights 300 / 500 / 700 across the system — everything from kicker captions to body decks.</li>
+  <li><strong>PolySans Mono</strong> — fallback: Courier New, Courier. The monospaced sibling, used exclusively for ALL-CAPS labels: kickers, timestamps, category tags, button labels. This mono-uppercase usage is the second-most-identifiable Verge detail after Manuka.</li>
+  <li><strong>FK Roman Standard</strong> (Florian Karsten) — fallback: Georgia. A serif used sparingly for specific body/caption treatments (article excerpts, certain review pulls). Adds a "print-magazine" counterpoint to the PolySans stack.</li>
+  <li><strong>Roboto</strong> — fallback: <code>-apple-system</code>, <code>system-ui</code>. Utility UI font for widgets and legacy modules.</li>
+</ul>
+<br>
+<h3>Hierarchy</h3>
+<br>
+<table>
+  <tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr>
+  <tr><td>Hero Wordmark / Display</td><td>Manuka</td><td>107px / 6.69rem</td><td>900</td><td>0.80</td><td>1.07px</td><td>The top-of-page "The Verge" logo and feature headlines</td></tr>
+  <tr><td>Secondary Display</td><td>Manuka</td><td>90px / 5.63rem</td><td>900</td><td>0.80</td><td>—</td><td>Section-level feature headlines</td></tr>
+  <tr><td>Tertiary Display</td><td>Manuka</td><td>60px / 3.75rem</td><td>900</td><td>0.80</td><td>—</td><td>Inline feature callouts</td></tr>
+  <tr><td>Large Headline</td><td>PolySans</td><td>34px / 2.13rem</td><td>700</td><td>1.00</td><td>—</td><td>Section and module headlines</td></tr>
+  <tr><td>Heading Wide</td><td>PolySans</td><td>32px / 2.00rem</td><td>400</td><td>1.10</td><td>0.32px</td><td>Sub-heroes, promotional units</td></tr>
+  <tr><td>Heading Medium</td><td>PolySans</td><td>24px / 1.50rem</td><td>700</td><td>1.00</td><td>—</td><td>Story tile headlines in the main feed</td></tr>
+  <tr><td>Heading Small</td><td>PolySans</td><td>20px / 1.25rem</td><td>700</td><td>1.00</td><td>—</td><td>Compact tile headlines</td></tr>
+  <tr><td>Light Capitalized Label</td><td>PolySans</td><td>19px / 1.19rem</td><td>300</td><td>1.20</td><td>1.9px</td><td>Thin-weight capitalized eyebrows — a distinctive Verge move</td></tr>
+  <tr><td>All-Caps Label XL</td><td>PolySans</td><td>18px / 1.13rem</td><td>400</td><td>1.10</td><td>1.8px</td><td>UPPERCASE section kickers</td></tr>
+  <tr><td>Bold Body</td><td>PolySans</td><td>16px / 1.00rem</td><td>700</td><td>1.00</td><td>—</td><td>Emphasis within decks</td></tr>
+  <tr><td>Body Relaxed</td><td>PolySans</td><td>16px / 1.00rem</td><td>500</td><td>1.60</td><td>—</td><td>Long-form reading body</td></tr>
+  <tr><td>Inline Label</td><td>PolySans</td><td>15px / 0.94rem</td><td>400</td><td>1.20</td><td>0.15px</td><td>UI labels and secondary headlines</td></tr>
+  <tr><td>Body Compact</td><td>PolySans</td><td>13px / 0.81rem</td><td>400</td><td>1.60</td><td>—</td><td>Secondary captions and decks</td></tr>
+  <tr><td>Eyebrow All-Caps</td><td>PolySans</td><td>12px / 0.75rem</td><td>400</td><td>1.30</td><td>1.8px</td><td>UPPERCASE kicker above tile headlines</td></tr>
+  <tr><td>Tag Label</td><td>PolySans</td><td>12px / 0.75rem</td><td>400</td><td>1.20</td><td>0.72px</td><td>UPPERCASE category tag</td></tr>
+  <tr><td>Caption Micro</td><td>PolySans</td><td>11px / 0.69rem</td><td>400</td><td>1.20</td><td>1.1px</td><td>UPPERCASE bylines</td></tr>
+  <tr><td>Meta Nano</td><td>PolySans</td><td>10px / 0.63rem</td><td>500</td><td>1.40</td><td>1.5px</td><td>UPPERCASE timestamp microtext</td></tr>
+  <tr><td>Mono Button Label</td><td>PolySans Mono</td><td>12px / 0.75rem</td><td>600</td><td>2.00</td><td>1.5px</td><td>UPPERCASE button text, very open leading</td></tr>
+  <tr><td>Mono Timestamp</td><td>PolySans Mono</td><td>11px / 0.69rem</td><td>500/600</td><td>1.20</td><td>1.1–1.8px</td><td>UPPERCASE StoryStream timestamps</td></tr>
+  <tr><td>Serif Body</td><td>FK Roman Standard</td><td>16px / 1.00rem</td><td>400</td><td>1.30</td><td>-0.16px</td><td>Review decks, print-voice excerpts</td></tr>
+  <tr><td>Serif Caption</td><td>FK Roman Standard</td><td>20px / 1.25rem</td><td>400</td><td>1.20</td><td>—</td><td>Magazine-style pull quotes</td></tr>
+</table>
+<br>
+<h3>Principles</h3>
+<ul>
+  <li><strong>Manuka is always the hero, never the UI.</strong> If you see Manuka below 60px you're looking at a bug. It exists to <em>shout the brand</em>, not to label a button.</li>
+  <li><strong>PolySans is the workhorse, PolySans Mono is its uniformed sibling.</strong> Mono is used exclusively for UPPERCASE labels, timestamps, tags, and certain buttons. Lowercase mono doesn't exist in this system.</li>
+  <li><strong>Thin-weight (300) capitalized headlines</strong> are a signature Verge move. The 19–20px weight-300 with 1.9px tracking creates a "fashion magazine whisper" that contrasts with the 107px Manuka shout above it. This whisper-vs-shout contrast is the typographic fingerprint.</li>
+  <li><strong>Letter-spacing has two registers</strong>: positive (0.72–1.9px) for ALL-CAPS mono and sans labels, negative (<code>-0.16px</code>) for the rare serif appearances, barely-positive (0.32px, 1.07px) for massive display. Plain 0 letter-spacing is rare.</li>
+  <li><strong>FK Roman Standard is the editorial exception</strong>, not the rule. Reserve it for long-form print-voice moments — reviews, critic pulls, masthead essays. Never use it in UI.</li>
+  <li><strong>Line heights are tight</strong> (0.80–1.30) for every display and label, relaxed (1.60–2.00) only for reading body and mono button labels. The leading jump is intentional — it gives the page a "telegraph ticker" rhythm.</li>
+</ul>
+<br>
+<h3>Note on Font Substitutes</h3>
+<p>The 0.80 line-height on Manuka display (107px, 90px, 60px) assumes the <strong>proprietary Manuka face from Klim Type Foundry</strong>, which has aggressively tight vertical metrics designed for athletic stance at large sizes. If you substitute with wide-metric open-source condensed displays like <strong>Anton</strong>, <strong>Oswald</strong>, <strong>Bebas Neue</strong>, or <strong>Archivo Black</strong>, loosen display line-heights by approximately <strong>+0.10 to +0.15</strong> to prevent ascender/descender collisions (e.g., 0.80 → 0.95). PolySans substitutes (Space Grotesk, DM Sans, Hanken Grotesk) work at the token values without adjustment — their metrics are close enough. PolySans Mono substitutes (Space Mono, JetBrains Mono) and FK Roman substitutes (Newsreader, Literata) also work without adjustment.</p>
+<br>
+<h2>4. Component Stylings</h2>
+<br>
+<h3>Buttons</h3>
+<br>
+<p><strong>Primary — Jelly Mint Pill</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code> (Jelly Mint)</li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span></code> (Absolute Black), PolySans 16px / 700 or PolySans Mono 12px / 600 UPPERCASE</li>
+  <li>Border: none (pure fill)</li>
+  <li>Border radius: <code>24px</code> — fully rounded pill</li>
+  <li>Padding: <code>10px 24px</code></li>
+  <li>Outline: <code>none</code> at rest</li>
+  <li>Hover: background shifts to <code>rgba(255, 255, 255, 0.2)</code> (translucent white), text stays black, adds a 1px <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #c2c2c2;"></span>#c2c2c2</span></code> ring shadow</li>
+  <li>Active: background <code>rgba(140, 140, 140, 0.87)</code>, opacity <code>0.5</code>, ring shadow <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #8c8c8c;"></span>#8c8c8c</span></code></li>
+  <li>Focus: background <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #1eaedb;"></span>#1eaedb</span></code>, white text, 1px solid <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #0500ff;"></span>#0500ff</span></code> border, translucent white focus ring</li>
+  <li>Transition: ~180ms ease on background and shadow</li>
+</ul>
+<br>
+<p><strong>Secondary — Dark Slate Pill</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #2d2d2d;"></span>#2d2d2d</span></code> (Surface Slate)</li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #e9e9e9;"></span>#e9e9e9</span></code> (Muted Text), PolySans 16px / 400</li>
+  <li>Border: none</li>
+  <li>Border radius: <code>24px</code></li>
+  <li>Padding: <code>10px 24px</code></li>
+  <li>Outline: <code>rgb(233, 233, 233) none 0px</code></li>
+  <li>Hover: same translucent white invert as primary — <code>rgba(255, 255, 255, 0.2)</code> bg, black text, 1px <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #c2c2c2;"></span>#c2c2c2</span></code> ring</li>
+  <li>Focus: same cyan focus treatment as primary</li>
+</ul>
+<br>
+<p><strong>Tertiary — Outlined Mint</strong></p>
+<ul>
+  <li>Background: transparent</li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>, PolySans Mono 12px / 600 UPPERCASE, 1.5px tracking</li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code></li>
+  <li>Border radius: <code>40px</code> — larger pill for secondary outline style</li>
+  <li>Padding: ~<code>10px 20px</code></li>
+  <li>Hover: inverts to mint fill, black text</li>
+  <li>Transition: 150ms ease</li>
+</ul>
+<br>
+<p><strong>Outlined Ultraviolet (Promotional)</strong></p>
+<ul>
+  <li>Background: transparent</li>
+  <li>Text: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code></li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code></li>
+  <li>Border radius: <code>30px</code></li>
+  <li>Used for "Subscribe" or "Join the Stream" style promotional callouts</li>
+</ul>
+<br>
+<p><strong>Pill Tag (Non-interactive)</strong></p>
+<ul>
+  <li>Background: saturated accent (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code>, yellow, etc.)</li>
+  <li>Text: black or white depending on background luminance</li>
+  <li>Border radius: <code>20px</code> (tighter radius than buttons — this is the <em>text pill</em>)</li>
+  <li>Font: PolySans Mono 11px / 600 UPPERCASE, 1.8px tracking</li>
+  <li>Padding: ~<code>4px 10px</code></li>
+</ul>
+<br>
+<h3>Cards &amp; Containers</h3>
+<br>
+<p><strong>StoryStream Tile</strong></p>
+<ul>
+  <li>Background: either <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> + 1px white border, OR a saturated accent fill (mint, purple, yellow, pink, orange, white)</li>
+  <li>Border radius: <code>20px</code> (standard) or <code>24px</code> (feature)</li>
+  <li>Border: <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> (on dark) or <code>0px 0px 1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code> (on mint) or nothing (on saturated fill)</li>
+  <li>Padding: ~24–32px interior</li>
+  <li>Hover: no lift, no scale — the headline text color transitions from white to <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860be;"></span>#3860be</span></code> (deep link blue)</li>
+  <li>Transition: 150ms ease on color only</li>
+</ul>
+<br>
+<p><strong>Feature Card (Top Story)</strong></p>
+<ul>
+  <li>Background: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> with 1px hairline border, OR full-bleed color accent</li>
+  <li>Border radius: <code>24px</code></li>
+  <li>Padding: 32px+</li>
+  <li>Image inside: clipped to match the outer radius (<code>3px</code> or <code>4px</code> inner radius when nested)</li>
+  <li>Hover: text color shift only; the image remains static</li>
+</ul>
+<br>
+<p><strong>StoryStream Rail (Timeline)</strong></p>
+<ul>
+  <li>A vertical dashed or solid rule (1px <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3d00bf;"></span>#3d00bf</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>) runs along the left edge of each item, marking the timeline spine</li>
+  <li>Timestamps sit on the left rail in PolySans Mono 11px / 500 / UPPERCASE / 1.1px tracking</li>
+  <li>Each entry is a pill-cornered rectangle separated from its neighbors by 12–16px vertical gap</li>
+</ul>
+<br>
+<h3>Inputs &amp; Forms</h3>
+<ul>
+  <li><strong>Default</strong>: <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> background, 1px solid <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #949494;"></span>#949494</span></code> border, <code>2px</code> border radius (tight, newspaper-form feel), PolySans 15px text in <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>, placeholder in <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #949494;"></span>#949494</span></code>.</li>
+  <li><strong>Focus</strong>: border transitions to <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code> (jelly mint) with optional <code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code> inner ring on deep focus. No glow.</li>
+  <li><strong>Error</strong>: border turns <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code> (ultraviolet — used as error/alert accent here, not the usual red).</li>
+  <li><strong>Transition</strong>: ~150ms ease on border-color.</li>
+</ul>
+<br>
+<h3>Navigation</h3>
+<br>
+<ul>
+  <li><strong>Top nav</strong>: thin <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> bar with the Verge wordmark (Manuka) left-aligned, a search icon and a few UPPERCASE mono category links (12–14px, PolySans Mono, 1.5–1.8px tracking), and a single mint-pill CTA (usually "Subscribe") pinned right.</li>
+  <li><strong>Wordmark</strong>: massive on first scroll — the homepage treats the "The Verge" logo as a hero element, not a 32px corner logo.</li>
+  <li><strong>Hover</strong>: every link transitions from <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> to <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860be;"></span>#3860be</span></code> (deep link blue). No underline — it's a color-only response.</li>
+  <li><strong>Active section</strong>: marked by a 1px mint underline (inset box-shadow <code>0px -1px 0px 0px inset <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>)</li>
+  <li><strong>Mobile</strong>: the wordmark shrinks, category nav collapses into a hamburger drawer. Inside the drawer, links are mono-uppercase and stack with 16–20px gaps.</li>
+</ul>
+<br>
+<h3>Image Treatment</h3>
+<br>
+<ul>
+  <li><strong>Aspect ratios</strong>: 16:9 dominates for hero and feature images, 4:3 for mid-feed, 1:1 for thumbnails and author avatars.</li>
+  <li><strong>Corners</strong>: always rounded to match the parent card — <code>3px</code>, <code>4px</code>, or inherit <code>20px</code> / <code>24px</code> from the tile.</li>
+  <li><strong>Frame</strong>: 1px <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #313131;"></span>#313131</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> hairline around photography, giving a "contained Polaroid" feel.</li>
+  <li><strong>Full-bleed</strong>: only within the color-block tiles, where the image runs to the padded edge of the accent fill.</li>
+  <li><strong>Hover</strong>: static — no zoom, no scale, no opacity shift. The headline below is the only interactive response.</li>
+  <li><strong>Lazy loading</strong>: <code>loading="lazy"</code> on everything below the first fold; eager on the masthead hero only.</li>
+</ul>
+<br>
+<h3>StoryStream Timeline Item (Distinctive)</h3>
+<br>
+<ul>
+  <li>Vertical rail line (1px <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3d00bf;"></span>#3d00bf</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> on <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code>)</li>
+  <li>Mono timestamp on the left in PolySans Mono 11px / UPPERCASE</li>
+  <li>Pill-cornered body card (20px radius) with kicker, headline, and optional deck</li>
+  <li>Stacked vertically with 12–16px gap, the rail continuing between them</li>
+  <li>Often interleaved with full-bleed accent tiles that "break" the timeline rhythm for emphasis</li>
+</ul>
+<br>
+<h2>5. Layout Principles</h2>
+<br>
+<h3>Spacing System</h3>
+<ul>
+  <li><strong>Base unit</strong>: 8px.</li>
+  <li><strong>Scale</strong>: 1, 2, 4, 5, 6, 8, 9, 10, 12, 14, 15, 16, 20, 24, 25px.</li>
+  <li><strong>Section padding</strong>: 32–64px vertical between major feed sections. StoryStream items themselves are tighter — 12–16px gaps.</li>
+  <li><strong>Card padding</strong>: 20–32px interior. Feature cards expand to 40–48px.</li>
+  <li><strong>Inline spacing</strong>: kickers sit ~6–10px above headlines; headlines sit ~10–14px above decks; timestamps sit ~6–8px below decks.</li>
+  <li><strong>Micro-scale</strong>: The 2/4/5/6/9/10px values are used inside buttons, pills, and tight label clusters, not in the editorial grid.</li>
+</ul>
+<br>
+<h3>Grid &amp; Container</h3>
+<ul>
+  <li><strong>Max width</strong>: ~1280–1300px (dembrandt detected breakpoints at 1200/1280/1300).</li>
+  <li><strong>Column patterns</strong>: a 12-column underlying grid that resolves into 3-column hero + 1-column StoryStream rail + feature panels. The homepage feels freeform because color-block tiles frequently span 2–3 columns on a whim.</li>
+  <li><strong>Container padding</strong>: 24px mobile / 48px desktop on the outer edges.</li>
+  <li><strong>Gutters</strong>: 16–24px between columns, tighter (8–12px) inside StoryStream items.</li>
+</ul>
+<br>
+<h3>Whitespace Philosophy</h3>
+<p>The Verge treats whitespace like a club DJ treats silence — as a dramatic reset between loud moments. The canvas is so dark and the accents are so saturated that even 32px of empty <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> between two tiles acts as a palette cleanser. The page is not airy like Apple or Stripe; it's <strong>paced</strong>, with loud hazard-color blocks interrupting stretches of near-black. Whitespace carries the rhythm, not the elegance.</p>
+<br>
+<h3>Border Radius Scale</h3>
+<ul>
+  <li><strong>2px</strong> — inputs, small badges (feels like a typewriter tag)</li>
+  <li><strong>3px</strong> — inline images (just enough to soften against the canvas)</li>
+  <li><strong>4px</strong> — nested card images and small button variants</li>
+  <li><strong>20px</strong> — standard pill cards and color-block tiles</li>
+  <li><strong>24px</strong> — feature tile radius and primary button pill</li>
+  <li><strong>30px</strong> — large promotional buttons</li>
+  <li><strong>40px</strong> — outlined CTA pills (the loudest pill in the system)</li>
+  <li><strong>50%</strong> — avatar circles, icon buttons, and certain round badges</li>
+</ul>
+<br>
+<p>Eight discrete radius values — a <strong>lot</strong> for a single site. This is deliberate: the rhythm between 2px typewriter tags, 20px pill cards, and 40px outlined buttons creates a "nested scale" feel where every component announces its hierarchy through its corners.</p>
+<br>
+<h2>6. Depth &amp; Elevation</h2>
+<br>
+<table>
+  <tr><th>Level</th><th>Treatment</th><th>Use</th></tr>
+  <tr><td>0</td><td>No border, no shadow</td><td>Default <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> canvas text</td></tr>
+  <tr><td>1</td><td><code>rgba(0,0,0,0) 0px 0px 0px 0px inset</code> (placeholder)</td><td>Reset state for interactive elements</td></tr>
+  <tr><td>2</td><td><code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #313131;"></span>#313131</span></code> hairline</td><td>Image frames and quiet card outlines</td></tr>
+  <tr><td>3</td><td><code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code> hairline</td><td>Active button outlines, focused story tiles</td></tr>
+  <tr><td>4</td><td><code>1px solid <span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code> hairline</td><td>Promotional/alternate state outlines</td></tr>
+  <tr><td>5</td><td><code>rgba(0, 0, 0, 0.33) 0px 0px 0px 1px</code></td><td>The single "atmospheric" ring — applied to layered cards</td></tr>
+  <tr><td>6</td><td><code>0px -1px 0px 0px inset</code> (mint/black/white)</td><td>Active tab underline — a signature Verge move</td></tr>
+  <tr><td>7</td><td>Saturated accent fill (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code>, white, yellow, pink)</td><td>Story-tile elevation via color, not shadow</td></tr>
+</table>
+<br>
+<p>The Verge's depth philosophy is <strong>color-as-elevation</strong>. When something needs to stand out, it doesn't get a shadow — it gets a mint fill or a 1px hazard-color border. There are 14 shadow entries in the extracted tokens, but all of them are either inset underlines (0px -1px inset) or near-transparent 1px rings — none of them are traditional elevation shadows. The <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> canvas stays perfectly flat throughout, and hierarchy is carried by color saturation.</p>
+<br>
+<h3>Decorative Depth</h3>
+<ul>
+  <li><strong>1px inset underline</strong> on active tabs/nav links (mint, black, or white depending on context)</li>
+  <li><strong>Subtle <code>rgba(0, 0, 0, 0.33)</code> 1px ring</strong> on stacked cards — the only effect that faintly resembles a shadow</li>
+  <li><strong>No gradients, no glows, no atmospheric blurs</strong> anywhere. The hazard-tape aesthetic would break if anything faded softly.</li>
+</ul>
+<br>
+<h2>7. Do's and Don'ts</h2>
+<br>
+<h3>Do</h3>
+<ul>
+  <li><strong>Do</strong> use <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> as the canvas for every view. There is no light mode.</li>
+  <li><strong>Do</strong> use Jelly Mint (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>) and Verge Ultraviolet (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code>) as hazard accents — buttons, borders, active states, and saturated color-block tiles.</li>
+  <li><strong>Do</strong> use Manuka exclusively at 60px+ for hero headlines. Treat anything smaller as a bug.</li>
+  <li><strong>Do</strong> round everything: 20px for cards, 24px for feature cards, 30–40px for pill buttons.</li>
+  <li><strong>Do</strong> use PolySans Mono for UPPERCASE labels, timestamps, kickers, and button text. Lowercase mono doesn't exist here.</li>
+  <li><strong>Do</strong> apply 1.5–1.9px letter-spacing to every ALL-CAPS label — this is a Verge signature.</li>
+  <li><strong>Do</strong> use saturated color-block tiles (mint, purple, yellow, pink, orange, white) to elevate a story — never a drop shadow.</li>
+  <li><strong>Do</strong> use <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860be;"></span>#3860be</span></code> (deep link blue) as the hover color on every link, regardless of base color.</li>
+  <li><strong>Do</strong> apply the StoryStream timeline rail (1px dashed/solid <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3d00bf;"></span>#3d00bf</span></code> or white) on feed views.</li>
+  <li><strong>Do</strong> use thin-weight (300) PolySans at 19–20px with 1.9px tracking for "fashion-whisper" capitalized eyebrows — the contrast with the 107px Manuka shout is the whole voice.</li>
+</ul>
+<br>
+<h3>Don't</h3>
+<ul>
+  <li><strong>Don't</strong> use a light background. The dark canvas is the product.</li>
+  <li><strong>Don't</strong> add <code>box-shadow</code> for elevation. Use 1px borders or saturated accent fills instead.</li>
+  <li><strong>Don't</strong> use square corners. Every interactive and content container is rounded.</li>
+  <li><strong>Don't</strong> use Manuka for UI, buttons, or body copy. It's strictly display.</li>
+  <li><strong>Don't</strong> use lowercase mono. PolySans Mono is always UPPERCASE.</li>
+  <li><strong>Don't</strong> let mint and ultraviolet appear as background washes — they're hazard accents, not canvas tints.</li>
+  <li><strong>Don't</strong> use gradients anywhere. The system is solid color blocks only.</li>
+  <li><strong>Don't</strong> introduce new accent colors outside the declared mint / purple / yellow / pink / orange tile palette.</li>
+  <li><strong>Don't</strong> pair Manuka with FK Roman Standard in the same headline cluster — Manuka is the only display shout, serif pulls are reserved for body moments.</li>
+  <li><strong>Don't</strong> use <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code> text on a <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> background at under 16px — the contrast vibrates at small sizes.</li>
+</ul>
+<br>
+<h2>8. Responsive Behavior</h2>
+<br>
+<h3>Breakpoints</h3>
+<br>
+<table>
+  <tr><th>Name</th><th>Width</th><th>Key Changes</th></tr>
+  <tr><td>Small Mobile</td><td>&lt;400px</td><td>Single column, Manuka hero scales down to ~48–54px, StoryStream rail collapses to inline timestamps</td></tr>
+  <tr><td>Mobile</td><td>400–549px</td><td>Single column, color-block tiles stack full-width, nav is a hamburger drawer</td></tr>
+  <tr><td>Large Mobile</td><td>550–767px</td><td>Still single column but padding opens up, tile radii stay at 20px</td></tr>
+  <tr><td>Tablet</td><td>768–1023px</td><td>2-column StoryStream with feature card spanning, wordmark shrinks ~50%</td></tr>
+  <tr><td>Small Desktop</td><td>1024–1179px</td><td>Full 3–4 column editorial grid, mint pill CTA restored to nav</td></tr>
+  <tr><td>Desktop</td><td>1180–1299px</td><td>Max padding, Manuka wordmark at full hero scale</td></tr>
+  <tr><td>Large Desktop</td><td>≥1300px</td><td>Container caps at ~1280–1300px, whitespace expands at the margins, no further scaling</td></tr>
+</table>
+<br>
+<p>The dembrandt sweep detected 26 intermediate breakpoints (1300 → 1280 → 1200 → 1181 → 1180 → 1179 → 1024 → 1023 → 901 → 900 → 897 → 896 → 890 → 769 → 768 → 620 → 605 → 600 → 550 → 549 → 530 → 426 → 425 → 400 → 320). The Verge tunes its grid at virtually every major device boundary — an unusually aggressive responsive strategy.</p>
+<br>
+<h3>Touch Targets</h3>
+<ul>
+  <li>Primary pill buttons are ~44px minimum height (10px vertical padding + 16px text + 2px border) — meets WCAG AA.</li>
+  <li>Mono uppercase nav links are smaller (~28–32px tall) — for derivative work, pad to 44px on mobile.</li>
+  <li>Circle icon buttons are 40–44px circles, touch-friendly.</li>
+</ul>
+<br>
+<h3>Collapsing Strategy</h3>
+<ul>
+  <li><strong>Nav</strong>: wordmark scales from hero (Manuka 60–107px) to ~24–32px on mobile. Category links collapse to a hamburger drawer below 900px.</li>
+  <li><strong>Grid</strong>: 4-col → 3-col → 2-col → 1-col. Feature cards that span 2 columns on desktop reflow to full-width single-column on mobile.</li>
+  <li><strong>Spacing</strong>: section padding tightens from 64px → 32px → 20px. Tile interior padding tightens from 32px → 20px.</li>
+  <li><strong>Type</strong>: Manuka hero scales from 107px to ~48–54px on mobile. PolySans headlines scale from 34px → 24px. Mono labels stay pinned at 11–12px (they don't shrink further or they become unreadable).</li>
+  <li><strong>Color tiles</strong>: accent story blocks never lose saturation on mobile — they just reflow to full width.</li>
+</ul>
+<br>
+<h3>Image Behavior</h3>
+<ul>
+  <li>Responsive raster via <code>srcset</code>, aspect ratios preserved.</li>
+  <li>No art-direction swaps — same crop scales across all viewports.</li>
+  <li><code>loading="lazy"</code> on everything below the fold, <code>eager</code> on the masthead hero.</li>
+  <li>Images inside color-block tiles inherit the tile's inner radius (4px or 20px nested).</li>
+</ul>
+<br>
+<h2>9. Agent Prompt Guide</h2>
+<br>
+<h3>Quick Color Reference</h3>
+<ul>
+  <li><strong>Primary CTA</strong>: "Jelly Mint (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>)"</li>
+  <li><strong>Background (Canvas)</strong>: "Canvas Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code>)"</li>
+  <li><strong>Accent (Secondary Hazard)</strong>: "Verge Ultraviolet (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code>)"</li>
+  <li><strong>Heading Text</strong>: "Hazard White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>)"</li>
+  <li><strong>Body Text</strong>: "Hazard White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>)" (primary) or "Muted Text (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #e9e9e9;"></span>#e9e9e9</span></code>)"</li>
+  <li><strong>Secondary Text / Metadata</strong>: "Secondary Text (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #949494;"></span>#949494</span></code>)"</li>
+  <li><strong>Card Border</strong>: "Hazard White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code>)" hairline on dark, "Console Mint Border (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #309875;"></span>#309875</span></code>)" on mint variants</li>
+  <li><strong>Link Hover</strong>: "Deep Link Blue (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860be;"></span>#3860be</span></code>)"</li>
+</ul>
+<br>
+<h3>Example Component Prompts</h3>
+<ol>
+  <li><em>"Create a StoryStream timeline item on a <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> canvas: a 20px-radius rectangle with a 1px solid <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #ffffff;"></span>#ffffff</span></code> border, a PolySans Mono 11px / 600 / UPPERCASE / 1.1px tracking timestamp on the left rail, a 12px PolySans UPPERCASE kicker in mint (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>), and a 24px / 700 PolySans headline in white below. No shadow, no lift — hover only shifts the headline color to <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860be;"></span>#3860be</span></code>."</em></li>
+  <li><em>"Design a primary subscribe button with a Jelly Mint (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3cffd0;"></span>#3cffd0</span></code>) fill, black text in PolySans Mono 12px / 600 / UPPERCASE / 1.5px tracking, 24px border radius, 10px × 24px padding. Hover state shifts to <code>rgba(255, 255, 255, 0.2)</code> background with a 1px <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #c2c2c2;"></span>#c2c2c2</span></code> ring shadow, 180ms ease."</em></li>
+  <li><em>"Build a feature hero with a 107px Manuka 900 headline in white with 1.07px letter-spacing and 0.80 line-height, a thin-weight 300 PolySans 20px capitalized kicker above with 1.9px tracking, on a <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code> canvas with 64px vertical padding."</em></li>
+  <li><em>"Create a color-block accent tile filled with Verge Ultraviolet (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #5200ff;"></span>#5200ff</span></code>) at 0.9 alpha, 24px border radius, white text, a PolySans Mono 11px UPPERCASE category label with 1.5px tracking at the top, and a 32px PolySans 400 capitalized headline with 0.32px tracking below."</em></li>
+  <li><em>"Design a dark slate secondary button with a <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #2d2d2d;"></span>#2d2d2d</span></code> background, <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #e9e9e9;"></span>#e9e9e9</span></code> PolySans 16px text, 24px radius pill shape, 10px × 24px padding. Hover matches the primary button — translucent white <code>rgba(255, 255, 255, 0.2)</code> bg with black text."</em></li>
+</ol>
+<br>
+<h3>Iteration Guide</h3>
+<p>When refining existing screens generated with this design system:</p>
+<ol>
+  <li><strong>Audit the canvas.</strong> If you see a light background anywhere on the homepage, flatten it to <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #131313;"></span>#131313</span></code>. There is no light mode.</li>
+  <li><strong>Audit corners.</strong> Every rectangle should land on 2/3/4/20/24/30/40px or 50%. Square corners break the voice.</li>
+  <li><strong>Audit shadows.</strong> Strip every <code>box-shadow</code> that isn't a 1px inset underline or a 1px hazard-color border. The Verge uses color for elevation, not shadow.</li>
+  <li><strong>Audit type roles.</strong> Manuka only ≥60px. PolySans Mono only UPPERCASE. PolySans 300 at 19–20px should have 1.9px tracking. FK Roman only for body/magazine moments, never UI.</li>
+  <li><strong>Audit accent usage.</strong> Mint and ultraviolet should appear as hazard accents — buttons, 1px borders, active underlines, saturated tile fills. If they're appearing as background washes or gradient fades, correct to solid blocks.</li>
+  <li><strong>Audit labels.</strong> Every kicker, timestamp, category tag, and button label should be ALL CAPS with 1.1–1.9px letter-spacing. Missing tracking = missing voice.</li>
+  <li><strong>Audit link hover.</strong> Every link, regardless of its base color, should hover to <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860be;"></span>#3860be</span></code> deep link blue with no underline. Any other hover color is drift.</li>
+</ol>
+<br>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

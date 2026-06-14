@@ -1,0 +1,949 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastercard — Design System Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fcfbfa;
+            --text-color: rgba(0, 0, 0, 0.85);
+            --text-muted: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --card-bg: #ffffff;
+            --code-bg: #1e1e24;
+            --code-text: #f8f8f2;
+            --accent-color: #0075ff;
+            --accent-glow: rgba(0, 117, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            padding: 40px 24px 100px 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 구글 번역바 커스텀 */
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0px !important; }
+        .skiptranslate { font-family: 'Inter', sans-serif; }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* 네비게이션 & 번역 툴바 */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: var(--accent-glow);
+            transform: translateX(-2px);
+        }
+
+        /* 구글 번역기 영역 */
+        .translate-wrapper {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .translate-wrapper i {
+            color: var(--accent-color);
+        }
+
+        /* ── 마크다운 컨텐츠 스타일링 ── */
+        .markdown-body {
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .markdown-body h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .markdown-body h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 18px;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 20px;
+        }
+
+        .markdown-body strong {
+            font-weight: 600;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding: 12px 20px;
+            background-color: rgba(0, 0, 0, 0.02);
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 24px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background-color: rgba(0, 0, 0, 0.02);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+
+        .markdown-body pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            color: inherit;
+            font-size: 13px;
+        }
+
+        .markdown-body hr {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0;
+        }
+
+        /* ── 인라인 컬러 칩 ── */
+        .inline-color-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .inline-color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        /* ── YAML 토큰 비주얼 카드 스타일 ── */
+        .yaml-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .yaml-title {
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 16px;
+            text-transform: capitalize;
+        }
+
+        .yaml-version-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-color);
+            background: var(--accent-glow);
+            border: 1px solid rgba(0, 117, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: -16px;
+        }
+
+        .yaml-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .yaml-description-card h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            border: none;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .yaml-section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        /* 컬러 팔레트 그리드 */
+        .yaml-color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+        }
+
+        .yaml-color-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-color-visual {
+            height: 100px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .yaml-color-info {
+            padding: 12px 14px;
+        }
+
+        .yaml-color-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .yaml-color-hex {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* 타이포그래피 */
+        .yaml-text-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yaml-text-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .yaml-text-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .yaml-text-preview {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .yaml-text-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .yaml-text-detail-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yaml-text-detail-row .label {
+            color: var(--text-muted);
+        }
+
+        .yaml-text-detail-row .val {
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+            max-width: 160px;
+        }
+
+        /* 레이아웃 & 테이블 */
+        .yaml-layout-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .yaml-layout-card {
+            padding: 24px;
+        }
+
+        .yaml-layout-card h3 {
+            font-size: 16px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .yaml-layout-card table {
+            margin-bottom: 0;
+        }
+
+        .radius-preview-block {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 컴포넌트 리스트 */
+        .yaml-component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .yaml-component-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .component-specs-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .comp-spec-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(0,0,0,0.03);
+            padding-bottom: 4px;
+        }
+
+        .comp-spec-row .c-label {
+            color: var(--text-muted);
+        }
+
+        .comp-spec-row .c-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 30px 16px; }
+            .header-bar { flex-direction: column; align-items: stretch; }
+            .back-link { justify-content: center; }
+            .translate-wrapper { justify-content: center; }
+            .yaml-layout-row { grid-template-columns: 1fr; }
+            .yaml-component-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <!-- 상단 헤더 툴바 -->
+        <div class="header-bar">
+            <a href="index.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> 전체 목록으로 돌아가기
+            </a>
+            <!-- 회사 로고 및 이름 -->
+            <div class="detail-company-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://logo.clearbit.com/mastercard.com" style="width: 32px; height: 32px; border-radius: 6px; object-fit: contain; border: 1px solid var(--border-color); background: white;" onerror="if(this.src.indexOf('clearbit.com')!==-1){this.src='https://www.google.com/s2/favicons?domain=mastercard.com&sz=128&default=404';}else{this.style.display='none';}">
+                <span style="font-weight: 600; font-size: 16px; text-transform: capitalize;">Mastercard</span>
+            </div>
+            <!-- 구글 웹 번역기 연동 -->
+            <div class="translate-wrapper">
+                <i class="fa-solid fa-language"></i>
+                <div id="google_translate_element"></div>
+            </div>
+        </div>
+
+        <!-- 본문 컨텐츠 -->
+        <article class="markdown-body">
+            <h1>Design System Inspired by Mastercard</h1>
+<br>
+<h2>1. Visual Theme &amp; Atmosphere</h2>
+<br>
+<p>Mastercard's experience reads like a warm, editorial magazine built from soft stone and signal orange. The canvas is a muted putty-cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>) — not white, not gray, but a color that feels like the paper of a premium annual report. On top of that canvas, everything that matters is shaped like a stadium, a pill, or a perfect circle. The dominant visual gesture is the <strong>oversized radius</strong>: heroes carry 40-point corners, cards go fully pill-shaped, service images are cropped into circular orbits, and buttons either complete the pill or fit snugly at 20 points. There are almost no sharp corners anywhere on the page.</p>
+<br>
+<p>The second gesture is <strong>orbit and trajectory</strong>. Circular image masks don't sit still — they're connected by thin, hand-drawn-feeling orange arcs that span entire viewport widths, implying a constellation of services rather than a list. Each circle has a small attached "satellite" — a white micro-CTA holding an arrow icon — docked onto its perimeter like a moon. This is the most distinctive thing about Mastercard's current design language: the circles feel like they're in motion even though the page is still.</p>
+<br>
+<p>Typography is rendered entirely in <strong>MarkForMC</strong>, Mastercard's proprietary geometric sans. Headlines are set at a medium weight (500) with tight negative letter-spacing (-2%), giving them confidence without shouting. Body copy runs at the same family in a slightly lighter weight (450) — a weight you rarely see on the web, chosen because it reads softer than regular 400 without feeling thin. The whole system — warm cream surfaces, pill shapes, circular portraits, traced-orange orbits, black CTAs — feels simultaneously institutional (a 60-year-old payments network) and editorial (a modern brand magazine), which is exactly the tension Mastercard wants to hold.</p>
+<br>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+  <li>Warm cream canvas (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>) replaces traditional white — every surface is tinted, never sterile</li>
+  <li>Extreme border-radius as design language: 40px, 99px, 1000px dominate; anything square is a cookie-banner third-party</li>
+  <li>Circular image portraits with attached white satellite-CTAs and traced-orange orbital paths</li>
+  <li>Ghost "watermark" headlines (cream-on-cream text at heading scale) layered behind circle portraits</li>
+  <li>Black primary CTAs with 20px radius in the body — the cookie-banner orange is kept to consent flows</li>
+  <li>Floating pill-shaped navigation that docks below the viewport top with rounded shoulders</li>
+  <li>Eyebrow labels with a tiny accent dot + uppercase bold tracking — used as the section-category signal</li>
+  <li>Dark warm-black footer (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>) with four-column link layout and large conversational headline</li>
+</ul>
+<br>
+<h2>2. Color Palette &amp; Roles</h2>
+<br>
+<h3>Primary</h3>
+<ul>
+  <li><strong>Mastercard Red</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #EB001B;"></span>#EB001B</span></code>): The left circle of the Mastercard mark — used only in the brand logo, never as a UI color.</li>
+  <li><strong>Mastercard Yellow</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F79E1B;"></span>#F79E1B</span></code>): The right circle of the Mastercard mark — used only in the brand logo, never as a UI color.</li>
+  <li><strong>Ink Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>): The warm near-black used for primary CTAs, headline text on cream, and the footer surface. Slightly warm (the <code>13</code> blue value pulls toward the cream) so it never feels jet-black on the warm canvas.</li>
+</ul>
+<br>
+<h3>Secondary &amp; Accent</h3>
+<ul>
+  <li><strong>Signal Orange</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #CF4500;"></span>#CF4500</span></code>): The burnt/rust CTA orange used on consent actions and eyebrow dots. Deeper than the brand yellow, brighter than ink — it's the page's single aggressive color and must be used sparingly.</li>
+  <li><strong>Light Signal Orange</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F37338;"></span>#F37338</span></code>): A lighter carroty orange used for carousel active indicators and decorative orbital arcs. Always acts as an attention cue, never as body color.</li>
+  <li><strong>Clay Brown</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #9A3A0A;"></span>#9A3A0A</span></code>): The deep rust used for secondary link-style buttons (e.g., cookie details). Sits between ink and signal orange.</li>
+</ul>
+<br>
+<h3>Surface &amp; Background</h3>
+<ul>
+  <li><strong>Canvas Cream</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>): The page canvas. Warm, putty-toned, the default body background. All editorial sections sit on this.</li>
+  <li><strong>Lifted Cream</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FCFBFA;"></span>#FCFBFA</span></code>): One step lighter than canvas — used for nested "raised" sections that want to feel like paper laid on paper.</li>
+  <li><strong>White</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>): Reserved for the floating navigation pill, modal cards, secondary button fills, and small satellite-CTA circles attached to image portraits.</li>
+  <li><strong>Soft Bone</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F4F4F4;"></span>#F4F4F4</span></code>): A cool-gray alternative surface used inside a handful of component subregions.</li>
+</ul>
+<br>
+<h3>Neutrals &amp; Text</h3>
+<ul>
+  <li><strong>Ink Black</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>): Primary headline and body text color.</li>
+  <li><strong>Charcoal</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #262627;"></span>#262627</span></code>): A slightly softer black used for some text alternates.</li>
+  <li><strong>Slate Gray</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #696969;"></span>#696969</span></code>): Muted secondary text — eyebrow label alternative, disabled states, "Privacy Choices" bottom-row text.</li>
+  <li><strong>Granite</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #555555;"></span>#555555</span></code>) and <strong>Graphite</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #565656;"></span>#565656</span></code>): Deeper gray for inline body accents and link alternates.</li>
+  <li><strong>Dust Taupe</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #D1CDC7;"></span>#D1CDC7</span></code>): Very muted cream-gray used for disabled or "whisper" text (e.g., placeholder-like empty state labels). Low contrast on cream; use only for subdued content.</li>
+</ul>
+<br>
+<h3>Semantic &amp; Accent</h3>
+<ul>
+  <li><strong>Link Blue</strong> (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #3860BE;"></span>#3860BE</span></code>): A deep, slightly dusty blue used for inline links and informational callouts. Saturated enough to read as a link without being neon.</li>
+  <li><strong>Priceless Red + Yellow</strong>: The full-color Mastercard logo mark is the only place the brand's red and yellow appear together; they lock the identity to the page without acting as a UI palette.</li>
+</ul>
+<br>
+<h3>Gradient System</h3>
+<p>Mastercard uses no programmatic gradients in the core UI. The visual impression of "gradient" comes from two places:</p>
+<ul>
+  <li><strong>Circular image portraits</strong> where a warm-orange photo subject (a card, a sunflower, a beverage) fades to the cream canvas at its edge</li>
+  <li><strong>Deep card shadows</strong> on elevated content (<code>rgba(0,0,0,0.08) 0px 24px 48px</code>) that create a soft halo beneath pill-shaped media</li>
+</ul>
+<br>
+<h2>3. Typography Rules</h2>
+<br>
+<h3>Font Family</h3>
+<ul>
+  <li><strong>Primary</strong>: <code>MarkForMC</code> — Mastercard's proprietary geometric sans. Every headline, body paragraph, button, nav link, and footer link on the page.</li>
+  <li><strong>Secondary</strong>: <code>MarkOffcForMC</code> — an "Official" cut used in a minority of contexts (legal text, some forms).</li>
+  <li><strong>Fallback stack</strong>: <code>SofiaSans, Arial, sans-serif</code> — Sofia Sans is a reasonable open-source stand-in; Arial is the final web-safe fallback.</li>
+</ul>
+<br>
+<h3>Hierarchy</h3>
+<br>
+<table>
+  <tr><th>Role</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr>
+  <tr><td>H1 (hero)</td><td>64px</td><td>500</td><td>64px</td><td>-1.28px (-2%)</td><td>Set to <code>1:1</code> line-height for very tight vertical rhythm on multi-line hero</td></tr>
+  <tr><td>H2 (section)</td><td>36px</td><td>500</td><td>44px</td><td>-0.72px (-2%)</td><td>Used in ghost-watermark headline treatments and section titles</td></tr>
+  <tr><td>H3 (card title)</td><td>24px</td><td>500</td><td>28.8px (1.2)</td><td>-0.48px (-2%)</td><td>Titles inside service/solution cards</td></tr>
+  <tr><td>H4 (subhead)</td><td>14px</td><td>700</td><td>18.2px (1.3)</td><td>normal</td><td>Rarely used in marketing surfaces</td></tr>
+  <tr><td>Eyebrow (H5)</td><td>14px</td><td>700</td><td>14px</td><td>0.56px (+4%)</td><td>Uppercase, paired with a tiny accent dot (e.g., "• SERVICES")</td></tr>
+  <tr><td>Body paragraph</td><td>16px</td><td>450</td><td>22.4px (1.4)</td><td>normal</td><td>The half-step 450 weight is MarkForMC's signature — softer than 500, firmer than 400</td></tr>
+  <tr><td>Nav link / Button label</td><td>16px</td><td>500</td><td>16px</td><td>-0.48px (-3%)</td><td>Tight, compact, no text-transform</td></tr>
+  <tr><td>Footer link</td><td>14px</td><td>450</td><td>~20px</td><td>normal</td><td>Lighter weight on dark footer for airier density</td></tr>
+  <tr><td>Footer column header</td><td>12–14px</td><td>700</td><td>14px</td><td>0.56px (+4%)</td><td>Uppercase, muted gray, short tracking</td></tr>
+</table>
+<br>
+<h3>Principles</h3>
+<ul>
+  <li><strong>Weight 450 is load-bearing</strong>. Most brands use 400/500/700; Mastercard uses 450 for body copy, which creates an unusually soft reading tone. Replacing it with 400 flattens the identity.</li>
+  <li><strong>Tight negative tracking on headlines</strong> (-2%) gives display text its editorial density — the words lock together rather than breathe.</li>
+  <li><strong>Uppercase tracking only on the eyebrow scale</strong> (14px / 700 / +4% tracking). Don't use uppercase anywhere else; no shouty section titles.</li>
+  <li><strong>One-font system</strong>. Resist the urge to add a second typeface for contrast. The contrast comes from scale, weight, and letter-spacing, not from a serif or display accent.</li>
+  <li><strong>Line-height ratio drops with size</strong>. H1 is 1:1, H3 is 1.2, body is 1.4. Tight display, comfortable reading.</li>
+</ul>
+<br>
+<h3>Note on Font Substitutes</h3>
+<p>MarkForMC is proprietary and licensed. When rebuilding a matching aesthetic without access to the original:</p>
+<ul>
+  <li><strong>Sofia Sans</strong> (Google Fonts) is the closest open-source match — it's already in Mastercard's declared fallback stack.</li>
+  <li><strong>Inter</strong> at weights 450/500/700 works as a generic stand-in; expect slightly taller x-height and looser letter shapes.</li>
+  <li><strong>Neue Haas Grotesk</strong> or <strong>Geist</strong> can approximate the geometric feel for commercial projects.</li>
+  <li>Whichever substitute is used, preserve the <strong>-2% letter-spacing on headlines</strong> and the <strong>450 body weight</strong> (use <code>font-weight: 450</code> with variable fonts, or substitute <code>font-weight: 400</code> and tighten the letter-spacing by ~-0.5% to compensate).</li>
+</ul>
+<br>
+<h2>4. Component Stylings</h2>
+<br>
+<h3>Buttons</h3>
+<br>
+<p><strong>Primary — Ink Pill</strong></p>
+<ul>
+  <li>Background: Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>)</li>
+  <li>Text: Canvas Cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>) — not pure white</li>
+  <li>Border: 1.5px solid Ink Black (same as bg, creates crisp edge)</li>
+  <li>Radius: 20px</li>
+  <li>Padding: 6px 24px</li>
+  <li>Font: MarkForMC 16px / weight 500 / letter-spacing -0.32px</li>
+  <li>Default: as above; solid warm-black pill on cream canvas</li>
+  <li>Active / pressed: subtle inward-shrink or 2px offset (not a hover variant)</li>
+  <li>Use for: all marketing CTAs in the page body ("Learn more", "Explore", "Discover")</li>
+</ul>
+<br>
+<p><strong>Secondary — Outlined Pill</strong></p>
+<ul>
+  <li>Background: White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>)</li>
+  <li>Text: Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>)</li>
+  <li>Border: 1.5px solid Ink Black</li>
+  <li>Radius: 20px</li>
+  <li>Padding: 6px 24px</li>
+  <li>Font: MarkForMC 16px / weight 450 / line-height 20.8px</li>
+  <li>Default: white-on-cream pill with crisp ink outline</li>
+  <li>Active / pressed: subtle compression</li>
+  <li>Use for: secondary actions paired with a primary, or standalone utility CTAs</li>
+</ul>
+<br>
+<p><strong>Consent / Signal — Orange Pill</strong></p>
+<ul>
+  <li>Background: Signal Orange (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #CF4500;"></span>#CF4500</span></code>)</li>
+  <li>Text: White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>)</li>
+  <li>Border: 0</li>
+  <li>Radius: 24px</li>
+  <li>Padding: 1px 30px (very tight vertical, wide horizontal)</li>
+  <li>Font: MarkForMC 13px / weight 400 / letter-spacing 0.13px</li>
+  <li>Default: as above; bright rust pill with white text</li>
+  <li>Use for: cookie consent, privacy preference, and other legally-distinct confirmations. <strong>Do not</strong> use this orange for marketing CTAs — it reads as a compliance color.</li>
+</ul>
+<br>
+<p><strong>Satellite — Circular Micro-CTA</strong></p>
+<ul>
+  <li>Background: White (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FFFFFF;"></span>#FFFFFF</span></code>)</li>
+  <li>Icon: Ink Black arrow (<code>→</code>) at ~20px</li>
+  <li>Border: none</li>
+  <li>Radius: 50% (perfect circle)</li>
+  <li>Size: ~50–60px diameter</li>
+  <li>Shadow: none or very subtle (the portrait's shadow carries the elevation)</li>
+  <li>Default: docks onto the bottom-right edge of a circular portrait, protruding partway outside the portrait's circle</li>
+  <li>Use for: the primary entry point into service/solution cards; always paired with a circular portrait</li>
+</ul>
+<br>
+<p><strong>Icon-Only Circle Button (carousel, play/pause)</strong></p>
+<ul>
+  <li>Background: transparent or white</li>
+  <li>Icon: 10–20px centered</li>
+  <li>Border: 1px solid Ink Black (when on cream) or none (when over media)</li>
+  <li>Radius: 50%</li>
+  <li>Size: 40px diameter minimum for carousel controls; 80px for hero video play</li>
+  <li>Use for: carousel pagination/play-pause, hero video play, search toggle</li>
+</ul>
+<br>
+<h3>Cards &amp; Containers</h3>
+<br>
+<p><strong>Hero Media Frame (Stadium)</strong></p>
+<ul>
+  <li>Background: Dark video or full-bleed imagery (typically black <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #000000;"></span>#000000</span></code> or <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #2B2B2B;"></span>#2B2B2B</span></code> behind video)</li>
+  <li>Radius: 40px all corners (creates a stadium shape on wide viewports)</li>
+  <li>Width: ~full viewport minus ~48px gutter on each side</li>
+  <li>Height: ~60–70% of viewport</li>
+  <li>Shadow: none (sits directly on canvas)</li>
+  <li>Corners: the extreme 40px radius on a media element is the most iconic Mastercard gesture — do not round less</li>
+</ul>
+<br>
+<p><strong>Service / Solution Portrait Card</strong></p>
+<ul>
+  <li>Shape: Perfect circle (radius 50%) or ellipse (radius 999px / 1000px)</li>
+  <li>Diameter: 260–340px desktop; ~220px mobile</li>
+  <li>Image crop: square source, cropped to circle</li>
+  <li>Attached element: White satellite circular CTA (see above) docked bottom-right, ~40% outside the portrait</li>
+  <li>Eyebrow below: accent dot + uppercase label (e.g., "• SERVICES", "• SOLUTIONS")</li>
+  <li>Title below: H3 (24px / weight 500 / -2% tracking), 1–2 lines max</li>
+  <li>Decorative orbit: thin ~1px Light Signal Orange curved line spanning from this card outward to the next, implying connection</li>
+</ul>
+<br>
+<p><strong>Pill Carousel Card</strong></p>
+<ul>
+  <li>Radius: 1000px (full pill) or 40px corners (rounded stadium)</li>
+  <li>Width: ~40–60% of viewport</li>
+  <li>Height: ~380–420px (portrait-pill orientation)</li>
+  <li>Content: full-bleed photography with small overlaid chip labels</li>
+  <li>Chip inside: White pill (~ 999px radius), Ink Black text, padding 8px 20px, used for category tags like "Story"</li>
+  <li>Large inline CTA inside: Ink Pill button, oversized (padding 16px 40px, radius 40px)</li>
+</ul>
+<br>
+<p><strong>Ghost Watermark Text Block</strong></p>
+<ul>
+  <li>Font: MarkForMC 72–128px / weight 500 / tight -2% tracking</li>
+  <li>Color: Canvas Cream slightly darkened (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #E8E2DA;"></span>#E8E2DA</span></code> or similar — cream-on-cream)</li>
+  <li>Position: layered behind portrait circles, bleeding off the viewport edge</li>
+  <li>Purpose: sets section theme without competing with foreground copy</li>
+</ul>
+<br>
+<h3>Inputs &amp; Forms</h3>
+<p>Minimal form surface on the marketing page. The search input in the nav header is:</p>
+<ul>
+  <li>Initial state: a 48px circular button with a magnifier icon</li>
+  <li>Expanded state: horizontal input field, border <code>1px solid</code> Ink Black at ~50% opacity, radius 999px, padding 12px 24px, white background</li>
+</ul>
+<br>
+<p><strong>Country/language selector (footer)</strong></p>
+<ul>
+  <li>Background: Ink Black (same as footer)</li>
+  <li>Text: White</li>
+  <li>Border: 1px solid <code>rgba(255,255,255,0.4)</code></li>
+  <li>Radius: 999px (full pill)</li>
+  <li>Icon: downward chevron on the right</li>
+</ul>
+<br>
+<h3>Navigation</h3>
+<br>
+<p><strong>Floating Nav Pill (desktop)</strong></p>
+<ul>
+  <li>Container: white-to-translucent-white pill floating below the very top of the viewport with a ~24px top margin</li>
+  <li>Radius: 999px / 1000px (full pill)</li>
+  <li>Padding: ~16px 40px internal</li>
+  <li>Shadow: very soft (<code>rgba(0, 0, 0, 0.04) 0px 4px 24px 0px</code>) — just enough to lift it off the cream canvas</li>
+  <li>Content: Mastercard logo left, primary link group center ("For you", "For business", "For the world", "For innovators", "News and trends"), search icon right</li>
+  <li>Link spacing: ~48–56px gap between primary links</li>
+  <li>Link style: Ink Black, weight 500, 16px, no underline, no pill surround until active</li>
+</ul>
+<br>
+<p><strong>Mobile Nav</strong></p>
+<ul>
+  <li>The same pill shape but collapsed to: logo + hamburger menu button + search icon only</li>
+  <li>Menu opens into a full-screen overlay with the primary links stacked vertically</li>
+</ul>
+<br>
+<h3>Image Treatment</h3>
+<br>
+<ul>
+  <li><strong>Aspect ratios used</strong>: 1:1 (all service portraits — cropped to circle), ~3:4 or ~4:5 (carousel pill cards), 16:9 or wider (hero video frame)</li>
+  <li><strong>Full-bleed vs padded</strong>: Hero is viewport-wide with gutters; service portraits are always centered in their column with generous whitespace around; footer imagery is rare</li>
+  <li><strong>Masking</strong>: Aggressive circular masking is the defining treatment — square source images are cropped to perfect circles of matching diameter. Never use rectangular service imagery.</li>
+  <li><strong>Lazy loading</strong>: Standard <code>loading="lazy"</code> with a soft blur-up transition from a cream-tinted placeholder, preserving the warm palette during load</li>
+</ul>
+<br>
+<h3>Decorative Orbital Lines</h3>
+<br>
+<p>A signature motif: thin (~1–1.5px) single-weight curved lines in Light Signal Orange (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F37338;"></span>#F37338</span></code>) tracing arcs between circular portraits. These lines:</p>
+<ul>
+  <li>Imply connection between service cards without literal arrows</li>
+  <li>Span widths from ~200px up to full-viewport arcs</li>
+  <li>Feel hand-drawn (subtle irregularity) rather than perfect CSS curves</li>
+  <li>Appear only in sections with circular portrait content — never on pill sections, never in the footer</li>
+</ul>
+<br>
+<h3>Footer</h3>
+<br>
+<ul>
+  <li>Background: Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>)</li>
+  <li>Text: White</li>
+  <li>Padding: 48px horizontal 100px / bottom 148px (very tall bottom space)</li>
+  <li>Structure: large conversational H2 ("We're always here when you need us") left-aligned, then a 4-column link grid below</li>
+  <li>Column headers: uppercase, muted, weight 700, letter-spacing +4%</li>
+  <li>Link rows: white, weight 450, 14px; entries prefixed with a small icon (support bubble, card, map pin, question mark) for the "NEED HELP?" column</li>
+  <li>External link marker: a small upper-right arrow (<code>↗</code>) after link text</li>
+  <li>Bottom row (below a 1px white-at-opacity divider): copyright + privacy small-print + country-language pill dropdown + four social icons (LinkedIn, Facebook, X, YouTube)</li>
+</ul>
+<br>
+<h2>5. Layout Principles</h2>
+<br>
+<h3>Spacing System</h3>
+<ul>
+  <li><strong>Base unit</strong>: 8px (confirmed by dembrandt extraction and computed styles)</li>
+  <li><strong>Scale</strong>: 8 / 16 / 24 / 32 / 48 / 64 / 96 / 128 (powers of 8)</li>
+  <li><strong>Section vertical padding</strong>: ~96–128px between major sections on desktop; ~48–64px on mobile</li>
+  <li><strong>Card internal padding</strong>: 32–40px on desktop, ~24px on mobile</li>
+  <li><strong>Nav top margin</strong>: ~24px from viewport top (the pill floats, doesn't touch)</li>
+</ul>
+<br>
+<h3>Grid &amp; Container</h3>
+<ul>
+  <li><strong>Max content width</strong>: ~1200–1280px centered, with ~48–100px horizontal gutter</li>
+  <li><strong>Column pattern</strong>: 12-column implied, but practical layouts use 2-up asymmetric (large headline left, supporting text right), 1-up full-bleed (hero, video), or staggered single-portrait placement (service cards sit in varying grid positions creating the "constellation" feel)</li>
+  <li><strong>Footer grid</strong>: 4 equal columns on desktop, collapses to single column accordion on mobile</li>
+</ul>
+<br>
+<h3>Whitespace Philosophy</h3>
+<p>Mastercard treats whitespace as structure, not absence. A typical service section has:</p>
+<ul>
+  <li>A ghost headline occupying the top ~40% of the section (mostly empty cream)</li>
+  <li>A single circular portrait positioned ~60% down, asymmetric to left or right</li>
+  <li>~300–500px of blank canvas between the portrait and the next section</li>
+</ul>
+<p>This deliberate emptiness tells the eye "slow down, read one thing at a time" — the opposite of dense dashboard UIs.</p>
+<br>
+<h3>Border Radius Scale</h3>
+<br>
+<table>
+  <tr><th>Radius</th><th>Use</th></tr>
+  <tr><td>3–6px</td><td>Tiny decorative elements, cookie banner micro-chips</td></tr>
+  <tr><td>20px</td><td>Primary and secondary body CTAs (the signature button radius)</td></tr>
+  <tr><td>24px</td><td>Consent/orange pill buttons, modal inner chips</td></tr>
+  <tr><td>40px</td><td>Hero media frames, large section container corners, H2 pill labels</td></tr>
+  <tr><td>50%</td><td>Circular portraits, icon-only buttons, satellite CTAs</td></tr>
+  <tr><td>99px / 999px / 1000px</td><td>Full pill shapes — navigation, carousel cards, footer country selector, primary inline chips</td></tr>
+</table>
+<br>
+<p>The scale is unusual: most systems use 4/8/12/16. Mastercard skips those and commits to <strong>either small (≤6), medium-large (20–40), or full-pill (99+)</strong>. The middle ground of 8–12 is absent, which is why the UI feels either "precise and utility" or "soft and editorial" with no in-between.</p>
+<br>
+<h2>6. Depth &amp; Elevation</h2>
+<br>
+<table>
+  <tr><th>Level</th><th>Treatment</th><th>Use</th></tr>
+  <tr><td>0</td><td>No shadow</td><td>The default — 95% of surfaces sit directly on cream canvas</td></tr>
+  <tr><td>1</td><td><code>rgba(0, 0, 0, 0.04) 0px 4px 24px 0px</code></td><td>Floating nav pill — barely-there lift</td></tr>
+  <tr><td>2</td><td><code>rgba(0, 0, 0, 0.08) 0px 24px 48px 0px</code></td><td>Hero media frames, elevated cards — a soft large-radius halo rather than a hard drop</td></tr>
+  <tr><td>3</td><td><code>rgba(0, 0, 0, 0.25) 0px 70px 110px 0px</code></td><td>Rare; dramatic elevation on a feature tile</td></tr>
+</table>
+<br>
+<h3>Shadow Philosophy</h3>
+<p>Mastercard uses shadows as <strong>atmospheric cushioning</strong>, not directional light. The Level 2 shadow has a 48px spread and only 8% opacity — it barely exists as dark pixels but creates a "the card is breathing above the canvas" feel. There are almost no hard-edged, tight shadows anywhere in the system. Border lines are preferred over shadows for functional delineation (form inputs, footer divider).</p>
+<br>
+<h3>Decorative Depth</h3>
+<ul>
+  <li><strong>Orbital arcs</strong> (Light Signal Orange, ~1px): trace connective paths across sections</li>
+  <li><strong>Ghost watermark headlines</strong>: cream-on-cream text gives sections an almost-pressed-paper quality</li>
+  <li><strong>Circle-image fade</strong>: warm-toned photography at the edge of circular portraits dissolves into the canvas, implying soft atmospheric depth</li>
+</ul>
+<br>
+<h2>7. Do's and Don'ts</h2>
+<br>
+<h3>Do</h3>
+<ul>
+  <li>Use Canvas Cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>) as the default body background — never pure white</li>
+  <li>Mask service/feature imagery as perfect circles, not rectangles or rounded rectangles</li>
+  <li>Attach a white satellite CTA to the bottom-right of each circular portrait</li>
+  <li>Set headlines in MarkForMC weight 500 with -2% letter-spacing</li>
+  <li>Use weight 450 (not 400) for body paragraphs</li>
+  <li>Keep primary CTAs as Ink Black pills (20px radius) with cream text</li>
+  <li>Use Signal Orange only on consent, legal, or compliance actions</li>
+  <li>Float the nav as a rounded white pill below the viewport top, not flush at y=0</li>
+  <li>Build page rhythm from three surface tones: canvas cream → lifted cream → ink footer</li>
+  <li>Use thin Light Signal Orange arcs between service cards to imply connection</li>
+</ul>
+<br>
+<h3>Don't</h3>
+<ul>
+  <li>Don't use pure white as a page background — it breaks the warm editorial tone</li>
+  <li>Don't round image frames at 8–16px — Mastercard either uses full-pill, 40px, or full-circle. In-between radii look generic</li>
+  <li>Don't use Signal Orange for marketing CTAs — it reads as cookie-consent orange and dilutes the legal color signal</li>
+  <li>Don't mix typefaces — no serif accent, no script, no secondary display font</li>
+  <li>Don't crowd the nav with more than six top-level links — the pill is meant to feel airy</li>
+  <li>Don't drop hard shadows — all elevation should use 48px+ spread and ≤10% opacity</li>
+  <li>Don't use uppercase for anything larger than the 14px eyebrow label</li>
+  <li>Don't omit the tiny accent dot before eyebrow labels — it's the identity</li>
+  <li>Don't place circular portraits on a grid — their magic comes from asymmetric placement</li>
+</ul>
+<br>
+<h2>8. Responsive Behavior</h2>
+<br>
+<h3>Breakpoints</h3>
+<br>
+<table>
+  <tr><th>Name</th><th>Width</th><th>Key Changes</th></tr>
+  <tr><td>Mobile</td><td>≤ 767px</td><td>Nav pill shows logo + menu + search only; primary links hide behind hamburger; service portraits stack single-column centered; hero headline drops from 64px to ~40px; footer columns collapse into a vertical accordion</td></tr>
+  <tr><td>Tablet</td><td>768–1023px</td><td>Nav pill shows 2–3 primary links truncated; service portraits arrange 2-up; hero headline ~48px</td></tr>
+  <tr><td>Desktop</td><td>≥ 1024px</td><td>Full nav with 5 primary links centered; service portraits asymmetrically placed with decorative orbital lines; hero headline 64px</td></tr>
+  <tr><td>Wide</td><td>≥ 1440px</td><td>Content max-width caps at ~1280px; gutters grow symmetrically; orbital lines extend further</td></tr>
+</table>
+<br>
+<h3>Touch Targets</h3>
+<p>All interactive elements comfortably exceed 44×44px. The satellite CTA (circle + arrow) is ~50–60px. The nav pill buttons are ~48px tall. Mobile hamburger and search are 48×48px. No link or button drops below 40px in any breakpoint.</p>
+<br>
+<h3>Collapsing Strategy</h3>
+<ul>
+  <li><strong>Nav</strong>: full pill → compact pill with hamburger. Pill shape is preserved across breakpoints — always rounded, always floating.</li>
+  <li><strong>Service grid</strong>: asymmetric constellation → 2-up → 1-up stack. Orbital arcs are removed on mobile (they only work with asymmetric placement).</li>
+  <li><strong>Spacing</strong>: section vertical padding compresses from 128px to 48px on mobile.</li>
+  <li><strong>Content</strong>: two-column hero (headline left / supporting text right) becomes stacked (headline on top, supporting text below).</li>
+  <li><strong>Footer</strong>: 4 columns → 1 column accordion with chevron toggles per section.</li>
+</ul>
+<br>
+<h3>Image Behavior</h3>
+<p>Circular portraits scale proportionally (maintaining the perfect circle at every size). Hero video frames maintain their 40px radius at every breakpoint, but the frame itself shrinks with the viewport. Lazy loading is standard with a cream-tinted blur-up placeholder, preserving the palette during load.</p>
+<br>
+<h2>9. Agent Prompt Guide</h2>
+<br>
+<h3>Quick Color Reference</h3>
+<ul>
+  <li>Primary CTA: "Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>) — the warm near-black used for primary pill buttons and footer"</li>
+  <li>Background: "Canvas Cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>) — warm putty body canvas, never pure white"</li>
+  <li>Lifted surface: "Lifted Cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #FCFBFA;"></span>#FCFBFA</span></code>) — one step lighter than canvas for nested sections"</li>
+  <li>Heading text: "Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>)"</li>
+  <li>Body text: "Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>) at weight 450"</li>
+  <li>Muted text: "Slate Gray (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #696969;"></span>#696969</span></code>)"</li>
+  <li>Signal / Consent: "Signal Orange (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #CF4500;"></span>#CF4500</span></code>) — reserve for cookie consent and legal actions"</li>
+  <li>Accent arc: "Light Signal Orange (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F37338;"></span>#F37338</span></code>) — orbital decorative lines only"</li>
+  <li>Border / Outline: "Ink Black at 1.5px for pill buttons; 1px at low opacity elsewhere"</li>
+  <li>Footer: "Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>) with White text"</li>
+</ul>
+<br>
+<h3>Example Component Prompts</h3>
+<ul>
+  <li>"Create a circular portrait card 300px in diameter, with a square photograph cropped to a perfect circle. Attach a 56px white satellite button with a dark arrow icon at the bottom-right, so it protrudes ~40% outside the portrait. Below the portrait, add an eyebrow label with a Light Signal Orange dot and uppercase 'SERVICES' text in MarkForMC weight 700 at 14px. Below the eyebrow, set a 24px / weight 500 title in Ink Black."</li>
+  <li>"Design a primary CTA button: Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>) background, Canvas Cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>) text, 20px border-radius, 6px vertical and 24px horizontal padding, MarkForMC font at 16px weight 500 with -2% letter-spacing."</li>
+  <li>"Build a floating navigation pill: white background with <code>rgba(0, 0, 0, 0.04) 0px 4px 24px 0px</code> shadow, 999px border-radius, ~16px vertical and 40px horizontal internal padding. Position it 24px below the viewport top, centered, with the Mastercard logo at the left, five primary links centered with 48px gap, and a circular 48px search button at the right."</li>
+  <li>"Create a hero media frame: 40px border-radius on all corners, full viewport width minus 48px gutters, ~60% viewport height, dark background for video content. Place it directly on the cream canvas with no shadow."</li>
+  <li>"Design a footer: Ink Black (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #141413;"></span>#141413</span></code>) background, white text, 4-column link grid with uppercase muted column headers at 14px weight 700 +4% tracking. Include a large conversational H2 above the grid, a 1px white-at-30%-opacity horizontal divider below, and a bottom row with copyright, legal small-print links, a pill-shaped country selector, and four social icons."</li>
+</ul>
+<br>
+<h3>Iteration Guide</h3>
+<p>When refining existing screens generated with this design system:</p>
+<ol>
+  <li>Focus on ONE component at a time — don't redesign multiple surfaces in parallel</li>
+  <li>Reference specific color names AND hex codes from this document</li>
+  <li>Use natural language ("warm putty cream", "stadium pill", "circular portrait with satellite CTA") alongside technical values</li>
+  <li>Describe the desired "feel" (editorial, soft, institutional) alongside specific measurements</li>
+  <li>When in doubt, reach for one of three radii: 20px (buttons), 40px (hero/stadium), or 999px (pill/nav)</li>
+  <li>Default backgrounds to Canvas Cream (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F3F0EE;"></span>#F3F0EE</span></code>), not white — this single change shifts the entire mood toward Mastercard</li>
+</ol>
+<br>
+<h3>Known Gaps</h3>
+<ul>
+  <li>The live page uses MarkForMC, a proprietary licensed typeface. Sofia Sans is the closest open-source substitute and is listed in Mastercard's own fallback stack.</li>
+  <li>Tablet breakpoint specifics (768–1023px) were inferred from desktop and mobile captures; intermediate layouts may vary per section.</li>
+  <li>The exact "whisper" cream tone used for ghost-watermark headlines behind circular portraits reads between <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #E8E2DA;"></span>#E8E2DA</span></code> and <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #D1CDC7;"></span>#D1CDC7</span></code> in captures; the precise value varies per section.</li>
+  <li>Third-party consent orange (<code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #CF4500;"></span>#CF4500</span></code>) is Mastercard's documented consent signal and should not be confused with any marketing CTA color.</li>
+  <li>The Mastercard logo mark (red <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #EB001B;"></span>#EB001B</span></code> + yellow <code><span class="inline-color-chip"><span class="inline-color-dot" style="background-color: #F79E1B;"></span>#F79E1B</span></code>) is a brand asset, not a UI palette entry.</li>
+</ul>
+<br>
+
+        </article>
+    </div>
+
+    <!-- 구글 번역 API 스크립트 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ko,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
